@@ -18,4 +18,4 @@
   </div>
 </template>
 
-<style src="../../assets/Share/Navigation.css"></style>
+<style scoped src="../../assets/Share/Navigation.css"></style>
