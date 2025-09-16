@@ -4,11 +4,10 @@ import navigaton from './components/share/navigaton.vue';
 </script>
 
 <template>
-  <div>
-hello
-  </div>
+  <div> </div>
   <navigaton />
-
-
-
 </template>
+
+<style>
+  
+</style>
