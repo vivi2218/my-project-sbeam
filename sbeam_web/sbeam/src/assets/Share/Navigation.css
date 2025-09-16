@@ -1,0 +1,188 @@
+/* ========== 基础样式 ========== */
+body {
+  overflow-x: hidden;
+  background-color: rgb(14, 16, 14); /* 保证背景统一 */
+}
+
+#app {
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ========== 顶部导航栏 ========== */
+header {
+  position: relative;
+  height: 60px;
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  line-height: 40px;
+  /* 文字垂直居中 */
+  padding: 15px 40px;
+
+  align-items: center;
+  color: #fff;
+
+  /* 基础黑色 */
+  transform: skewX(-20deg);
+  /* 平行四边形效果 */
+  align-items: stretch;
+  /* 让子元素高度自动拉满 */
+  padding: 0%;
+}
+
+/* 紫光条伪元素 */
+header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(154, 1, 219, 0.6) 0%,
+    rgba(115, 5, 162, 0) 50%,
+    rgba(154, 0, 219, 0.6) 100%
+  );
+  transform: skewX(-20deg);
+  /* 平行四边形效果 */
+  animation:
+    bgSweep 3s ease-in-out infinite,
+    flash 15s infinite ease-in-out;
+  pointer-events: none;
+  /* 不遮挡内容 */
+  z-index: 0;
+  /* 放在内容后面 */
+}
+
+@keyframes bgSweep {
+  0% {
+    background-position: -0% 0;
+  }
+
+  50% {
+    background-position: 0% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0.4;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.titleimg {
+  width: 40px;
+  height: 40px;
+  margin-right: 6px;
+  transform: skewX(20deg);
+  /* 抵消父级倾斜，文字恢复水平 */
+}
+
+header .logo {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: fantasy;
+  transform: skewX(20deg);
+  /* 抵消父级倾斜，文字恢复水平 */
+}
+
+header nav {
+  color: #ddd;
+  transition: 0.3s;
+  height: 40px;
+  width: 600x;
+  line-height: 40px;
+  display: flex;
+  gap: 0;
+  text-align: center;
+  /* 文字水平居中 */
+  transform: skewX(20deg);
+  /* 抵消父级倾斜，文字恢复水平 */
+}
+
+.btn-cute {
+  height: 60px;
+  outline: none;
+  color: #f5f5f5;
+  border: none;
+  width: 90px;
+  padding: 15px 15px;
+  border-radius: 3px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.25s;
+  margin-right: 0;
+  text-align: center;
+  line-height: 25px;
+  /* 文字垂直居中 */
+  align-items: stretch;
+  /* 让子元素高度自动拉满 */
+
+  display: flex;
+  /* 让内容用flex布局 */
+  justify-content: center;
+  /* 水平居中 */
+  align-items: center;
+  /* 垂直居中 */
+}
+
+.btn-cute:hover {
+  background-color: aliceblue;
+  color: #adaafe;
+  text-align: center;
+  /* 文字水平居中 */
+}
+
+/* ========== 主体容器 ========== */
+.container {
+  width: 100%;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h2 {
+  margin-bottom: 25px;
+  font-size: 22px;
+  border-left: 4px solid #8e13c8;
+  padding-left: 12px;
+}
