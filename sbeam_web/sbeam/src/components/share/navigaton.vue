@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div id="navigationStyle">
     <!-- 顶部导航 -->
     <header>
       <span class="brand">
@@ -16,6 +17,7 @@
       </nav>
     </header>
   </div>
+  </div>
 </template>
 
-<style src="../../assets/Share/Navigation.css"></style>
+<style  src="../../assets/Share/Navigation.css"></style>
