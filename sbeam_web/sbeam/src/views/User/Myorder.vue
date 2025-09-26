@@ -153,7 +153,7 @@ body {
 }
 
 .btn-detail {
-  background-color: #007bff;
+  background-color: #ffffff;
   color: #fff;
 }
 
