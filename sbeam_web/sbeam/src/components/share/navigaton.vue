@@ -19,8 +19,4 @@
 </template>
 
 <style scoped src="../../assets/Share/Navigation.css">
-  #navigationStyle{
-    width: 100%;
-  }
-
 </style>

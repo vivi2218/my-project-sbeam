@@ -4,30 +4,29 @@ a {
   text-decoration: none;
   color: inherit;
 }
+html, body {
+  margin: 0;
+  padding: 0;
+}
 
 /* ========== 顶部导航栏 ========== */
 header {
+  background-color:#c5c5c53c;
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 60px;
-  line-height: 60px; /* 保证高度固定 */
+  line-height: 60px;
+  /* 保证高度固定 */
   display: flex;
   text-align: center;
   justify-content: space-between;
-  line-height: 40px;
   /* 文字垂直居中 */
   padding: 15px 40px;
-
   align-items: center;
   color: #fff;
   padding: 0%;
-
-  /* 基础黑色 */
-  transform: skewX(-20deg);
-  /* 平行四边形效果 */
   align-items: stretch;
   /* 让子元素高度自动拉满 */
-  padding: 0%;
 }
 
 /* 紫光条伪元素 */
@@ -39,11 +38,9 @@ header::before {
   width: 100%;
   height: 100%;
   background: linear-gradient(120deg,
-      rgba(154, 1, 219, 0.6) 0%,
-      rgba(115, 5, 162, 0) 50%,
-      rgba(154, 0, 219, 0.6) 100%);
-  transform: skewX(-20deg);
-  /* 平行四边形效果 */
+      rgba(250, 224, 224, 0.435) 0%,
+      rgba(226, 165, 252, 0.482) 50%,
+      rgba(132, 169, 255, 0.413) 100%);
   animation:
     bgSweep 3s ease-in-out infinite,
     flash 15s infinite ease-in-out;
@@ -98,31 +95,30 @@ header::before {
   width: 40px;
   height: 40px;
   margin-right: 6px;
-  transform: skewX(20deg);
   /* 抵消父级倾斜，文字恢复水平 */
 }
 
 header .logo {
+  margin: 20px;
   font-size: 22px;
   font-weight: bold;
   font-family: fantasy;
-  transform: skewX(20deg);
-  /* 抵消父级倾斜，文字恢复水平 */
+
 }
 
 header nav {
   color: #ddd;
   transition: 0.3s;
   height: 40px;
-  flex-shrink: 0; /* 不收缩 */
-  width: 600x;
+  flex-shrink: 0;
+  /* 不收缩 */
+  width: 600px;
   line-height: 40px;
   display: flex;
   gap: 0;
   text-align: center;
   /* 文字水平居中 */
-  transform: skewX(20deg);
-  /* 抵消父级倾斜，文字恢复水平 */
+
 }
 
 .btn-cute {
@@ -157,4 +153,3 @@ header nav {
   text-align: center;
   /* 文字水平居中 */
 }
-

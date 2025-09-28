@@ -24,7 +24,7 @@ import HomeView from './views/HomeView.vue';
   /* 横向居中 */
   min-height: 100vh;
   min-width: 100vw;
-  background-color:blanchedalmond;
+  background-color:darkslategray
 }
 
 .Myorder {

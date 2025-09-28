@@ -17,12 +17,13 @@
   onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
   });
-  </script>
+</script>
 
   <template>
+    <navigaton />
     <main>
       <div class="top">
-        <navigaton />
+
       </div>
       <div class="main">
         <div class="game">推荐</div>
@@ -37,35 +38,40 @@
     </main>
   </template>
 
-  <style>
-  main {
-    height: 100%;
-    /* 或直接 height: 100%; */
-    width: 100%;
-    /* background-color: aquamarine; */
-  }
+<style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 
-  .main {
-    background-color: aqua;
-    width: 1000px;
+main {
+  height: 100%;
+  /* 或直接 height: 100%; */
+  width: 100%;
+  /* background-color: aquamarine; */
+}
 
-    padding: 10px;
+.main {
+  background-color: aqua;
+  width: 1000px;
+  padding: 10px;
 
-  }
+}
 
-  .game {
-    background-color: deeppink;
-    height: 300px;
-    margin: 10px;
-  }
+.game {
+  background-color: deeppink;
+  height: 300px;
+  margin: 10px;
+}
 
-  .sub {
-    background-color: rgb(141, 244, 39);
-    top: 60px;
-    position: fixed;
-    right: 70px;
-    width: 400px;
-    height: 800px;
-    z-index: 1;
-  }
-  </style>
+.sub {
+  background-color: rgb(141, 244, 39);
+  top: 60px;
+  position: fixed;
+  right: 70px;
+  width: 400px;
+  height: 800px;
+  z-index: 1;
+}
+</style>
