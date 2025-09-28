@@ -20,8 +20,8 @@
   </div>
 </template>
 
-<<<<<<< HEAD
+
 <style  src="../../assets/Share/Navigation.css"></style>
-=======
-<style scoped src="../../assets/Share/Navigation.css"></style>
->>>>>>> 6e4b81a26d921c097a7c2230c4bec36f7af51daa
+
+
+

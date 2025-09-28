@@ -1,46 +1,25 @@
+
 /* ========== 基础样式 ========== */
-body {
-  overflow-x: hidden;
-  background-color: rgb(14, 16, 14);
-  /* 保证背景统一 */
-}
-
-<<<<<<< HEAD
-
 #navigationStyle {
   display: flex;
   flex-direction: column;
   width: 100%;
- min-height: 50vh;
+ min-height: 3vh;
 position: fixed;   /* 固定在页面顶部 */
-
-
   top: 0;
   left: 0;
   width: 100%;
   height: 60px;
   z-index: 1000;     /* 保证在其他内容之上 */
+  background-color: rgb(31, 5, 34);
 }
 
-
-=======
-#app {
-  width: 100%;
-  height: 60px;
-  /* min-height: 100vh; */
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  justify-content: flex-start; /* 主轴靠上 */
-  background-color: #0c0968;
-
-}
 
 a {
   text-decoration: none;
   color: inherit;
 }
->>>>>>> 6e4b81a26d921c097a7c2230c4bec36f7af51daa
+
 
 a {
   text-decoration: none;
