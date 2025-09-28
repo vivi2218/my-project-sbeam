@@ -21,12 +21,19 @@ import Myorder from './views/User/Myorder.vue';
   align-items: center;
   /* 横向居中 */
   min-height: 100vh;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9c681b8e700af6476a35b51a64560713ed1ca80f
 }
 
 .Myorder {
   position: absolute;
+<<<<<<< HEAD
   top:50px;
+=======
+  top: 60px;
+>>>>>>> 9c681b8e700af6476a35b51a64560713ed1ca80f
 }
 
 .navi {
