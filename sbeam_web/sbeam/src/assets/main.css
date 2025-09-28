@@ -24,12 +24,16 @@ a,
 @media (min-width: 1024px) {
   body {
     display: flex;
-    place-items: center;
+    /* place-items: center;  // 去掉这一行 */
+    align-items: flex-start;
+    /* 或直接删掉整块 body 规则 */
   }
 
   #app {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
+
   }
+
 }
