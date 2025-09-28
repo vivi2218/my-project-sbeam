@@ -10,7 +10,7 @@ body {
   height: 60px;
   /* min-height: 100vh; */
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   padding: 0;
   justify-content: flex-start; /* 主轴靠上 */
   background-color: #0c0968;

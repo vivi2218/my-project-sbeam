@@ -2,16 +2,24 @@
 
 import navigaton from './components/share/navigaton.vue';
 import PageEssay from './components/PageEssay.vue';
+import Store from './views/Store.vue';
+import GameDetail from './views/GameDetail.vue';
+import Events from './views/Events.vue';
+import Library from './views/library.vue';
+
 </script>
 
 <template>
 
-  <navigaton />
+  <!-- <navigaton /> -->
   <!-- <page-essay/> -->
-
+<!-- <Store></Store> -->
+<!-- <GameDetail></GameDetail> -->
+<!-- <Events></Events> -->
+ <Library></Library>
 </template>
 
-<style>
+<style >
   #app{
     display: flex;
     align-items: center;
