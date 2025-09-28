@@ -25,6 +25,7 @@ import Myorder from './views/User/Myorder.vue';
 
 .Myorder {
   position: absolute;
+  top: 60px;
 }
 
 .navi {
