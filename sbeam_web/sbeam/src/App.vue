@@ -4,28 +4,41 @@ import navigaton from './components/share/navigaton.vue';
 import PageEssay from './components/PageEssay.vue';
 import Myorder from './views/User/Myorder.vue';
 import HomeView from './views/HomeView.vue';
+import forumHome from './views/forum/forumHome.vue';
+import forumMain from './views/forum/forumMain.vue';
+import Login from './views/logres/Login.vue';
+import Register from './views/logres/Register.vue';
 
 
 </script>
 
 <template>
-  <HomeView></HomeView>
+  <!-- <HomeView/> -->
+  <!-- <forum-home/> -->
+  <!-- <forum-main/> -->
+  <!-- <login/> -->
+  <!-- <Register /> -->
 
 
 </template>
 
 <style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(103, 103, 103);
+  min-height: 100%;
+}
 
 #app {
   display: flex;
   flex-direction: column;
-  /* 纵向排列 */
   align-items: center;
-  /* 横向居中 */
+  width: 100%;
   min-height: 100vh;
-  min-width: 100vw;
-  background-color:darkslategray
 }
+
 
 .Myorder {
   position: absolute;
