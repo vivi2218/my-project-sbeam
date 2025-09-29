@@ -1,4 +1,22 @@
+
 /* ========== 基础样式 ========== */
+<<<<<<< HEAD
+#navigationStyle {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+ min-height: 3vh;
+position: fixed;   /* 固定在页面顶部 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 1000;     /* 保证在其他内容之上 */
+  background-color: rgb(31, 5, 34);
+}
+
+=======
+>>>>>>> 9c681b8e700af6476a35b51a64560713ed1ca80f
 
 a {
   text-decoration: none;

@@ -58,12 +58,12 @@ body {
 
 .orderStyle {
   width: 100vw;         /* 容器宽度 */
-  max-width: 1800px;   /* 可以加个最大宽度，让大屏不至于太宽 */
+  max-width: 1600px;   /* 可以加个最大宽度，让大屏不至于太宽 */
   margin: 0 auto;      /* 👈 关键：居中 */
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #1e1e1e;
+  background-color: #212121;
   box-sizing: border-box;
   overflow-y: auto;
   font-family: 'Microsoft Yahei', sans-serif;
@@ -78,6 +78,7 @@ body {
 }
 
 .order-list {
+
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -88,7 +89,12 @@ body {
   background: #2a2a2a;
   border-radius: 12px;
   padding: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease; /* 添加过渡效果 */
+}
+.order-card:hover {
+  border: 6px solid #076f1d;  /* 加粗描边 */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* 更柔和的阴影效果 */
 }
 
 .order-header {
