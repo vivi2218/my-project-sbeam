@@ -20,8 +20,9 @@
 </script>
 
 <template>
-  <navigaton />
+ 
   <main>
+
     <div class="top"></div>
 
     <div class="main">
@@ -30,12 +31,12 @@
         <h2>推荐</h2>
         <div class="product-box">
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品A" />
+            <img src="../assets/img/kobe.png" alt="商品A" />
             <p class="name">示例商品 A</p>
             <p class="price">￥99.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
@@ -47,12 +48,12 @@
         <h2>今日特卖</h2>
         <div class="product-box">
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品C" />
+            <img src="../assets/img/kobe.png" alt="商品C" />
             <p class="name">特卖商品 C</p>
             <p class="price">￥59.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品D" />
+            <img src="../assets/img/kobe.png" alt="商品D" />
             <p class="name">特卖商品 D</p>
             <p class="price">￥79.00</p>
           </div>
@@ -64,52 +65,52 @@
         <h2>探索</h2>
         <div class="product-box">
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品A" />
+            <img src="../assets/img/kobe.png" alt="商品A" />
             <p class="name">示例商品 A</p>
             <p class="price">￥99.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>
           <div class="product-card">
-            <img src="E:\codes\Java\sbeam\sbeam_web\sbeam\src\assets\img\kobe.png" alt="商品B" />
+            <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
           </div>

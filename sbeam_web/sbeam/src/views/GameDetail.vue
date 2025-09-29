@@ -120,6 +120,8 @@ const recommendGames = ref([
 
 <style scoped>
 .game-detail-page {
+  position: relative;
+  top:40px;
   background-color: #121212;
   color: #e0e0e0;
   min-height: 100vh;

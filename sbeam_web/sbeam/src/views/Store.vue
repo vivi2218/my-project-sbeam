@@ -23,7 +23,7 @@
 
       <!-- 右侧游戏展示 -->
       <main class="game-list">
-        <div v-for="game in filteredGames" :key="game.id" class="game-card">
+        <div v-for="game in filteredGames" :key="game.id" class="game-card"  @click="goGameDetail(game.id)">
           <img :src="game.cover" alt="封面" />
           <div class="info">
             <h4>{{ game.name }}</h4>
@@ -38,6 +38,10 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import router from '../router/index';
+
+
+
 
 const keyword = ref("");
 const sortType = ref("rating");
@@ -72,16 +76,24 @@ const filteredGames = computed(() => {
 function selectCategory(c) {
   activeCategory.value = c;
 }
+// 点击跳转游戏详情
+function goGameDetail(id) {
+  router.push({ name: "game-detail", params: { id } });
+}
 </script>
 
 <style scoped>
-.store-page {
-  width: 500vw;
-  height: 150vw;
+.store-page { 
+  position :relative;
+  top: 38px;
+  max-width: 100vw;
+  width: 1200px;
+  height: 95%;
   background-color: #121212;
   color: #e0e0e0;
   min-height: 100vh;
   padding: 20px;
+  flex: 100%;
   font-family: "Microsoft YaHei", sans-serif;
 }
 

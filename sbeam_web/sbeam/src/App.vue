@@ -9,19 +9,19 @@ import forumMain from './views/forum/forumMain.vue';
 import Login from './views/logres/Login.vue';
 import Register from './views/logres/Register.vue';
 import background from './components/share/background.vue';
+import Navigaton from './components/share/navigaton.vue';
+import Store from './views/Store.vue';
+import gameList from '@/views/games/gameList.vue';
 
 
 </script>
 
 <template>
-  <!-- <background /> -->
-  <HomeView/>
-  <!-- <forum-home/> -->
-  <!-- <forum-main/> -->
-  <!-- <login/> -->
-  <!-- <Register /> -->
 
+  <navigaton></navigaton>
 
+  <RouterView></RouterView>
+  
 </template>
 
 <style>
