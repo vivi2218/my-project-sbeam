@@ -8,12 +8,14 @@ import forumHome from './views/forum/forumHome.vue';
 import forumMain from './views/forum/forumMain.vue';
 import Login from './views/logres/Login.vue';
 import Register from './views/logres/Register.vue';
+import background from './components/share/background.vue';
 
 
 </script>
 
 <template>
-  <!-- <HomeView/> -->
+  <!-- <background /> -->
+  <HomeView/>
   <!-- <forum-home/> -->
   <!-- <forum-main/> -->
   <!-- <login/> -->
@@ -27,7 +29,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(103, 103, 103);
+  background: linear-gradient(to top left, #1b2d39);
   min-height: 100%;
 }
 
@@ -40,10 +42,7 @@ body {
 }
 
 
-.Myorder {
-  position: absolute;
-  top: 60px;
-}
+
 
 .navi {
   z-index: 1;

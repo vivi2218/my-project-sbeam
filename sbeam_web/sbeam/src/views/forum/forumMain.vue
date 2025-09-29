@@ -10,16 +10,18 @@ const community = ref({
   description: '讲文明，树新风，6324向前冲',
   img: kobeImg,
   posts: [
-    { id: 1, title: '基础建设之张妈下楼梯', author: '古卫兵', time: '2025-09-28 10:00', replies: 12 },
-    { id: 2, title: '新家在哪', author: '坏心的旅行家', time: '2025-09-27 18:30', replies: 8 },
-    { id: 3, title: '这次感觉是真的散了', author: '老面孔', time: '2025-09-26 15:20', replies: 5 },
+    { id: 1, title: '太阳升起,我已复活', author: '古德莉莉安', time: '2025-09-28 10:00', replies: 6324 },
+    { id: 2, title: '基础建设之张妈下楼梯', author: '古卫兵', time: '2025-09-28 10:00', replies: 12 },
+    { id: 3, title: '新家在哪', author: '坏心的旅行家', time: '2025-09-27 18:30', replies: 8 },
+    { id: 4, title: '这次感觉是真的散了', author: '老面孔', time: '2025-09-26 15:20', replies: 5 },
+    { id: 5, title: '回顾经典', author: '维尼', time: '2025-09-26 15:20', replies: 5 }
   ],
 });
 
 // 控制发帖输入框显示
 const showPostInput = ref(false);
 const newPostTitle = ref('');
-const newPostAuthor = ref('游客');
+const newPostAuthor = ref('页友');
 
 // 提交新帖子
 const addPost = () => {
@@ -56,6 +58,7 @@ const addPost = () => {
       <div v-if="showPostInput" class="post-input">
         <input v-model="newPostTitle" type="text" placeholder="请输入帖子标题" />
         <input v-model="newPostAuthor" type="text" placeholder="作者名" />
+        <textarea placeholder="帖子内容" class="big"></textarea>
         <button @click="addPost">提交</button>
       </div>
     </div>
@@ -79,6 +82,21 @@ const addPost = () => {
 </template>
 
 <style scoped>
+.post-input textarea.big {
+  width: 100%;
+  /* 或者固定宽度，如 600px */
+  min-height: 200px;
+  /* 初始高度 */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  /* 允许上下拉伸 */
+  font-size: 16px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
 .community-detail-main {
   max-width: 900px;
   margin: 0 auto;
