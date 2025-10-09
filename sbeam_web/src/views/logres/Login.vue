@@ -1,13 +1,32 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const username = ref('');
 const password = ref('');
 const containerClass = ref('container');
+const router = useRouter();
 
-const login = () => {
-  containerClass.value = 'container success';
-  console.log('账号:', username.value, '密码:', password.value);
+const login = async () => {
+  try {
+    const resp = await axios.post('http://localhost:8080/auth/login', {
+      username: username.value,
+      password: password.value
+    });
+    if (resp.data && resp.data.token) {
+      const token = resp.data.token;
+      localStorage.setItem('sbeam_token', token);
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      containerClass.value = 'container success';
+      // 跳转首页
+      setTimeout(() => router.push('/'), 400);
+    } else {
+      alert(resp.data.msg || '登录失败');
+    }
+  } catch (e) {
+    alert('登录请求失败');
+  }
 };
 </script>
 
@@ -75,69 +94,69 @@ body {
 .form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+} align-items: center;
   position: relative;
-  z-index: 2;
-  opacity: 1;
-  transition: opacity 0.5s;
-}
-
-.form input {
-  outline: none;
-  border: 1px solid #938282;
-  background-color: #65637f;
-  width: 250px;
-  padding: 10px 15px;
-  border-radius: 3px;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #b9abff;
-  font-size: 15px;
-  transition: 0.25s;
-}
-
 .form input:focus::placeholder {
   color: transparent;
+} transition: opacity 0.5s;
 }
-
 .form input::placeholder {
   color: #b4b0b0;
-  font: 14px;
-  font-weight: 300;
-}
-
-.form input:hover {
+  font: 14px;ne;
+  font-weight: 300; #938282;
+} background-color: #65637f;
+  width: 250px;
+.form input:hover {x;
   background-color: azure;
-}
-
+} margin-bottom: 10px;
+  text-align: center;
 .form input:focus {
   background-color: aliceblue;
-  width: 300px;
+  width: 300px;.25s;
   color: #adaafe;
 }
-
-.btn-login {
+.form input:focus::placeholder {
+.btn-login {nsparent;
   outline: none;
   background-color: #adaafe;
-  color: aliceblue;
-  border: none;
+  color: aliceblue;older {
+  border: none;0;
   width: 250px;
   padding: 10px 15px;
   border-radius: 3px;
   font-size: 15px;
-  cursor: pointer;
-  transition: 0.25s;
+  cursor: pointer;{
+  transition: 0.25s;azure;
 }
 
-.btn-login:hover {
+.btn-login:hover {{
   background-color: aliceblue;
   color: #adaafe;
+} color: #adaafe;
 }
-
 #reg {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 10px;e;
+  top: 10px;-color: #adaafe;
+  width: 120px;lue;
+  text-decoration: none;
+  z-index: 10;;
+} padding: 10px 15px;
+  border-radius: 3px;
+@keyframes slide-out {
+  0% {or: pointer;
+    transform: translateX(0);
+  }
+
+  30% {gin:hover {
+    transform: translateX(75px);
+  }olor: #adaafe;
+}
+  100% {
+    transform: translateX(-120vw);
+  }osition: absolute;
+} right: 10px;
+</style>0px;
   width: 120px;
   text-decoration: none;
   z-index: 10;
