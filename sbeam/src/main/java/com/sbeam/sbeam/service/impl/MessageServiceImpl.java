@@ -11,13 +11,8 @@ import org.springframework.stereotype.Service;
  *  服务实现类
  * </p>
  *
-<<<<<<< HEAD
- * @author smith
- * @since 2025-10-07
-=======
  * @author yourname
  * @since 2025-10-09
->>>>>>> origin/sub3
  */
 @Service
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements IMessageService {
