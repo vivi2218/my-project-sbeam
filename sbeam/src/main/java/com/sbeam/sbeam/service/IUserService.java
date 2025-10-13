@@ -15,4 +15,6 @@ public interface IUserService extends IService<User> {
 
     User createUser(User user);
 
+    User getUserById(Long id);
+
 }

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sbeam.sbeam.entity.Community;
 import com.sbeam.sbeam.service.ICommunityService;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @RestController
 @RequestMapping("/community")
+@CrossOrigin
 public class CommunityController {
     @Autowired
     private ICommunityService communityService;
