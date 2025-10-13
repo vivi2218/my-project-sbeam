@@ -1,0 +1,18 @@
+import axios from 'axios';
+
+const token = localStorage.getItem('sbeam_token');
+if (token) {
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+}
+
+// 可添加响应拦截器处理 401 -> 跳转登录
+axios.interceptors.response.use(
+  res => res,
+  err => {
+    if (err.response && err.response.status === 401) {
+      localStorage.removeItem('sbeam_token');
+      window.location.href = '/login';
+    }
+    return Promise.reject(err);
+  }
+);

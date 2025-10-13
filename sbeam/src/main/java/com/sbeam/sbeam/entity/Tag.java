@@ -4,19 +4,36 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+<<<<<<< HEAD
+=======
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+>>>>>>> origin/sub3
 
 /**
  * <p>
  * 
  * </p>
  *
+<<<<<<< HEAD
  * @author smith
  * @since 2025-10-07
  */
+=======
+ * @author yourname
+ * @since 2025-10-09
+ */
+@Getter
+@Setter
+@ApiModel(value = "Tag对象", description = "")
+>>>>>>> origin/sub3
 public class Tag implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+<<<<<<< HEAD
     /**
      * 标签ID
      */
@@ -128,4 +145,30 @@ public class Tag implements Serializable {
             ", version=" + version +
         "}";
     }
+=======
+    @ApiModelProperty("标签ID")
+    @TableId(value = "tag_id", type = IdType.AUTO)
+    private Integer tagId;
+
+    @ApiModelProperty("标签名称")
+    private String tagName;
+
+    @ApiModelProperty("使用次数")
+    private Integer usageCount;
+
+    @ApiModelProperty("标签描述")
+    private String tagDescription;
+
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createdAt;
+
+    @ApiModelProperty("更新时间")
+    private LocalDateTime updatedAt;
+
+    @ApiModelProperty("状态，0表示正常，1表示异常")
+    private Integer status;
+
+    @ApiModelProperty("版本控制")
+    private Integer version;
+>>>>>>> origin/sub3
 }

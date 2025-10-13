@@ -4,19 +4,36 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+<<<<<<< HEAD
+=======
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+>>>>>>> origin/sub3
 
 /**
  * <p>
  * 
  * </p>
  *
+<<<<<<< HEAD
  * @author smith
  * @since 2025-10-07
  */
+=======
+ * @author yourname
+ * @since 2025-10-09
+ */
+@Getter
+@Setter
+@ApiModel(value = "Community对象", description = "")
+>>>>>>> origin/sub3
 public class Community implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+<<<<<<< HEAD
     /**
      * 社区ID
      */
@@ -115,4 +132,27 @@ public class Community implements Serializable {
             ", updatedAt=" + updatedAt +
         "}";
     }
+=======
+    @ApiModelProperty("社区ID")
+    @TableId(value = "community_id", type = IdType.AUTO)
+    private Integer communityId;
+
+    @ApiModelProperty("社区名称")
+    private String communityName;
+
+    @ApiModelProperty("社区描述")
+    private String communityDescription;
+
+    @ApiModelProperty("状态，0表示正常，1表示异常")
+    private Integer status;
+
+    @ApiModelProperty("版本控制")
+    private Integer version;
+
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createdAt;
+
+    @ApiModelProperty("更新时间")
+    private LocalDateTime updatedAt;
+>>>>>>> origin/sub3
 }
