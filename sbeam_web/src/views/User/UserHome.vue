@@ -6,7 +6,7 @@
         <div class="profile">
           <img src="https://via.placeholder.com/80" alt="用户头像" />
           <h2>玩家昵称</h2>
-          <p>Lv.15 游戏狂热者</p>
+          <p>Lv.15 玩家</p>
         </div>
         <div class="menu">
           <a href="#">我的游戏库</a>

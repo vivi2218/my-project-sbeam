@@ -4,6 +4,10 @@ import com.sbeam.sbeam.entity.Community;
 import com.sbeam.sbeam.mapper.CommunityMapper;
 import com.sbeam.sbeam.service.ICommunityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +20,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CommunityServiceImpl extends ServiceImpl<CommunityMapper, Community> implements ICommunityService {
+    @Autowired
+    private CommunityMapper communityMapper;
+
+    @Override
+    public List<Community> getAllCommunity() {
+        return communityMapper.selectList(null);
+    }
+
 
 }

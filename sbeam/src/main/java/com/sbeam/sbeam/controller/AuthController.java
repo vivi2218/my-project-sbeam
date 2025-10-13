@@ -10,6 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     @Autowired
@@ -23,7 +24,6 @@ public class AuthController {
         String username = body.get("username");
         String password = body.get("password");
 
-        // 简单示例：根据 username 查询（生产请使用加密密码验证）
         User user = userService.lambdaQuery().eq(User::getUserName, username).one();
         if (user == null) {
             return Map.of("code", 401, "msg", "用户不存在");

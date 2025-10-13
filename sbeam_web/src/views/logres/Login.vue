@@ -54,7 +54,6 @@ const login = async () => {
 html,
 body {
   height: 100%;
-  margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
@@ -67,13 +66,9 @@ body {
   text-align: center;
   color: #adaafe;
   background: linear-gradient(to top left, #013354, #444, #5a005a);
+  width: 100vw;
   overflow: hidden;
 }
-
-.container {
-  width: 100vw;
-}
-
 
 .container.success h1 {
   animation: slide-out 2s ease-in-out forwards;
@@ -81,6 +76,7 @@ body {
 
 .container.success .form {
   opacity: 0;
+  transition: opacity 0.5s;
 }
 
 .container h1 {
@@ -94,74 +90,69 @@ body {
 .form {
   display: flex;
   flex-direction: column;
-} align-items: center;
+  align-items: center;
   position: relative;
-.form input:focus::placeholder {
-  color: transparent;
-} transition: opacity 0.5s;
 }
+
+.form input {
+  width: 250px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  border: none;
+  background-color: #65637f;
+  color: #fff;
+  transition: all 0.25s;
+  text-align: center;
+  outline: none;
+}
+
 .form input::placeholder {
   color: #b4b0b0;
-  font: 14px;ne;
-  font-weight: 300; #938282;
-} background-color: #65637f;
-  width: 250px;
-.form input:hover {x;
-  background-color: azure;
-} margin-bottom: 10px;
-  text-align: center;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.form input:hover {
+  background-color: #6f6c8b;
+}
+
 .form input:focus {
   background-color: aliceblue;
-  width: 300px;.25s;
+  width: 300px;
   color: #adaafe;
 }
-.form input:focus::placeholder {
-.btn-login {nsparent;
+
+.btn-login {
   outline: none;
   background-color: #adaafe;
-  color: aliceblue;older {
-  border: none;0;
+  color: aliceblue;
+  border: none;
   width: 250px;
   padding: 10px 15px;
   border-radius: 3px;
   font-size: 15px;
-  cursor: pointer;{
-  transition: 0.25s;azure;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
 }
 
-.btn-login:hover {{
+.btn-login:hover {
   background-color: aliceblue;
   color: #adaafe;
-} color: #adaafe;
 }
+
+/* 注册链接样式（右上角） */
 #reg {
   position: absolute;
-  right: 10px;e;
-  top: 10px;-color: #adaafe;
-  width: 120px;lue;
-  text-decoration: none;
-  z-index: 10;;
-} padding: 10px 15px;
-  border-radius: 3px;
-@keyframes slide-out {
-  0% {or: pointer;
-    transform: translateX(0);
-  }
-
-  30% {gin:hover {
-    transform: translateX(75px);
-  }olor: #adaafe;
-}
-  100% {
-    transform: translateX(-120vw);
-  }osition: absolute;
-} right: 10px;
-</style>0px;
+  right: 10px;
+  top: 10px;
+  color: #adaafe;
   width: 120px;
   text-decoration: none;
   z-index: 10;
 }
 
+/* 动画 */
 @keyframes slide-out {
   0% {
     transform: translateX(0);
