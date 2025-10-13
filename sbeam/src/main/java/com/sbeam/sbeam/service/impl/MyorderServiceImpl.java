@@ -24,10 +24,11 @@ import java.time.LocalDateTime;
 public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> implements IMyorderService {
     @Autowired
     private MyorderMapper myorderMapper;
+
     @Override
     public Result getById(Integer id) {
         Myorder myorder = myorderMapper.selectById(id);
-        return  Result.getSuccess(myorder);
+        return Result.getSuccess(myorder);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         myorder.setOrderStatus("unpaid");
         myorder.setStatus(0);//0表示正常
         int rows = myorderMapper.insert(myorder);
-        if(rows>0){
+        if (rows > 0) {
             return Result.saveSuccess(myorder);
         }
         return Result.saveFail(null);
@@ -49,7 +50,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         myorder.setOrderStatus("paid");
         myorder.setStatus(0);//0表示正常
         int rows = myorderMapper.updateById(myorder);
-        if(rows>0){
+        if (rows > 0) {
             return Result.updateSuccess(myorder);
         }
         return Result.updateFail(myorder);
@@ -61,7 +62,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         myorder.setOrderStatus("paid");
         myorder.setStatus(1);//0表示正常,1表示异常
         int rows = myorderMapper.updateById(myorder);
-        if(rows>0){
+        if (rows > 0) {
             return Result.deleteSuccess(myorder);
         }
         return Result.deleteFail(myorder);

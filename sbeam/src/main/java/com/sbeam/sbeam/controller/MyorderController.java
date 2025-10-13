@@ -27,7 +27,7 @@ public class MyorderController {
         return  myorderService.getById(id);
     }
     @PostMapping("/add")
-    public Result addOrder(@RequestBody Myorder myorder){
+    public Result addOrder( Myorder myorder){
         return  myorderService.addOrder(myorder);
     }
     @PutMapping("/update")
