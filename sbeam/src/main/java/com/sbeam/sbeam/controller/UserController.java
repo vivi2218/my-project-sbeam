@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
     @Autowired
     private IUserService userService;
@@ -33,4 +34,10 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
+    @PostMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+    
+    
 }

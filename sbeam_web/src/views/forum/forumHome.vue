@@ -1,30 +1,58 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import navigaton from '@/components/share/navigaton.vue';
 import kobeImg from '@/assets/img/kobe.png';
 
-const communities = ref([
-  {
-    id: 1,
-    name: '抽象tv',
-    description: '很抱歉，没有找到相关内容',
-    img: kobeImg,
-    posts: [
-      { id: 1, title: '很抱歉，没有找到相关内容', author: '李赣' },
-      { id: 2, title: '很抱歉，没有找到相关内容', author: '孙笑川' },
-    ],
-  },
-  {
-    id: 2,
-    name: '冲浪tv',
-    description: '一起冲浪就完事了',
-    img: kobeImg,
-    posts: [
-      { id: 1, title: '典中典合集', author: '冲浪达人' },
-      { id: 2, title: '还有新家吗', author: '五世转生' },
-    ],
-  },
-]);
+const BACKEND = 'http://localhost:8080'; // 如需更改端口，请修改此处
+
+const communities = ref<any[]>([]);
+
+const fetchData = async () => {
+  try {
+    // 获取社区列表
+    const resComm = await fetch(`${BACKEND}/community`);
+    const commList = await resComm.json();
+
+    // 获取所有帖子并按 communityId 分组
+    const resPosts = await fetch(`${BACKEND}/post`);
+    const postList = await resPosts.json();
+
+    // 将后端字段映射为前端展示需要的字段
+    communities.value = commList.map((c: any) => {
+      const posts = postList
+        .filter((p: any) => p.communityId === c.communityId)
+        .map((p: any) => ({
+          id: p.postId,
+          title: p.postTitle,
+          author: p.userId ? `用户#${p.userId}` : '匿名',
+        }));
+      return {
+        id: c.communityId,
+        name: c.communityName,
+        description: c.communityDescription,
+        img: kobeImg,
+        posts,
+      };
+    });
+  } catch (err) {
+    console.error('加载社区数据失败', err);
+    // 回退到本地示例数据，避免页面空白（可选）
+    communities.value = [
+      {
+        id: 1,
+        name: '抽象tv',
+        description: '很抱歉，没有找到相关内容',
+        img: kobeImg,
+        posts: [
+          { id: 1, title: '很抱歉，没有找到相关内容', author: '李赣' },
+          { id: 2, title: '很抱歉，没有找到相关内容', author: '孙笑川' },
+        ],
+      },
+    ];
+  }
+};
+
+onMounted(fetchData);
 </script>
 
 <template>

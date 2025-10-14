@@ -1,29 +1,65 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import navigaton from '@/components/share/navigaton.vue';
 import kobeImg from '@/assets/img/kobe.png';
 
-// 模拟社区数据
-const community = ref({
-  id: 1,
-  name: 'abstract',
-  description: '讲文明，树新风，6324向前冲',
+const BACKEND = 'http://localhost:8080'; // 如需更改端口，请修改此处
+
+const route = useRoute();
+const community = ref<any>({
+  id: 0,
+  name: '',
+  description: '',
   img: kobeImg,
-  posts: [
-    { id: 1, title: '太阳升起,我已复活', author: '古德莉莉安', time: '2025-09-28 10:00', replies: 6324 },
-    { id: 2, title: '基础建设之张妈下楼梯', author: '古卫兵', time: '2025-09-28 10:00', replies: 12 },
-    { id: 3, title: '新家在哪', author: '坏心的旅行家', time: '2025-09-27 18:30', replies: 8 },
-    { id: 4, title: '这次感觉是真的散了', author: '老面孔', time: '2025-09-26 15:20', replies: 5 },
-    { id: 5, title: '回顾经典', author: '维尼', time: '2025-09-26 15:20', replies: 5 }
-  ],
+  posts: [],
 });
 
-// 控制发帖输入框显示
+// 发帖输入控制
 const showPostInput = ref(false);
 const newPostTitle = ref('');
 const newPostAuthor = ref('页友');
 
-// 提交新帖子
+const fetchCommunityAndPosts = async () => {
+  try {
+    const id = Number(route.query.id || route.params.id || 1);
+    // 获取社区详情
+    const resComm = await fetch(`${BACKEND}/community/id?id=${id}`);
+    const comm = await resComm.json();
+    community.value.id = comm.communityId;
+    community.value.name = comm.communityName;
+    community.value.description = comm.communityDescription;
+    community.value.img = kobeImg;
+
+    // 获取所有帖子并过滤该社区的帖子
+    const resPosts = await fetch(`${BACKEND}/post`);
+    const posts = await resPosts.json();
+    community.value.posts = posts
+      .filter((p: any) => p.communityId === comm.communityId)
+      .map((p: any) => ({
+        id: p.postId,
+        title: p.postTitle,
+        author: p.userId ? `用户#${p.userId}` : '匿名',
+        time: p.createdAt || new Date().toLocaleString(),
+        replies: p.likeCount || 0,
+      }));
+  } catch (err) {
+    console.error('加载社区/帖子失败', err);
+    // 保持原有模拟数据以防页面空白
+    community.value = {
+      id: 1,
+      name: 'abstract',
+      description: '讲文明，树新风，6324向前冲',
+      img: kobeImg,
+      posts: [
+        { id: 1, title: '太阳升起,我已复活', author: '古德莉莉安', time: '2025-09-28 10:00', replies: 6324 },
+      ],
+    };
+  }
+};
+
+onMounted(fetchCommunityAndPosts);
+
 const addPost = () => {
   if (newPostTitle.value.trim() === '') return;
   community.value.posts.unshift({

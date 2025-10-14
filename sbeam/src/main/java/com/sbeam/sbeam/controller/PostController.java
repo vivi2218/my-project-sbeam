@@ -12,6 +12,7 @@ import com.sbeam.sbeam.service.IPostService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @RestController
 @RequestMapping("/post")
+@CrossOrigin
 public class PostController {
     @Autowired
     private IPostService postService;
