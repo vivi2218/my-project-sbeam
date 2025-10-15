@@ -24,7 +24,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/gamePriceHistory")
-
 public class GamePriceHistoryController {
     @Autowired
     private IGamePriceHistoryService gamePriceHistoryService;

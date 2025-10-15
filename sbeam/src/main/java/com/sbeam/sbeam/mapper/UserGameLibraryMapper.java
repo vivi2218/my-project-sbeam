@@ -3,7 +3,11 @@ package com.sbeam.sbeam.mapper;
 import com.sbeam.sbeam.entity.UserGameLibrary;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import com.sbeam.sbeam.entity.VO.GameLibraryVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -18,5 +22,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 
 public interface UserGameLibraryMapper extends BaseMapper<UserGameLibrary> {
-
+    public List<GameLibraryVO> selectUserLibrary(@Param("userId") Integer userId);
 }
