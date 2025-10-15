@@ -5,27 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../sbeam_web/src/views/forum/postMain.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/util/Result.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mbt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mbt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/CommunityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/CommunityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/MyorderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/MyorderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameBundleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameBundleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GamePriceHistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GamePriceHistoryController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IMyorderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IMyorderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IGameBundleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IGameBundleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IGamePriceHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IGamePriceHistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IUserGameLibraryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IUserGameLibraryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GameBundleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GameBundleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GamePriceHistoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GamePriceHistoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/UserGameLibraryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/UserGameLibraryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/mbt.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/mbt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CommunityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CommunityController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/security/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/forum/forumHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/forum/forumHome.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/forum/forumMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/forum/forumMain.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GameBundleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GameBundleController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GamePriceHistoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GamePriceHistoryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyorderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyorderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PostController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PostController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/security/JwtAuthenticationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/security/SecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IGameBundleService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IGameBundleService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IGamePriceHistoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IGamePriceHistoryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IMyorderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IMyorderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserGameLibraryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserGameLibraryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GameBundleServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GameBundleServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GamePriceHistoryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GamePriceHistoryServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserGameLibraryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserGameLibraryServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +84,7 @@
       <recent name="D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sbeam.sbeam.util" />
       <recent name="com.sbeam.sbeam.config" />
       <recent name="com.sbeam.sbeam" />
     </key>
@@ -122,7 +135,8 @@
       <workItem from="1760355487800" duration="881000" />
       <workItem from="1760356379292" duration="9071000" />
       <workItem from="1760404123025" duration="18000" />
-      <workItem from="1760407423881" duration="703000" />
+      <workItem from="1760407423881" duration="5161000" />
+      <workItem from="1760435515707" duration="12004000" />
     </task>
     <servers />
   </component>
