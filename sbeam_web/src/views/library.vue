@@ -1,204 +1,287 @@
 <template>
   <div class="library-page">
-    <h1 class="page-title">我的游戏库</h1>
-
-    <!-- 登录提示 -->
-    <div v-if="!isLoggedIn" class="login-hint">
-      <p>请先登录以查看您的游戏库。</p>
-      <button class="login-btn">立即登录</button>
+    <!-- 登录提示区域 -->
+    <div v-if="!isLoggedIn" class="login-placeholder">
+      <h2>请先登录查看您的游戏库</h2>
+      <div class="placeholder-box">登录提示区域（预留位置）</div>
     </div>
 
-    <!-- 游戏列表 -->
-    <div v-else class="game-list">
-      <div
-        v-for="game in gameList"
-        :key="game.id"
-        class="game-card"
-      >
-        <img :src="game.cover" alt="封面" class="game-cover" />
-        <div class="game-info">
-          <h2>{{ game.name }}</h2>
-          <p class="playtime">已游玩：{{ game.playTime }} 小时</p>
-          <p class="category">类别：{{ game.category }}</p>
-          <p class="purchased-date">购买时间：{{ game.purchasedAt }}</p>
+    <!-- 加载中 -->
+    <div v-else-if="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>加载中，请稍候...</p>
+    </div>
 
-          <div class="actions">
-            <button class="play-btn">开始游戏</button>
-            <button class="detail-btn">查看详情</button>
+    <!-- 游戏库 -->
+    <div v-else class="library-container">
+      <h2 class="library-title">我的游戏库</h2>
+
+      <!-- 无数据提示 -->
+      <div v-if="games.length === 0" class="no-data">
+        暂无游戏，请前往商城购买～
+      </div>
+
+      <!-- 游戏卡片 -->
+      <div class="game-grid">
+        <div class="game-card" v-for="game in games" :key="game.gameId">
+          <div class="game-image" @click="goToDetail(game.gameId)">
+            <img :src="game.mainImageUrl" :alt="game.gameName" />
+            <div class="overlay">点击查看详情</div>
+          </div>
+
+          <div class="game-info">
+            <div class="game-name">{{ game.gameName }}</div>
+            <div class="game-source">来源：{{ game.source }}</div>
+
+            <div class="button-group">
+              <button class="btn btn-detail" @click="goToDetail(game.gameId)">
+                查看详情
+              </button>
+              <button class="btn btn-remove" @click="handleRemove(game.gameId)">
+                移除
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- 没有游戏 -->
-    <div v-if="isLoggedIn && gameList.length === 0" class="empty-hint">
-      <p>您还没有购买任何游戏。</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue";
+import { getMyLibrary, removeGame } from "../api/library.js";
+import { useRouter } from "vue-router";
 
-// 模拟用户是否登录
-const isLoggedIn = ref(true) // 先默认已登录，可改成 false 测试
+const router = useRouter();
+const games = ref([]);
+const loading = ref(false);
+const isLoggedIn = ref(true); // TODO: 登录后可替换成 token 检测
+const userId = 1; // TODO: 替换成真实登录用户 ID
 
-// 模拟已购买游戏（死数据）
-const gameList = ref([
-  {
-    id: 1,
-    name: "赛博朋克 2077",
-    cover: "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
-    category: "动作 / 冒险 / RPG",
-    playTime: 24,
-    purchasedAt: "2025-08-12",
-  },
-  {
-    id: 2,
-    name: "只狼：影逝二度",
-    cover: "https://cdn.cloudflare.steamstatic.com/steam/apps/814380/header.jpg",
-    category: "动作 / 武士 / 冒险",
-    playTime: 37,
-    purchasedAt: "2025-07-03",
-  },
-  {
-    id: 3,
-    name: "霍格沃茨之遗",
-    cover: "https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg",
-    category: "魔法 / 冒险 / 开放世界",
-    playTime: 15,
-    purchasedAt: "2025-09-10",
-  },
-])
+// 加载游戏库
+async function loadLibrary() {
+  loading.value = true;
+  try {
+    const res = await getMyLibrary(userId);
+    if (res.data.code === 200) {
+      games.value = res.data.data;
+    } else {
+      console.warn(res.data.message);
+    }
+  } catch (err) {
+    console.error("加载失败：", err);
+  } finally {
+    loading.value = false;
+  }
+}
+
+// 移除游戏
+async function handleRemove(gameId) {
+  if (!confirm("确定要移除此游戏吗？")) return;
+  try {
+    const res = await removeGame(userId, gameId);
+    if (res.data.code === 200) {
+      games.value = games.value.filter((g) => g.gameId !== gameId);
+      alert("已移除游戏");
+    } else {
+      alert("操作失败：" + res.data.message);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// 跳转详情页
+function goToDetail(gameId) {
+  router.push(`/game/${gameId}`);
+}
+
+onMounted(() => {
+  if (isLoggedIn.value) loadLibrary();
+});
 </script>
 
 <style scoped>
+/* 整体页面背景 */
 .library-page {
-  background-color: #121212;
-  color: #fff;
   min-height: 100vh;
+  background-color: #1b1b1b;
+  color: #eaeaea;
   padding: 30px;
-}
-
-.page-title {
-  font-size: 2.2em;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #00b3ff;
+  font-family: "Microsoft YaHei", sans-serif;
 }
 
 /* 登录提示 */
-.login-hint {
-  background: #1e1e1e;
-  border-radius: 10px;
-  padding: 40px;
-  text-align: center;
-  color: #ccc;
-}
-
-.login-btn {
-  margin-top: 20px;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 6px;
-  background-color: #00b3ff;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.login-btn:hover {
-  background-color: #0090cc;
-}
-
-/* 游戏列表 */
-.game-list {
+.login-placeholder {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
+}
+.login-placeholder h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.placeholder-box {
+  width: 240px;
+  height: 240px;
+  background-color: #2c2c2c;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
 }
 
+/* 加载中动画 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+}
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #333;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 标题 */
+.library-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* 无数据提示 */
+.no-data {
+  text-align: center;
+  color: #888;
+  margin-top: 60px;
+}
+
+/* 卡片网格布局 */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 25px;
+}
+
+/* 单个游戏卡片 */
 .game-card {
-  background: #1c1c1c;
+  background-color: #2a2a2a;
   border-radius: 12px;
   overflow: hidden;
-  width: 360px;
-  display: flex;
-  transition: 0.3s;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-
 .game-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 0 15px rgba(0, 179, 255, 0.3);
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
 }
 
-.game-cover {
-  width: 130px;
-  height: 180px;
+/* 图片部分 */
+.game-image {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.game-image img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.4s;
+}
+.game-image:hover img {
+  transform: scale(1.05);
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #eaeaea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  font-size: 14px;
+  transition: opacity 0.3s;
+}
+.game-image:hover .overlay {
+  opacity: 1;
 }
 
+/* 游戏信息区 */
 .game-info {
-  padding: 10px 14px;
-  flex: 1;
+  padding: 15px;
 }
-
-.game-info h2 {
-  font-size: 1.1em;
+.game-name {
+  font-size: 16px;
+  font-weight: 600;
   color: #fff;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
-
-.playtime,
-.category,
-.purchased-date {
+.game-source {
   font-size: 13px;
   color: #aaa;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
-.actions {
-  margin-top: 10px;
+/* 按钮组 */
+.button-group {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
 }
-
-.play-btn,
-.detail-btn {
-  padding: 6px 12px;
+.btn {
+  flex: 1;
+  padding: 6px 10px;
   border: none;
   border-radius: 6px;
+  color: #fff;
   font-size: 13px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.3s;
+}
+.btn + .btn {
+  margin-left: 8px;
+}
+.btn-detail {
+  background-color: #3b82f6;
+}
+.btn-detail:hover {
+  background-color: #2563eb;
+}
+.btn-remove {
+  background-color: #e53935;
+}
+.btn-remove:hover {
+  background-color: #c62828;
 }
 
-.play-btn {
-  background-color: #00b3ff;
-  color: white;
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
 }
-
-.play-btn:hover {
-  background-color: #0090cc;
-}
-
-.detail-btn {
-  background-color: #333;
-  color: #ccc;
-}
-
-.detail-btn:hover {
+::-webkit-scrollbar-thumb {
   background-color: #444;
-  color: #fff;
+  border-radius: 4px;
 }
-
-/* 空状态提示 */
-.empty-hint {
-  text-align: center;
-  margin-top: 40px;
-  color: #888;
-  font-size: 15px;
+::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
 }
 </style>

@@ -1,15 +1,14 @@
 <script setup lang="ts">
 
 import navigaton from './components/share/navigaton.vue';
-import TestAutoIdempotent from './views/Myorder/TestAutoIdempotent.vue';
-
+import library from '@/views/library.vue';
 
 </script>
 
 <template>
 
 
-  <TestAutoIdempotent />
+  <library></library>
 
 
 </template>
