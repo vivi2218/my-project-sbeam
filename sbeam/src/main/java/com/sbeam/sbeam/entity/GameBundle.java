@@ -5,16 +5,19 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * <p>
  * 
  * </p>
  *
+
  * @author yourname
  * @since 2025-10-09
  */
@@ -22,9 +25,11 @@ import lombok.Setter;
 @Setter
 @TableName("game_bundle")
 @ApiModel(value = "GameBundle对象", description = "")
+
 public class GameBundle implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
 
     @ApiModelProperty("捆绑包ID")
     @TableId(value = "id", type = IdType.AUTO)

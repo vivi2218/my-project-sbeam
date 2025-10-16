@@ -5,16 +5,19 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * <p>
  * 
  * </p>
  *
+
  * @author yourname
  * @since 2025-10-09
  */
@@ -22,9 +25,11 @@ import lombok.Setter;
 @Setter
 @TableName("game_images")
 @ApiModel(value = "GameImages对象", description = "")
+
 public class GameImages implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
 
     @ApiModelProperty("游戏图片ID")
     @TableId(value = "image_id", type = IdType.AUTO)
@@ -47,4 +52,5 @@ public class GameImages implements Serializable {
 
     @ApiModelProperty("更新时间")
     private LocalDateTime updatedAt;
+
 }

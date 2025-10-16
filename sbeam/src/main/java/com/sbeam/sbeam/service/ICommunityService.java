@@ -2,7 +2,9 @@ package com.sbeam.sbeam.service;
 
 import com.sbeam.sbeam.entity.Community;
 
+
 import java.util.List;
+
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -17,5 +19,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ICommunityService extends IService<Community> {
 
     List<Community> getAllCommunity();
+
 
 }

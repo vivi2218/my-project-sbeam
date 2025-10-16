@@ -5,25 +5,30 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * <p>
  * 
  * </p>
  *
+
  * @author yourname
  * @since 2025-10-09
  */
 @Getter
 @Setter
 @ApiModel(value = "Myorder对象", description = "")
+
 public class Myorder implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
 
     @ApiModelProperty("订单ID")
     @TableId(value = "order_id", type = IdType.AUTO)

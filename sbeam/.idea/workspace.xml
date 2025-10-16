@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/VO/GameLibraryVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/UserGameLibraryMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GamePriceHistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GamePriceHistoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/UserGameLibraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/UserGameLibraryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/UserGameLibraryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/UserGameLibraryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/CartMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/CartMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/CommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/CommentMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/CommunityMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/CommunityMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/GameAchievementMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GameAchievementMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/GameBundleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GameBundleMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/GameImagesMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GameImagesMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/GameMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GameMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/GamePriceHistoryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GamePriceHistoryMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/GameProfileMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GameProfileMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/GameTagMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GameTagMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/GiftMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GiftMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/HistoricalOrdersMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/HistoricalOrdersMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/MessageMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/MessageMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/MyorderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/MyorderMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/OrderDetailsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/OrderDetailsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/PaymentRecordsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/PaymentRecordsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/PostMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/PostMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/SalesMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/SalesMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/TagMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/TagMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/UserAchievementMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/UserAchievementMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/UserFollowMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/UserFollowMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/UserGameLibraryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/xml/UserProfileMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/UserProfileMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IUserGameLibraryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IUserGameLibraryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GameBundleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GameBundleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GamePriceHistoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GamePriceHistoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/UserGameLibraryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/UserGameLibraryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GamePriceHistoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GamePriceHistoryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserGameLibraryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserGameLibraryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/mapper/UserGameLibraryMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/mapper/UserGameLibraryMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserGameLibraryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserGameLibraryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GameBundleServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GameBundleServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GamePriceHistoryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GamePriceHistoryServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserGameLibraryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserGameLibraryServiceImpl.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="33hSeHBUXloV4EfwtmASk1PXFJu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/sbeam/sbeam/sbeam",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "spring.configuration.checksum": "c8bf81f5099ea5ae093a09565646fb19",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\sbeam\sbeam\sbeam\src\main\resources\com\sbeam\sbeam\mapper" />
+      <recent name="D:\sbeam\sbeam\sbeam\src\main\resources\comm" />
+      <recent name="D:\sbeam\sbeam\sbeam\src\main\resources\com\sbeam.sbeam\mapper\" />
+      <recent name="D:\sbeam\sbeam\sbeam\src\main\resources\com\sbeam.sbeam\mapper" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.sbeam.sbeam.mapper" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sbeam.sbeam.util" />
+      <recent name="com.sbeam.sbeam.config" />
+      <recent name="com.sbeam.sbeam" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SbeamApplication">
+    <configuration name="TestMybatisGenerate" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sbeam.sbeam.TestMybatisGenerate" />
+      <module name="sbeam" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sbeam.sbeam.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SbeamApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="sbeam" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.sbeam.sbeam.SbeamApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TestMybatisGenerate" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="" />
+      <created>1759767906413</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759767906413</updated>
+      <workItem from="1759767907441" duration="1910000" />
+      <workItem from="1759850353904" duration="4994000" />
+      <workItem from="1760025612790" duration="3768000" />
+      <workItem from="1760059984700" duration="25000" />
+      <workItem from="1760069564573" duration="2798000" />
+      <workItem from="1760350006605" duration="2954000" />
+      <workItem from="1760354867413" duration="314000" />
+      <workItem from="1760355203737" duration="276000" />
+      <workItem from="1760355487800" duration="881000" />
+      <workItem from="1760356379292" duration="9071000" />
+      <workItem from="1760404123025" duration="18000" />
+      <workItem from="1760407423881" duration="5161000" />
+      <workItem from="1760435515707" duration="12004000" />
+      <workItem from="1760492141322" duration="11115000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

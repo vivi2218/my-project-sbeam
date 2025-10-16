@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * <p>
@@ -22,9 +24,11 @@ import lombok.Setter;
 @Setter
 @TableName("game_achievement")
 @ApiModel(value = "GameAchievement对象", description = "")
+
 public class GameAchievement implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
 
     @ApiModelProperty("成就ID")
     @TableId(value = "achievement_id", type = IdType.AUTO)
@@ -53,4 +57,5 @@ public class GameAchievement implements Serializable {
 
     @ApiModelProperty("更新时间")
     private LocalDateTime updatedAt;
+
 }

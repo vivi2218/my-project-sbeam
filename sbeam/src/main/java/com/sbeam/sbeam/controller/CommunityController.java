@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 
+
 /**
  * <p>
  *  前端控制器
@@ -43,4 +44,5 @@ public class CommunityController {
     public boolean createCommunity(@RequestBody Community entity) {
         return communityService.save(entity);
     }
+
 }

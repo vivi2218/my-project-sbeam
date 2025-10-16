@@ -2,7 +2,9 @@ package com.sbeam.sbeam.mapper;
 
 import com.sbeam.sbeam.entity.Gift;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 import org.apache.ibatis.annotations.Mapper;
+
 
 /**
  * <p>
@@ -13,6 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2025-10-09
  */
 @Mapper
+
 public interface GiftMapper extends BaseMapper<Gift> {
 
 }

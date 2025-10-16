@@ -4,25 +4,30 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * <p>
  * 
  * </p>
  *
+
  * @author yourname
  * @since 2025-10-09
  */
 @Getter
 @Setter
 @ApiModel(value = "Post对象", description = "")
+
 public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
 
     @ApiModelProperty("帖子ID")
     @TableId(value = "post_id", type = IdType.AUTO)
@@ -57,4 +62,5 @@ public class Post implements Serializable {
 
     @ApiModelProperty("版本控制")
     private Integer version;
+
 }

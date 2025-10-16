@@ -1,5 +1,20 @@
 package com.sbeam.sbeam.controller;
 
+
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+/**
+ * <p>
+ *  前端控制器
+ * </p>
+ *
+ * @author yourname
+ * @since 2025-10-09
+ */
+
 import com.sbeam.sbeam.entity.Myorder;
 import com.sbeam.sbeam.service.IMyorderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +25,7 @@ import java.util.List;
 @RequestMapping("/myorder")
 @CrossOrigin
 public class MyorderController {
+
 
     @Autowired
     private IMyorderService myorderService;
@@ -49,3 +65,4 @@ public class MyorderController {
         return myorderService.deleteOrder(orderId);
     }
 }
+

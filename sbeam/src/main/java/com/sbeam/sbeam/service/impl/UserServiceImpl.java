@@ -4,6 +4,7 @@ import com.sbeam.sbeam.entity.User;
 import com.sbeam.sbeam.mapper.UserMapper;
 import com.sbeam.sbeam.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**

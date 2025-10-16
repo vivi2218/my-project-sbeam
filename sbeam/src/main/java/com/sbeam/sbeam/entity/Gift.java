@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * <p>
@@ -20,9 +22,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel(value = "Gift对象", description = "")
+
 public class Gift implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
 
     @ApiModelProperty("礼物ID")
     @TableId(value = "gift_id", type = IdType.AUTO)
@@ -51,4 +55,5 @@ public class Gift implements Serializable {
 
     @ApiModelProperty("更新时间")
     private LocalDateTime updatedAt;
+
 }

@@ -6,16 +6,19 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * <p>
  * 
  * </p>
  *
+
  * @author yourname
  * @since 2025-10-09
  */
@@ -23,9 +26,11 @@ import lombok.Setter;
 @Setter
 @TableName("historical_orders")
 @ApiModel(value = "HistoricalOrders对象", description = "")
+
 public class HistoricalOrders implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
 
     @ApiModelProperty("历史订单ID")
     @TableId(value = "id", type = IdType.AUTO)
