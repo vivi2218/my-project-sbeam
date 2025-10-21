@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/VO/GameAchievementVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/VO/GameBundleVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/VO/GameDetailVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/VO/GamePriceHistoryVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/VO/GameProfileVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IGameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IGameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GameServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/GameServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +132,8 @@
       <workItem from="1760435515707" duration="12004000" />
       <workItem from="1760492141322" duration="12699000" />
       <workItem from="1760550359679" duration="112000" />
+      <workItem from="1760663146757" duration="639000" />
+      <workItem from="1760959938304" duration="8253000" />
     </task>
     <servers />
   </component>
