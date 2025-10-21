@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import navigaton from '@/components/share/navigaton.vue';
 import kobeImg from '@/assets/img/kobe.png';
 
-const BACKEND = 'http://localhost:8080'; // 如需更改端口，请修改此处
+const BACKEND = 'http://localhost:8080';
 
 const communities = ref<any[]>([]);
 

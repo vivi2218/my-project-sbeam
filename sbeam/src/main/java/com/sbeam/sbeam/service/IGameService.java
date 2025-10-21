@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IGameService extends IService<Game> {
 
+    Game getGameByType(String type);
+
 }

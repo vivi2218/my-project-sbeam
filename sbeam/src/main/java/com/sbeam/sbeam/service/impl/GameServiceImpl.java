@@ -4,6 +4,8 @@ import com.sbeam.sbeam.entity.Game;
 import com.sbeam.sbeam.mapper.GameMapper;
 import com.sbeam.sbeam.service.IGameService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +18,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements IGameService {
+    @Autowired
+    private GameMapper gameMapper;
+
+
+    @Override
+    public Game getGameByType(String type) {
+        return null;
+    }
+
 
 }
