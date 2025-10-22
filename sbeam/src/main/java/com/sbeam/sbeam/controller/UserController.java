@@ -9,6 +9,10 @@ import com.sbeam.sbeam.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+<<<<<<< HEAD
+import org.springframework.web.bind.annotation.GetMapping;
+=======
+>>>>>>> 4e297b4040190851ef80bbed50eaff2a5adac728
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -33,10 +37,12 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
+
+    
     
     
 }

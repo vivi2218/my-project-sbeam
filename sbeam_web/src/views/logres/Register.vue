@@ -12,6 +12,25 @@ const sendCode = () => {
 
 const register = () => {
   console.log('注册信息:', username.value, password.value, phone.value, code.value);
+  //localhost:8080/user
+  fetch('http://localhost:8080/user', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: username.value,
+      password: password.value,
+      phone: phone.value,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('注册成功:', data);
+    })
+    .catch((error) => {
+      console.error('注册失败:', error);
+    });
 };
 </script>
 
