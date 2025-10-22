@@ -1,14 +1,13 @@
 <script setup lang="ts">
-
-import navigaton from './components/share/navigaton.vue';
-import library from '@/views/library.vue';
-import GameDetail from '@/views/GameDetail.vue';
-
+import navigaton from './components/share/navigaton.vue'
+import library from '@/views/library.vue'
+import GameDetail from '@/views/GameDetail.vue'
+import TestAutoIdempotent from './views/Myorder/TestAutoIdempotent.vue'
 </script>
 
 <template>
-<GameDetail></GameDetail>
-
+  <navigaton></navigaton>
+  <RouterView></RouterView>
 </template>
 
 <style>
@@ -27,9 +26,6 @@ body {
   width: 100%;
   min-height: 100vh;
 }
-
-
-
 
 .navi {
   z-index: 1;
