@@ -48,7 +48,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         cart1.setGameId(gameId);
         cart1.setGameName(game.getGameName());
         cart1.setGamePrice(gamePrice);
-        //cart1.setSalesId(game.);//可选的折扣ID
+        cart1.setSalesId(1);//可选的折扣ID
         cart1.setStatus(0);//默认为正常
         cart1.setCreatedAt(LocalDateTime.now());
         cart1.setUpdatedAt(LocalDateTime.now());

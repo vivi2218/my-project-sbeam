@@ -4,7 +4,7 @@ package com.sbeam.sbeam.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-<<<<<<< HEAD
+
 import com.sbeam.sbeam.entity.Comment;
 import com.sbeam.sbeam.service.ICommentService;
 
@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-=======
->>>>>>> fda2513dc04af9af3fb44a6d294a4d494da92f5e
+
 
 /**
  * <p>
