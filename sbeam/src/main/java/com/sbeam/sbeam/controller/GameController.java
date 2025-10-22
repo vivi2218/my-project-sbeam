@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
  * @author yourname
  * @since 2025-10-09
  */
+
+@CrossOrigin
 @RestController
 @RequestMapping("/game")
 public class GameController {

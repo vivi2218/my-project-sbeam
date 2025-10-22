@@ -2,14 +2,12 @@
 
 import navigaton from './components/share/navigaton.vue';
 import library from '@/views/library.vue';
+import GameDetail from '@/views/GameDetail.vue';
 
 </script>
 
 <template>
-
-
-  <library></library>
-
+<GameDetail></GameDetail>
 
 </template>
 

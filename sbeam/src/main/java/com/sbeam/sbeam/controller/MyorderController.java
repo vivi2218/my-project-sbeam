@@ -2,6 +2,7 @@ package com.sbeam.sbeam.controller;
 
 
 
+import com.sbeam.sbeam.util.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,6 +64,11 @@ public class MyorderController {
     @DeleteMapping("/{orderId}")
     public boolean deleteOrder(@PathVariable Integer orderId) {
         return myorderService.deleteOrder(orderId);
+    }
+    //localhost:8080/myorder/create/20
+    @PostMapping("/create/{cartId}")
+    public Result createOrder(@PathVariable int cartId){
+        return myorderService.createOrder(cartId);
     }
 }
 

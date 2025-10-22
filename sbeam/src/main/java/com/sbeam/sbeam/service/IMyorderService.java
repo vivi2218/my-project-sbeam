@@ -2,6 +2,7 @@ package com.sbeam.sbeam.service;
 
 import com.sbeam.sbeam.entity.Myorder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sbeam.sbeam.util.Result;
 
 import java.util.List;
 
@@ -25,4 +26,7 @@ public interface IMyorderService extends IService<Myorder> {
 
     // 删除订单
     boolean deleteOrder(Integer orderId);
+
+    //创建订单
+    public Result createOrder(Integer cartId);
 }

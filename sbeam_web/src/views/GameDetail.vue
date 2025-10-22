@@ -1,293 +1,261 @@
 <template>
-  <div class="game-detail-page">
-    <!-- 游戏主信息 -->
-    <div class="game-header">
-      <img class="cover" :src="game.cover" alt="游戏封面" />
-      <div class="info">
-        <h1>{{ game.name }}</h1>
-        <p class="intro">{{ game.description }}</p>
-        <p>开发商：{{ game.developer }}</p>
-        <p>发布日期：{{ game.releaseDate }}</p>
-        <p class="rating">评分：{{ game.rating }}</p>
+  <!-- loading / error states -->
+  <div v-if="loading" class="game-loading">
+    <div class="loading-card">
+      <p class="loading-text">加载中...</p>
+    </div>
+  </div>
 
-        <button class="buy-btn">立即购买 ￥{{ game.price }}</button>
+  <div v-else-if="error" class="game-error">
+    <div class="error-card">
+      <p class="error-text">{{ error }}</p>
+      <div class="error-actions">
+        <button class="cart-btn" @click="fetchGameDetails">重试</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- only render after gameDetail and nested gameProfile are available to avoid undefined access -->
+  <div v-else class="game-detail">
+    <!-- 游戏基本信息 -->
+    <div class="game-info">
+      <div class="left">
+        <img :src="gameDetail.mainImageUrl" alt="游戏主图" class="main-image" />
+      </div>
+      <div class="right right-meta">
+        <h1>{{ gameDetail.gameName }}</h1>
+        <div class="meta-row">
+          <span class="tag">{{ gameDetail.gameProfile?.gameTagName }}</span>
+          <span class="tag" v-if="gameDetail.gameProfile?.series">系列：{{ gameDetail.gameProfile.series }}</span>
+        </div>
+  <p class="muted">开发商：{{ gameDetail.gameProfile?.gameDeveloper }}</p>
+  <p class="muted">发行日期：{{ formattedReleaseDate }}</p>
+  <p class="desc">{{ gameDetail.gameProfile?.gameDescription }}</p>
+
+        <div class="price-row">
+          <div class="price">{{ gameDetail.gameOriginalPrice }} USD</div>
+          <div class="original-price" v-if="gameDetail.priceHistory && gameDetail.priceHistory.length">历史价：{{ gameDetail.priceHistory[0].price }} USD</div>
+        </div>
+
+        <div class="buy-actions">
+          <button class="buy-btn">立即购买</button>
+          <button class="cart-btn" @click="addToCart">加入购物车</button>
+          <button class="wishlist-btn" @click="toggleFollow">{{ gameDetail.userFollowed ? '已关注' : '愿望单' }}</button>
+        </div>
       </div>
     </div>
 
-    <!-- 游戏截图和视频 -->
-    <div class="media-section">
+    <!-- 游戏图片展示 -->
+    <div class="game-images">
       <h2>游戏截图</h2>
-      <div class="screenshots">
-        <img v-for="img in game.screenshots" :src="img" :key="img" />
-      </div>
-      <h2>游戏视频</h2>
-      <video class="trailer" controls :src="game.trailer"></video>
-    </div>
-
-    <!-- 捆绑包模块 -->
-    <div class="bundle-section" v-if="bundles.length">
-      <h2>捆绑包优惠</h2>
-      <div v-for="bundle in bundles" :key="bundle.id" class="bundle-card">
-        <h3>{{ bundle.name }}</h3>
-        <div class="bundle-games">
-          <div v-for="g in bundle.games" :key="g.id" class="bundle-game">
-            <img :src="g.cover" alt="子游戏" />
-            <p>{{ g.name }}</p>
-            <span class="price">￥{{ g.price }}</span>
-          </div>
-        </div>
-
-        <div class="bundle-price">
-          <p>原价合计：<span class="old">￥{{ bundle.totalPrice }}</span></p>
-          <p>优惠价：<span class="new">￥{{ bundle.discountPrice }}</span></p>
-          <button class="buy-bundle-btn">购买捆绑包</button>
-        </div>
+      <div class="image-list">
+        <img v-for="(image, index) in (gameDetail.gameImages || [])" :key="index" :src="image" :alt="image" class="image-item" />
       </div>
     </div>
 
-    <!-- 评论区 -->
-    <div class="comment-section">
-      <h2>玩家评论</h2>
-      <div v-for="c in comments" :key="c.id" class="comment-card">
-        <p class="author">{{ c.user }}</p>
-        <p class="text">{{ c.content }}</p>
-        <p class="score">评分：{{ c.score }}</p>
+    <!-- 捆绑包展示 -->
+    <div class="game-bundles">
+      <h2>捆绑包</h2>
+      <div v-for="bundle in gameDetail.gameBundles" :key="bundle.bundleName">
+        <p><strong>{{ bundle.bundleName }}</strong></p>
+        <p>{{ bundle.discountPolicy }}</p>
       </div>
     </div>
 
-    <!-- 推荐区 -->
-    <div class="recommend-section">
-      <h2>相关推荐</h2>
-      <div class="recommend-list">
-        <div v-for="g in recommendGames" :key="g.id" class="recommend-card">
-          <img :src="g.cover" alt="推荐游戏" />
-          <h4>{{ g.name }}</h4>
-        </div>
+    <!-- 价格历史 -->
+    <div class="price-history">
+      <h2>价格历史</h2>
+      <div v-for="(history, idx) in (gameDetail.priceHistory || [])" :key="idx">
+        <p>日期：{{ formatDate(history.priceDate) }} - 价格：{{ history.price }} USD</p>
       </div>
+    </div>
+
+    <!-- 游戏成就 -->
+    <div class="game-achievements">
+      <h2>游戏成就</h2>
+      <div v-for="achievement in gameDetail.gameAchievements" :key="achievement.achievementName">
+        <p><strong>{{ achievement.achievementName }}</strong>: {{ achievement.achievementDescription }}</p>
+      </div>
+    </div>
+
+    <!-- 游戏详情 -->
+    <div class="game-profile">
+      <h2>游戏详情</h2>
+      <p><strong>开发商：</strong>{{ gameDetail.gameProfile.gameDeveloper }}</p>
+      <p><strong>标签：</strong>{{ gameDetail.gameProfile.gameTagName }}</p>
+      <p><strong>游戏配置：</strong>{{ gameDetail.gameProfile.gameConfig }}</p>
+      <p><strong>系列：</strong>{{ gameDetail.gameProfile.series }}</p>
+    </div>
+
+    <!-- 用户关注状态 -->
+    <div class="user-follow">
+      <button @click="toggleFollow">
+        {{ gameDetail.userFollowed ? "取消关注" : "关注游戏" }}
+      </button>
+    </div>
+    <!-- 加入购物车按钮 -->
+    <div class="add-to-cart">
+      <button @click="addToCart">
+        加入购物车
+      </button>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
 
-const game = ref({
-  id: 1,
-  name: "暗影突袭",
-  developer: "未来工作室",
-  releaseDate: "2024-05-10",
-  rating: 9.2,
-  price: 99,
-  description:
-    "《暗影突袭》是一款充满动作与策略的冒险游戏，你将化身特种战士，潜入敌方基地，完成危险任务。",
-  cover: "https://picsum.photos/400/250?random=10",
-  screenshots: [
-    "https://picsum.photos/300/200?random=11",
-    "https://picsum.photos/300/200?random=12",
-    "https://picsum.photos/300/200?random=13",
-  ],
-  trailer:
-    "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+interface GameDetail {
+  releaseDate?: number[];
+  mainImageUrl?: string;
+  gameName?: string;
+  gameOriginalPrice?: number | string;
+  gameImages?: string[];
+  gameBundles?: Array<{ bundleName: string; discountPolicy?: string }>;
+  priceHistory?: Array<{ priceDate: number[]; price: number }>;
+  gameAchievements?: Array<{ achievementName: string; achievementDescription?: string }>;
+  gameProfile?: { gameDeveloper?: string; gameTagName?: string; gameConfig?: string; series?: string; gameDescription?: string };
+  userFollowed?: boolean;
+}
+
+const gameDetail = ref<GameDetail>({});
+const loading = ref<boolean>(true);
+const error = ref<string>('');
+
+const formattedReleaseDate = computed(() => {
+  const d = gameDetail.value.releaseDate;
+  return d ? `${d[0]}-${d[1]}-${d[2]}` : '';
 });
 
-// 捆绑包数据（假数据）
-const bundles = ref([
-  {
-    id: 101,
-    name: "暗影突袭合集包",
-    totalPrice: 267,
-    discountPrice: 199,
-    games: [
-      { id: 1, name: "暗影突袭", price: 99, cover: "https://picsum.photos/100/120?random=31" },
-      { id: 2, name: "秘境探险", price: 79, cover: "https://picsum.photos/100/120?random=32" },
-      { id: 3, name: "银河战士", price: 89, cover: "https://picsum.photos/100/120?random=33" },
-    ],
-  },
-]);
+function formatDate(dateArray) {
+  return `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`;
+}
 
-const comments = ref([
-  { id: 1, user: "玩家A", content: "画面精美，操作顺滑！", score: 9 },
-  { id: 2, user: "玩家B", content: "剧情紧凑但略短，希望出续作。", score: 8 },
-  { id: 3, user: "玩家C", content: "物超所值，非常推荐！", score: 10 },
-]);
+function toggleFollow() {
+  if (!gameDetail.value) return;
+  gameDetail.value.userFollowed = !gameDetail.value.userFollowed;
+}
+function addToCart() {
+  alert('已将游戏加入购物车！');
+}
 
-const recommendGames = ref([
-  { id: 2, name: "秘境探险", cover: "https://picsum.photos/150/200?random=21" },
-  { id: 3, name: "王国之心", cover: "https://picsum.photos/150/200?random=22" },
-  { id: 4, name: "银河战士", cover: "https://picsum.photos/150/200?random=23" },
-]);
+async function fetchGameDetails() {
+  loading.value = true;
+  error.value = '';
+  try {
+    const res = await axios.get('http://localhost:8080/game/details/1');
+    // 支持两种后端结构：{ data: { data: {...} } } 或 { data: {...} }
+    const payload = res.data?.data ?? res.data;
+    if (!payload) throw new Error('后端返回空数据');
+    gameDetail.value = payload;
+  } catch (err: unknown) {
+    console.error('获取游戏详情失败:', err);
+  const maybeErr = err as { message?: string } | undefined;
+  const msg = maybeErr && maybeErr.message ? maybeErr.message : String(err);
+    error.value = msg || '获取游戏详情失败，请稍后重试';
+  } finally {
+    loading.value = false;
+  }
+}
+
+onMounted(() => {
+  fetchGameDetails();
+});
 </script>
 
 <style scoped>
-.game-detail-page {
-  position: relative;
-  top:40px;
-  background-color: #121212;
-  color: #e0e0e0;
-  min-height: 100vh;
-  padding: 30px;
-  font-family: "Microsoft YaHei", sans-serif;
+/* ----------------------------
+   Steam-like Game Detail CSS
+   - Dark theme
+   - Left cover + right meta column
+   - Horizontal screenshot strip
+   - Prominent buy area
+   ---------------------------- */
+
+/* :root {
+  --gd-bg: #0b1418;
+  --card: rgba(255,255,255,0.02);
+  --muted: rgba(220,230,240,0.7);
+  --text: #dbe9f7;
+  --accent: #66c0ff;
+  --accent-2: #2ea3e6;
+  --radius: 10px;
+} */
+
+.game-detail {
+  max-width: 1240px;
+  margin: 20px auto;
+  padding: 18px;
+  color: var(--text);
 }
 
-/* 顶部信息 */
-.game-header {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 30px;
-}
-.cover {
-  width: 400px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-.info {
-  flex: 1;
-}
-.intro {
-  color: #aaa;
-  margin: 10px 0;
-  line-height: 1.6;
-}
-.rating {
-  color: #66cc66;
-  font-weight: bold;
-}
-.buy-btn {
-  background: linear-gradient(45deg, #00b894, #0984e3);
-  border: none;
-  padding: 10px 20px;
-  color: white;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.buy-btn:hover {
-  transform: scale(1.05);
-}
-
-/* 媒体区 */
-.media-section {
-  margin-top: 40px;
-}
-.media-section h2 {
-  margin-bottom: 10px;
-}
-.screenshots {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.screenshots img {
-  width: 300px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-.trailer {
-  width: 80%;
-  border-radius: 10px;
-}
-
-/* 捆绑包 */
-.bundle-section {
-  margin-top: 50px;
-}
-.bundle-card {
-  background: #1c1c1c;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-.bundle-card h3 {
-  margin-bottom: 10px;
-}
-.bundle-games {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-.bundle-game {
-  background: #2a2a2a;
-  padding: 10px;
-  border-radius: 6px;
-  text-align: center;
-  width: 120px;
-}
-.bundle-game img {
-  width: 100px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-.bundle-game .price {
-  display: block;
-  color: #ffcc66;
-  margin-top: 5px;
-}
-.bundle-price {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.bundle-price .old {
-  text-decoration: line-through;
-  color: #888;
-}
-.bundle-price .new {
-  color: #00b894;
-  font-weight: bold;
-}
-.buy-bundle-btn {
-  background: linear-gradient(45deg, #6c5ce7, #0984e3);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.buy-bundle-btn:hover {
-  transform: scale(1.05);
-}
-
-/* 评论区 */
-.comment-section {
-  margin-top: 50px;
-}
-.comment-card {
-  background: #1e1e1e;
-  padding: 15px;
-  margin-top: 10px;
-  border-radius: 8px;
-}
-.comment-card .author {
-  font-weight: bold;
-}
-.comment-card .score {
-  color: #ffcc66;
-}
-
-/* 推荐区 */
-.recommend-section {
-  margin-top: 50px;
-}
-.recommend-list {
-  display: flex;
+/* header */
+.game-info {
+  display: grid;
+  grid-template-columns: 380px 1fr;
   gap: 20px;
-  margin-top: 15px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03));
+  padding: 18px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(3,10,18,0.6);
 }
-.recommend-card {
-  background: #1c1c1c;
-  padding: 10px;
-  border-radius: 8px;
-  width: 150px;
-  text-align: center;
-}
-.recommend-card img {
+
+.main-image {
   width: 100%;
-  height: 200px;
+  height: 480px;
   object-fit: cover;
   border-radius: 6px;
+  background: #05121a;
+  box-shadow: 0 8px 24px rgba(2,8,15,0.6);
 }
+
+.game-info h1 { font-size: 30px; margin: 0 0 6px 0; color: #eaf6ff }
+.game-info p { margin: 6px 0; color: var(--muted) }
+
+.price-row { display:flex; align-items:center; gap:12px; margin-top:10px }
+.price { font-size: 28px; color: var(--accent); font-weight:800 }
+.original-price { font-size:14px; color: rgba(255,255,255,0.45); text-decoration: line-through }
+
+.buy-actions { margin-top: 14px; display:flex; gap:12px; align-items:center }
+.buy-btn { background: linear-gradient(180deg,var(--accent),var(--accent-2)); color:#022433; border:none; padding:12px 18px; border-radius:6px; font-weight:800; cursor:pointer }
+.cart-btn { background: #1e2b33; color: var(--text); border:1px solid rgba(255,255,255,0.04); padding:10px 14px; border-radius:6px }
+.wishlist-btn { background:transparent; color:var(--text); border:1px solid rgba(255,255,255,0.04); padding:10px 14px; border-radius:6px }
+
+/* right column details layout */
+.right-meta { display:flex; flex-direction:column; gap:12px }
+.meta-row { display:flex; gap:8px; flex-wrap:wrap }
+.tag { background: rgba(255,255,255,0.03); color:#bfe9ff; padding:6px 10px; border-radius:4px; font-size:13px }
+
+/* screenshot strip */
+.game-images { margin-top:18px }
+.image-list { display:flex; gap:12px; overflow-x:auto; padding-bottom:8px }
+.image-item { width:360px; height:200px; object-fit:cover; border-radius:6px; flex:0 0 auto; transition: transform .16s ease }
+.image-item:hover { transform: translateY(-6px) }
+
+/* cards (bundles, history, achievements, profile) */
+.card { background: var(--card); padding:16px; border-radius:6px; margin-top:18px }
+.card h2 { margin:0 0 10px 0; color:#eaf6ff }
+.card p { margin:6px 0; color:var(--muted) }
+
+/* specific card elements already use .card-like styles via .card class or individual rules above */
+
+.achievement-badge { display:inline-block; background: rgba(255,255,255,0.03); padding:8px 10px; border-radius:4px; margin:6px 8px 6px 0 }
+
+.user-follow { margin-top:12px }
+.add-to-cart { margin-top:12px }
+
+/* loading */
+.game-loading { width:100%; display:flex; justify-content:center; align-items:center; min-height:60vh }
+.loading-card { width:92%; max-width:1000px; background: linear-gradient(180deg,#07121a,#06121a); padding:28px; border-radius:10px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.03) }
+.loading-text { color:#8fcff6; font-size:18px }
+
+
+/* error state */
+.game-error { width:100%; display:flex; justify-content:center; align-items:center; min-height:40vh; padding:24px 0 }
+.error-card { width:92%; max-width:700px; background: linear-gradient(180deg,#201018,#2a1518); padding:20px; border-radius:8px; text-align:center; color:#ffdede; border:1px solid rgba(255,0,0,0.08) }
+.error-text { color:#ffdede; font-size:16px; margin-bottom:12px }
+.error-actions { display:flex; justify-content:center; gap:12px }
+
 </style>
+
