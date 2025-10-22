@@ -27,7 +27,7 @@ const loadPost = async () => {
             likeCount: 0,
         };
 
-        // 模拟楼层（后端若有回复接口可替换）
+
         replies.value = [
             {
                 id: 1,
@@ -56,7 +56,7 @@ const toggleLike = () => {
 
 const submitReply = async () => {
     if (!newReply.value.trim()) return;
-    // 简单模拟添加楼层。若后端有回复接口，可在此处 POST 到后端并刷新。
+    // 简单模拟添加楼层。
     const nextFloor = replies.value.length + 1;
     replies.value.push({
         id: Date.now(),
@@ -67,7 +67,7 @@ const submitReply = async () => {
         floor: nextFloor,
     });
     newReply.value = '';
-    // 如需调用后端保存回复，请在此处实现 POST 请求
+    // 在此处实现 POST 请求
 };
 </script>
 

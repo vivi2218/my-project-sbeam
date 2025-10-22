@@ -16,4 +16,6 @@ public interface IGameService extends IService<Game> {
     //获取游戏详情
     public GameDetailVO getGameDetails(Integer gameId,Integer userId);
 
+    Game getGameByType(String type);
+
 }

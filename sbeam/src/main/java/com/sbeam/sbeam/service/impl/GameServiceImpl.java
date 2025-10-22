@@ -8,6 +8,8 @@ import com.sbeam.sbeam.mapper.*;
 import com.sbeam.sbeam.service.IGameService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +40,10 @@ public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements IG
     private GameAchievementMapper gameAchievementMapper;
     @Autowired
     private UserFollowMapper userFollowMapper;
+
     /**
      * 获取游戏详情
+     *
      * @param gameId
      * @param userId
      * @return
@@ -61,7 +65,7 @@ public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements IG
 
         //获取游戏详细信息
         GameProfile gameProfile = gameProfileMapper.selectOne(
-                new QueryWrapper<GameProfile>().eq("game_id",gameId));
+                new QueryWrapper<GameProfile>().eq("game_id", gameId));
         if (gameProfile != null) {
             GameProfileVO profileVO = new GameProfileVO();
             profileVO.setGameProfileId(gameProfile.getGameProfileId());
@@ -117,17 +121,22 @@ public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements IG
         gameDetailVO.setGameAchievements(achievementVOList);
 
         //7.是否关注（只有传了 userId 才判断）
-        if (userId != null){
+        if (userId != null) {
             boolean isFollowed = userFollowMapper.exists(
                     new QueryWrapper<UserFollow>().eq("user_id", userId).eq("game_id", gameId)
             );
             gameDetailVO.setUserFollowed(isFollowed);
-        }else{
+        } else {
             //未登录用户默认不关注
             gameDetailVO.setUserFollowed(false);
         }
 
-
         return gameDetailVO;
+    }
+
+//根据游戏类型获取游戏
+    @Override
+    public Game getGameByType(String type) {
+        return null;
     }
 }
