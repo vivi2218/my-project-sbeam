@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin()
 public class AuthController {
 
     @Autowired
@@ -33,6 +33,16 @@ public class AuthController {
         }
 
         String token = jwtUtils.generateToken(user);
+
+        // 返回用户数据（可选择性返回敏感字段）
+        Map<String, Object> userData = Map.of(
+                "userId", user.getUserId(),
+                "username", user.getUserName(),
+                "email", user.getEmail()
+                // 购物车可以单独接口获取
+        );
+
+
         return Map.of("code", 200, "token", token, "userId", user.getUserId());
     }
 

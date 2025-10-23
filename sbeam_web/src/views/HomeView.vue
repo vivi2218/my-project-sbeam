@@ -161,7 +161,6 @@ onUnmounted(() => {
 html,
 body {
   width: 100vw;
-  max-width: 1800px;
   margin: 0;
   padding: 0;
 }

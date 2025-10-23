@@ -1,16 +1,35 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { computed } from 'vue'
 
 const cartItems = ref([])
+// 取 token
+const token = localStorage.getItem('sbeam_token')
 
 onMounted(async () => {
-  const res = await axios.get('http://localhost:8080/User/car/user/1')
+  const res = await axios.get('http://localhost:8080/cart', {
+    headers: { Authorization: token }, // 后端用 token 获取 userId
+  })
   cartItems.value = res.data
 })
-// axios.get('http://localhost:8080/User/car/user', {
-// headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-//})
+
+// 计算总价
+const totalPrice = computed(() =>
+  cartItems.value.reduce((sum, item) => sum + Number(item.gamePrice || 0), 0),
+)
+
+// 删除购物车商品
+const removeItem = async (cartId) => {
+  try {
+    await axios.delete(`http://localhost:8080/cart/${cartId}`, {
+      headers: { Authorization: token },
+    })
+    cartItems.value = cartItems.value.filter((item) => item.cartId !== cartId)
+  } catch (e) {
+    console.error('删除失败', e)
+  }
+}
 </script>
 
 <template>
@@ -24,8 +43,8 @@ onMounted(async () => {
           <h3>{{ item.gameName }}</h3>
           <p>{{ item.tag }} | {{ item.config }}</p>
         </div>
-        <div class="price">{{ item.price }} 元</div>
-        <div class="remove">删除</div>
+        <div class="price">{{ item.gamePrice }} 元</div>
+        <div class="remove" @click="removeItem(item.cartId)">删除</div>
       </div>
 
       <div class="checkout">
