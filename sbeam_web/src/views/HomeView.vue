@@ -28,16 +28,19 @@ onUnmounted(() => {
       <div class="game">
         <h2>推荐</h2>
         <div class="product-box">
-          <div class="product-card">
+          <!-- 可点击跳转到游戏详情（id=1） -->
+          <router-link :to="{ name: 'game-detail', params: { id: 1 } }" class="product-card">
             <img src="../assets/img/kobe.png" alt="商品A" />
             <p class="name">示例商品 A</p>
             <p class="price">￥99.00</p>
-          </div>
-          <div class="product-card">
+          </router-link>
+
+          <!-- 可点击跳转到游戏详情（id=2） -->
+          <router-link :to="{ name: 'game-detail', params: { id: 2 } }" class="product-card">
             <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
-          </div>
+          </router-link>
         </div>
       </div>
 
@@ -45,16 +48,17 @@ onUnmounted(() => {
       <div class="game">
         <h2>今日特卖</h2>
         <div class="product-box">
-          <div class="product-card">
+          <router-link :to="{ name: 'game-detail', params: { id: 3 } }" class="product-card">
             <img src="../assets/img/kobe.png" alt="商品C" />
             <p class="name">特卖商品 C</p>
             <p class="price">￥59.00</p>
-          </div>
-          <div class="product-card">
+          </router-link>
+
+          <router-link :to="{ name: 'game-detail', params: { id: 4 } }" class="product-card">
             <img src="../assets/img/kobe.png" alt="商品D" />
             <p class="name">特卖商品 D</p>
             <p class="price">￥79.00</p>
-          </div>
+          </router-link>
         </div>
       </div>
 
@@ -62,16 +66,19 @@ onUnmounted(() => {
       <div class="game">
         <h2>探索</h2>
         <div class="product-box">
-          <div class="product-card">
+          <!-- 以下卡片可根据需要继续用 router-link 包裹或保持原样（示例保留两个可点击） -->
+          <router-link :to="{ name: 'game-detail', params: { id: 5 } }" class="product-card">
             <img src="../assets/img/kobe.png" alt="商品A" />
             <p class="name">示例商品 A</p>
             <p class="price">￥99.00</p>
-          </div>
-          <div class="product-card">
+          </router-link>
+
+          <router-link :to="{ name: 'game-detail', params: { id: 6 } }" class="product-card">
             <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
             <p class="price">￥129.00</p>
-          </div>
+          </router-link>
+
           <div class="product-card">
             <img src="../assets/img/kobe.png" alt="商品B" />
             <p class="name">示例商品 B</p>
@@ -121,36 +128,42 @@ onUnmounted(() => {
       <div class="comm">
         <h3>热门社区</h3>
         <div class="community-box">
-          <div class="community-card">
+          <!-- 点击进入论坛主页 -->
+          <router-link to="/forum" class="community-card">
             <img src="../assets/img/kobe.png" alt="社区1" />
             <p>抽象tv</p>
-          </div>
-          <div class="community-card">
+          </router-link>
+
+          <router-link to="/forum" class="community-card">
             <img src="../assets/img/kobe.png" alt="社区2" />
             <p>冲浪tv</p>
-          </div>
-          <div class="community-card">
+          </router-link>
+
+          <router-link to="/forum" class="community-card">
             <img src="../assets/img/kobe.png" alt="社区3" />
             <p>神奈川冲浪里</p>
-          </div>
+          </router-link>
         </div>
       </div>
 
       <div class="tieba">
         <h3>热门帖子</h3>
         <div class="post-box">
-          <div class="post-card">
+          <!-- 热门帖子点击也进入论坛 -->
+          <router-link to="/forum" class="post-card">
             <p class="title">豪士小面包</p>
             <p class="author">作者：古德莉莉安</p>
-          </div>
-          <div class="post-card">
+          </router-link>
+
+          <router-link to="/forum" class="post-card">
             <p class="title">我狗被蛇咬</p>
             <p class="author">作者：张顺爬</p>
-          </div>
-          <div class="post-card">
+          </router-link>
+
+          <router-link to="/forum" class="post-card">
             <p class="title">爷爷大象笑</p>
             <p class="author">作者：缝合怪</p>
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
