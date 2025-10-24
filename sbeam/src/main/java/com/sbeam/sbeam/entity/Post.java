@@ -5,33 +5,37 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-
+import lombok.ToString;
+import nonapi.io.github.classgraph.json.Id;
 
 /**
  * <p>
  * 
  * </p>
  *
-
+ * 
  * @author yourname
  * @since 2025-10-09
  */
 @Getter
 @Setter
 @ApiModel(value = "Post对象", description = "")
-
+@ToString
+@Document(collection = "posts") // MongoDB集合名称
 public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @ApiModelProperty("帖子ID")
-    @TableId(value = "post_id", type = IdType.AUTO)
-    private Integer postId;
+    // @TableId(value = "post_id", type = IdType.AUTO)
+    @Id
+    private String postId;
 
     @ApiModelProperty("社区ID")
     private Integer communityId;
@@ -62,5 +66,7 @@ public class Post implements Serializable {
 
     @ApiModelProperty("版本控制")
     private Integer version;
+
+
 
 }

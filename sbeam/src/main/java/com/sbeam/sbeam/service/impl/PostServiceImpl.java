@@ -1,7 +1,9 @@
 package com.sbeam.sbeam.service.impl;
 
+import com.sbeam.sbeam.entity.MogoPost;
 import com.sbeam.sbeam.entity.Post;
 import com.sbeam.sbeam.mapper.PostMapper;
+import com.sbeam.sbeam.repository.PostRepository;
 import com.sbeam.sbeam.service.IPostService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
@@ -20,14 +22,31 @@ import org.springframework.stereotype.Service;
  * @since 2025-10-09
  */
 @Service
-public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IPostService {
+public class PostServiceImpl  implements IPostService {
+
+    // @Autowired
+    // private PostMapper postMapper;
 
     @Autowired
-    private PostMapper postMapper;
+    private PostRepository postRepository;
 
     @Override
-    public List<Post> getAllPosts() {
-        return postMapper.selectList(null);
+    public List<MogoPost> getAllPosts() {
+        return postRepository.findAll();
     }
+
+    @Override
+    public MogoPost getById(String id) {
+        return postRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public boolean save(MogoPost entity) {
+        postRepository.save(entity);
+        return true;
+    }
+
+
+
 
 }

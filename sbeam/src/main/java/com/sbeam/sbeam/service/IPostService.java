@@ -1,5 +1,6 @@
 package com.sbeam.sbeam.service;
 
+import com.sbeam.sbeam.entity.MogoPost;
 import com.sbeam.sbeam.entity.Post;
 
 
@@ -17,8 +18,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author yourname
  * @since 2025-10-09
  */
-public interface IPostService extends IService<Post> {
+public interface IPostService {
 
-    List<Post> getAllPosts();
+    List<MogoPost> getAllPosts();
+
+    MogoPost getById(String id);
+
+    boolean save(MogoPost entity);
+
+
 
 }
