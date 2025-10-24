@@ -22,7 +22,7 @@
       <div class="left">
         <img :src="gameDetail.mainImageUrl" alt="游戏主图" class="main-image" />
       </div>
-      <div class="right right-meta">
+      <div class="middle-meta">
         <h1>{{ gameDetail.gameName }}</h1>
         <div class="meta-row">
           <span class="tag">{{ gameDetail.gameProfile?.gameTagName }}</span>
@@ -216,7 +216,10 @@ onMounted(() => {
 
 /* header */
 .game-info {
+  margin: 0 auto; /* 水平居中 */
+  padding: 0%;
   display: grid;
+  width: 1200px;
   grid-template-columns: 380px 1fr;
   gap: 20px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(0, 0, 0, 0.03));
@@ -292,9 +295,17 @@ onMounted(() => {
 }
 
 /* right column details layout */
+.middle-meta {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  gap: 12px;
+}
+
 .right-meta {
   display: flex;
   flex-direction: column;
+  width: 400px;
   gap: 12px;
 }
 .meta-row {
