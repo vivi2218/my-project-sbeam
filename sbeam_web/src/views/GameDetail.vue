@@ -20,7 +20,12 @@
     <!-- 游戏基本信息 -->
     <div class="game-info">
       <div class="left">
-        <img :src="gameDetail.mainImageUrl" alt="游戏主图" class="main-image" />
+        <img
+          :src="`/gameimg/${gameDetail.gameId}.jpg`"
+          alt="游戏封面"
+          class="main-image"
+          @error="(e) => (e.target.src = '/gameimg/default.jpg')"
+        />
       </div>
       <div class="middle-meta">
         <h1>{{ gameDetail.gameName }}</h1>
@@ -46,7 +51,11 @@
 
         <div class="buy-actions">
           <button class="buy-btn">立即购买</button>
-          <button class="cart-btn" @click="addToCart">加入购物车</button>
+
+          <button class="cart-btn" :class="{ added: isAddedToCart }" @click="addToCart">
+            {{ isAddedToCart ? '已加入购物车' : '加入购物车' }}
+          </button>
+
           <button class="wishlist-btn" @click="toggleFollow">
             {{ gameDetail.userFollowed ? '已关注' : '愿望单' }}
           </button>
@@ -126,6 +135,7 @@ import { useRoute } from 'vue-router'
 import axios from 'axios'
 
 const route = useRoute()
+const isAddedToCart = ref(false)
 
 interface GameDetail {
   releaseDate?: number[]
@@ -159,12 +169,42 @@ function formatDate(dateArray) {
   return `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`
 }
 
-function toggleFollow() {
-  if (!gameDetail.value) return
-  gameDetail.value.userFollowed = !gameDetail.value.userFollowed
-}
-function addToCart() {
-  alert('已将游戏加入购物车！')
+async function addToCart() {
+  if (isAddedToCart.value) return
+
+  try {
+    const gameId = route.params.id
+    const gamePrice = gameDetail.value.gameOriginalPrice
+
+    // 从本地存储获取登录 token
+    const token = localStorage.getItem('sbeam_token')
+    if (!token) {
+      alert('请先登录')
+      return
+    }
+
+    const res = await axios.post(
+      'http://localhost:8080/cart/add',
+      null, // POST body
+      {
+        headers: {
+          Authorization: token, // 必须传
+        },
+        params: { gameId, gamePrice },
+      },
+    )
+
+    console.log(res.data.code)
+    if (res.data.code === 200) {
+      isAddedToCart.value = true
+      alert('已加入购物车！')
+    } else {
+      alert(res.data.msg || '加入购物车失败，请稍后重试')
+    }
+  } catch (err) {
+    console.error(err)
+    alert('加入购物车失败，请稍后重试')
+  }
 }
 
 async function fetchGameDetails() {
@@ -195,27 +235,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* ----------------------------
-   Steam-like Game Detail CSS
-   - Dark theme
-   - Left cover + right meta column
-   - Horizontal screenshot strip
-   - Prominent buy area
-   ---------------------------- */
-
-/* :root {
-  --gd-bg: #0b1418;
-  --card: rgba(255,255,255,0.02);
-  --muted: rgba(220,230,240,0.7);
-  --text: #dbe9f7;
-  --accent: #66c0ff;
-  --accent-2: #2ea3e6;
-  --radius: 10px;
-} */
-
 .game-detail {
+  margin-top: 60px;
   max-width: 1240px;
-  margin: 20px auto;
   padding: 18px;
   color: var(--text);
 }
@@ -228,7 +250,7 @@ onMounted(() => {
   width: 1200px;
   grid-template-columns: 380px 1fr;
   gap: 20px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(0, 0, 0, 0.03));
+  background: linear-gradient(180deg, rgba(28, 25, 25, 0.01), rgba(210, 21, 21, 0.03));
   padding: 18px;
   border-radius: var(--radius);
   box-shadow: 0 10px 30px rgba(3, 10, 18, 0.6);
@@ -286,12 +308,22 @@ onMounted(() => {
   cursor: pointer;
 }
 .cart-btn {
-  background: #1e2b33;
-  color: var(--text);
+  background: #00b050; /* 默认绿色 */
+  color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.04);
   padding: 10px 14px;
   border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
 }
+
+/* 点击后变灰 */
+.cart-btn.added {
+  background: #888888;
+  border-color: #666;
+  cursor: default;
+}
+
 .wishlist-btn {
   background: transparent;
   color: var(--text);
@@ -384,6 +416,7 @@ onMounted(() => {
 
 /* loading */
 .game-loading {
+  margin: 90px auto 20px auto; /* ← 距顶部60px，底部20px */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -433,5 +466,10 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   gap: 12px;
+}
+
+.main-image {
+  object-fit: contain;
+  background: #000;
 }
 </style>

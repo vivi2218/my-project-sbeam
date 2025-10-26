@@ -28,7 +28,7 @@
     </option>
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="origin/main" />
+    <option name="BRANCH" value="main" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -165,6 +165,9 @@
       <workItem from="1761267250597" duration="4484000" />
       <workItem from="1761320698167" duration="7000" />
       <workItem from="1761355303633" duration="6884000" />
+      <workItem from="1761483407986" duration="7000" />
+      <workItem from="1761483474118" duration="1197000" />
+      <workItem from="1761487585577" duration="3165000" />
       <workItem from="1761483864477" duration="8755000" />
     </task>
     <task id="LOCAL-00001" summary="要登录验证合并">

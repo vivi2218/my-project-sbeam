@@ -71,7 +71,8 @@ const checkout = async () => {
       <h2>我的购物车</h2>
 
       <div v-for="item in cartItems" :key="item.id" class="cart-item">
-        <img :src="item.imageUrl || '../imgs/default.jpg'" alt="游戏封面" />
+        <img :src="`/gameimg/${item.gameId}.jpg`" alt="游戏封面" @error="onImageError" />
+
         <div class="cart-info">
           <h3>{{ item.gameName }}</h3>
           <p>{{ item.tag }} | {{ item.config }}</p>

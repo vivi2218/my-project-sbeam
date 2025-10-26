@@ -77,6 +77,13 @@ const router = createRouter({
       component:ConfirmOrder
     },
 
+    // { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
+
+    {
+      path: '/game/:id',
+      name: 'game-detail',
+      component: () => import('../views/GameDetail.vue'),
+    },
   ],
 })
 

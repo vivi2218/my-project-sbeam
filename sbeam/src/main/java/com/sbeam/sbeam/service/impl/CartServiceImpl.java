@@ -31,33 +31,38 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     private GameMapper gameMapper;
     @Override
     public Result addGameToCart(int userId, int gameId, BigDecimal gamePrice) {
-        // 查询是否已经添加了该游戏
-        Cart cart = cartMapper.selectOne(new QueryWrapper<Cart>().eq("user_id", userId)
-                .eq("game_id", gameId));
-        if(cart !=null){
+        // 查询是否已经添加了该游戏，且状态为正常
+        Cart cart = cartMapper.selectOne(new QueryWrapper<Cart>()
+                .eq("user_id", userId)
+                .eq("game_id", gameId)
+                .eq("status", 0));
+        if (cart != null) {
             return Result.getFail("游戏已经在购物车里");
         }
-        //获取游戏详细信息
+
+        // 获取游戏详细信息
         Game game = gameMapper.selectById(gameId);
-        if(game == null){
+        if (game == null) {
             return Result.getFail("未发现游戏");
         }
-        //创建购物车
+
+        // 创建购物车对象
         Cart cart1 = new Cart();
         cart1.setUserId(userId);
         cart1.setGameId(gameId);
         cart1.setGameName(game.getGameName());
         cart1.setGamePrice(gamePrice);
-        cart1.setSalesId(1);//可选的折扣ID
-        cart1.setStatus(0);//默认为正常
+        cart1.setSalesId(1); // 默认折扣ID，可根据需要调整
+        cart1.setStatus(0); // 正常状态
         cart1.setCreatedAt(LocalDateTime.now());
         cart1.setUpdatedAt(LocalDateTime.now());
-        //保存到数据库
+
+        // 保存到数据库
         int rows = cartMapper.insert(cart1);
-        if(rows>0){
+        if (rows > 0) {
             return Result.saveSuccess(cart1);
         }
         return Result.saveFail(null);
-
     }
+
 }

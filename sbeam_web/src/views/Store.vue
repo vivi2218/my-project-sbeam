@@ -37,11 +37,11 @@
       <main class="game-list">
         <div
           v-for="game in filteredGames"
-          :key="game.id"
+          :key="game.gameId"
           class="game-card"
-          @click="goGameDetail(game.id)"
+          @click="goGameDetail(game.gameId)"
         >
-          <img :src="`/gameimg/${game.gameId}.jpg`" alt="封面" />
+          <img :src="`/gameimg/${game.gameId}.jpg`" alt="封面" @error="onImageError" />
 
           <div class="info">
             <h4>{{ game.gameName }}</h4>
