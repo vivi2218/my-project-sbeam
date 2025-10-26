@@ -26,13 +26,12 @@ import GameDetail from '@/views/GameDetail.vue'
 import Home from '@/views/Home.vue'
 import Library from '@/views/library.vue'
 
-
-
 import Cart from '@/views/User/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
 import forumHome from '@/views/forum/forumHome.vue'
-
+import PaySuccess from '@/views/Myorder/PaySuccess.vue'
+import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
 
 
 
@@ -87,6 +86,14 @@ const router = createRouter({
       path: '/store',
       name: 'store',
       component: Store
+    },
+    {path:'/paysuccess',
+      name:"paysuccess",
+      component:PaySuccess
+    },
+    {path:'/confirmorder',
+      name:"confirmorder",
+      component:ConfirmOrder
     },
 
   ],

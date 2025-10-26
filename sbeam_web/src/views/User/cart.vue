@@ -1,45 +1,54 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import { computed } from 'vue'
+
+const cartItems = ref([])
+// 取 token
+const token = localStorage.getItem('sbeam_token')
+
+onMounted(async () => {
+  const res = await axios.get('http://localhost:8080/cart', {
+    headers: { Authorization: token }, // 后端用 token 获取 userId
+  })
+  cartItems.value = res.data
+})
+
+// 计算总价
+const totalPrice = computed(() =>
+  cartItems.value.reduce((sum, item) => sum + Number(item.gamePrice || 0), 0),
+)
+
+// 删除购物车商品
+const removeItem = async (cartId) => {
+  try {
+    await axios.delete(`http://localhost:8080/cart/${cartId}`, {
+      headers: { Authorization: token },
+    })
+    cartItems.value = cartItems.value.filter((item) => item.cartId !== cartId)
+  } catch (e) {
+    console.error('删除失败', e)
+  }
+}
+</script>
+
 <template>
   <div class="cart">
     <div class="container">
       <h2>我的购物车</h2>
 
-      <!-- 商品1 -->
-      <div class="cart-item">
-        <img src="" alt="游戏封面从后端获得" />
+      <div v-for="item in cartItems" :key="item.id" class="cart-item">
+        <img :src="item.imageUrl || '../imgs/default.jpg'" alt="游戏封面" />
         <div class="cart-info">
-          <h3>刺客信条：英灵殿</h3>
-          <p>动作冒险 | 3060</p>
+          <h3>{{ item.gameName }}</h3>
+          <p>{{ item.tag }} | {{ item.config }}</p>
         </div>
-
-        <div class="price">价格</div>
-        <div class="remove">删除</div>
+        <div class="price">{{ item.gamePrice }} 元</div>
+        <div class="remove" @click="removeItem(item.cartId)">删除</div>
       </div>
 
-      <!-- 商品2 -->
-      <div class="cart-item">
-        <img src="" alt="游戏封面从后端获得" />
-        <div class="cart-info">
-          <h3>巫师3：狂猎</h3>
-          <p>角色扮演 | 2060</p>
-        </div>
-        <div class="price">价格</div>
-        <div class="remove">删除</div>
-      </div>
-
-      <!-- 商品3 -->
-      <div class="cart-item">
-        <img src="" alt="游戏封面" />
-        <div class="cart-info">
-          <h3>游戏名称</h3>
-          <p>游戏tag | 配置</p>
-        </div>
-        <div class="price">价格</div>
-        <div class="remove">删除</div>
-      </div>
-
-      <!-- 结算 -->
       <div class="checkout">
-        <p>总价</p>
+        <p>总价：{{ totalPrice }} 元</p>
         <button>去结算</button>
       </div>
     </div>

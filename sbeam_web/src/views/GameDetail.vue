@@ -33,14 +33,14 @@
   <p class="desc">{{ gameDetail.gameProfile?.gameDescription }}</p>
 
         <div class="price-row">
-          <div class="price">{{ gameDetail.gameOriginalPrice }} USD</div>
-          <div class="original-price" v-if="gameDetail.priceHistory && gameDetail.priceHistory.length">历史价：{{ gameDetail.priceHistory[0].price }} USD</div>
+          <div class="price">{{ gameDetail.gameOriginalPrice }} $</div>
+          <div class="original-price" v-if="gameDetail.priceHistory && gameDetail.priceHistory.length">历史价：{{ gameDetail.priceHistory[0].price }} $</div>
         </div>
 
         <div class="buy-actions">
-          <button class="buy-btn">立即购买</button>
+          <!-- <button class="buy-btn">立即购买</button> -->
           <button class="cart-btn" @click="addToCart">加入购物车</button>
-          <button class="wishlist-btn" @click="toggleFollow">{{ gameDetail.userFollowed ? '已关注' : '愿望单' }}</button>
+          <button class="wishlist-btn" @click="toggleFollow">{{ gameDetail.userFollowed ? '已关注' : '关注' }}</button>
         </div>
       </div>
     </div>
@@ -87,18 +87,18 @@
       <p><strong>系列：</strong>{{ gameDetail.gameProfile.series }}</p>
     </div>
 
-    <!-- 用户关注状态 -->
+    <!-- 用户关注状态 加入购物车按钮
     <div class="user-follow">
       <button @click="toggleFollow">
         {{ gameDetail.userFollowed ? "取消关注" : "关注游戏" }}
       </button>
     </div>
-    <!-- 加入购物车按钮 -->
+
     <div class="add-to-cart">
       <button @click="addToCart">
         加入购物车
       </button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -165,97 +165,251 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* ----------------------------
-   Steam-like Game Detail CSS
-   - Dark theme
-   - Left cover + right meta column
-   - Horizontal screenshot strip
-   - Prominent buy area
-   ---------------------------- */
-
-/* :root {
-  --gd-bg: #0b1418;
-  --card: rgba(255,255,255,0.02);
-  --muted: rgba(220,230,240,0.7);
-  --text: #dbe9f7;
-  --accent: #66c0ff;
-  --accent-2: #2ea3e6;
-  --radius: 10px;
-} */
-
-.game-detail {
-  max-width: 1240px;
-  margin: 20px auto;
-  padding: 18px;
-  color: var(--text);
+/* 根变量定义 */
+:root {
+  --primary-bg: #1b2d39;
+  --card-bg: #223543;
+  --text-primary: #e3f2fd;
+  --text-secondary: #b0bec5;
+  --text-muted: #78909c;
+  --accent-primary: #4fc3f7;
+  --accent-secondary: #29b6f6;
+  --success: #81c784;
+  --warning: #ffb74d;
+  --danger: #e57373;
+  --border: #37474f;
+  --radius: 8px;
 }
 
-/* header */
+/* 游戏详情页容器 */
+.game-detail {
+  background: var(--primary-bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 游戏基本信息区域 */
 .game-info {
-  display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 20px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03));
-  padding: 18px;
+  display: flex;
+  gap: 30px;
+  background: var(--card-bg);
+  padding: 25px;
   border-radius: var(--radius);
-  box-shadow: 0 10px 30px rgba(3,10,18,0.6);
+  margin-bottom: 25px;
+  border: 1px solid var(--border);
+}
+
+.game-info .left {
+  flex: 0 0 300px;
 }
 
 .main-image {
   width: 100%;
-  height: 480px;
+  height: 400px;
   object-fit: cover;
-  border-radius: 6px;
-  background: #05121a;
-  box-shadow: 0 8px 24px rgba(2,8,15,0.6);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
 }
 
-.game-info h1 { font-size: 30px; margin: 0 0 6px 0; color: #eaf6ff }
-.game-info p { margin: 6px 0; color: var(--muted) }
+.game-info .right {
+  flex: 1;
+}
 
-.price-row { display:flex; align-items:center; gap:12px; margin-top:10px }
-.price { font-size: 28px; color: var(--accent); font-weight:800 }
-.original-price { font-size:14px; color: rgba(255,255,255,0.45); text-decoration: line-through }
+.game-info h1 {
+  color: var(--text-primary);
+  font-size: 2.2em;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
 
-.buy-actions { margin-top: 14px; display:flex; gap:12px; align-items:center }
-.buy-btn { background: linear-gradient(180deg,var(--accent),var(--accent-2)); color:#022433; border:none; padding:12px 18px; border-radius:6px; font-weight:800; cursor:pointer }
-.cart-btn { background: #1e2b33; color: var(--text); border:1px solid rgba(255,255,255,0.04); padding:10px 14px; border-radius:6px }
-.wishlist-btn { background:transparent; color:var(--text); border:1px solid rgba(255,255,255,0.04); padding:10px 14px; border-radius:6px }
+/* 元信息行 */
+.meta-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
 
-/* right column details layout */
-.right-meta { display:flex; flex-direction:column; gap:12px }
-.meta-row { display:flex; gap:8px; flex-wrap:wrap }
-.tag { background: rgba(255,255,255,0.03); color:#bfe9ff; padding:6px 10px; border-radius:4px; font-size:13px }
+.tag {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: var(--primary-bg);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+}
 
-/* screenshot strip */
-.game-images { margin-top:18px }
-.image-list { display:flex; gap:12px; overflow-x:auto; padding-bottom:8px }
-.image-item { width:360px; height:200px; object-fit:cover; border-radius:6px; flex:0 0 auto; transition: transform .16s ease }
-.image-item:hover { transform: translateY(-6px) }
+.muted {
+  color: var(--text-muted);
+  margin: 8px 0;
+  font-size: 0.95em;
+}
 
-/* cards (bundles, history, achievements, profile) */
-.card { background: var(--card); padding:16px; border-radius:6px; margin-top:18px }
-.card h2 { margin:0 0 10px 0; color:#eaf6ff }
-.card p { margin:6px 0; color:var(--muted) }
+.desc {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 15px 0;
+  font-size: 1em;
+}
 
-/* specific card elements already use .card-like styles via .card class or individual rules above */
+/* 价格行 */
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+  padding: 15px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
 
-.achievement-badge { display:inline-block; background: rgba(255,255,255,0.03); padding:8px 10px; border-radius:4px; margin:6px 8px 6px 0 }
+.price {
+  color: var(--accent-primary);
+  font-size: 1.8em;
+  font-weight: bold;
+}
 
-.user-follow { margin-top:12px }
-.add-to-cart { margin-top:12px }
+.original-price {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  font-size: 1.1em;
+}
 
-/* loading */
-.game-loading { width:100%; display:flex; justify-content:center; align-items:center; min-height:60vh }
-.loading-card { width:92%; max-width:1000px; background: linear-gradient(180deg,#07121a,#06121a); padding:28px; border-radius:10px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.03) }
-.loading-text { color:#8fcff6; font-size:18px }
+/* 购买操作按钮 */
+.buy-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
 
+.cart-btn, .wishlist-btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-/* error state */
-.game-error { width:100%; display:flex; justify-content:center; align-items:center; min-height:40vh; padding:24px 0 }
-.error-card { width:92%; max-width:700px; background: linear-gradient(180deg,#201018,#2a1518); padding:20px; border-radius:8px; text-align:center; color:#ffdede; border:1px solid rgba(255,0,0,0.08) }
-.error-text { color:#ffdede; font-size:16px; margin-bottom:12px }
-.error-actions { display:flex; justify-content:center; gap:12px }
+.cart-btn {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: var(--primary-bg);
+}
+
+.cart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 195, 247, 0.3);
+}
+
+.wishlist-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.wishlist-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-primary);
+}
+
+/* 已关注状态 */
+.wishlist-btn[style*="已关注"] {
+  background: var(--success);
+  color: var(--primary-bg);
+  border-color: var(--success);
+}
+
+/* 各内容区块通用样式 */
+.game-images,
+.game-bundles,
+.price-history,
+.game-achievements,
+.game-profile {
+  background: var(--card-bg);
+  padding: 25px;
+  border-radius: var(--radius);
+  margin-bottom: 25px;
+  border: 1px solid var(--border);
+}
+
+/* 区块标题 */
+h2 {
+  color: var(--text-primary);
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent-primary);
+  font-weight: 600;
+}
+
+/* 游戏图片展示 */
+.image-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.image-item {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+
+.image-item:hover {
+  transform: scale(1.03);
+}
+
+/* 捆绑包样式 */
+.game-bundles p {
+  margin: 10px 0;
+  color: var(--text-secondary);
+}
+
+.game-bundles strong {
+  color: var(--accent-primary);
+}
+
+/* 价格历史样式 */
+.price-history p {
+  padding: 8px 12px;
+  margin: 5px 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  border-left: 3px solid var(--accent-primary);
+}
+
+/* 游戏成就样式 */
+.game-achievements p {
+  padding: 12px;
+  margin: 8px 0;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.game-achievements strong {
+  color: var(--warning);
+}
+
+/* 游戏详情样式 */
+.game-profile p {
+  margin: 12px 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.game-profile strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
 
 </style>
 

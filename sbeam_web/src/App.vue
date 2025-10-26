@@ -3,11 +3,20 @@
 import navigaton from './components/share/navigaton.vue';
 import library from '@/views/library.vue';
 import GameDetail from '@/views/GameDetail.vue';
+import Orders from '@/views/Orders.vue';
+import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue';
 
 </script>
 
 <template>
-<GameDetail></GameDetail>
+<!-- <ConfirmOrder /> -->
+  <div id="app">
+    <div class="navi">
+      <navigaton />
+    </div>
+    <router-view />
+  </div>
+
 
 </template>
 
@@ -16,7 +25,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(to top left, #1b2d39);
+  background: linear-gradient(to top left, #e2eff9);
   min-height: 100%;
 }
 
