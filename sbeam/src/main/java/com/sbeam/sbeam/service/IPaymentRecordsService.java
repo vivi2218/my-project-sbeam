@@ -2,6 +2,7 @@ package com.sbeam.sbeam.service;
 
 import com.sbeam.sbeam.entity.PaymentRecords;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sbeam.sbeam.util.Result;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2025-10-09
  */
 public interface IPaymentRecordsService extends IService<PaymentRecords> {
-
+    public Result saveAndReturn(PaymentRecords paymentRecords);
 }

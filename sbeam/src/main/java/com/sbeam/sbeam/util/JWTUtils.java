@@ -43,7 +43,7 @@ public class JWTUtils {
                 .setId(jti)
                 .setSubject(String.valueOf(user.getUserId()))
                 .setIssuedAt(new Date(now))
-                .setExpiration(new Date(now + expiration * 1000));
+                .setExpiration(new Date(now + expiration * 1000 * 60 * 360));
         claims.put("username", user.getUserName());
         String token = Jwts.builder()
                 .setClaims(claims)
