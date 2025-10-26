@@ -4,6 +4,8 @@ import com.sbeam.sbeam.entity.Game;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sbeam.sbeam.entity.VO.GameDetailVO;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -17,5 +19,6 @@ public interface IGameService extends IService<Game> {
     public GameDetailVO getGameDetails(Integer gameId,Integer userId);
 
     Game getGameByType(String type);
+    List<Game> listAllGames();
 
 }

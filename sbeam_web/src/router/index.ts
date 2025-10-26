@@ -46,7 +46,7 @@ const router = createRouter({
     // 其它页面
     { path: '/community', name: 'community', component: Community },
     { path: '/events', name: 'events', component: Events },
-    { path: '/store/:id', name: 'game-detail', component: GameDetail },
+
     { path: '/home', name: 'home2', component: Home },
     { path: '/library', name: 'library', component: Library },
 
@@ -55,6 +55,9 @@ const router = createRouter({
     { path: '/User/myorder', name: 'usermyorder', component: Myorder },
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
+
+    // { path: '/store/:id', name: 'game-detail', component: GameDetail },
+    { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
   ],
 })
 

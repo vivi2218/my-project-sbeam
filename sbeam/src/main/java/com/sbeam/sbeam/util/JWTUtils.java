@@ -104,4 +104,34 @@ public class JWTUtils {
         invalidateToken(oldToken);
         return generateToken(user);
     }
+
+
+
+    public Long  getUserId(String token) {
+        if (token == null || token.isEmpty()) {
+            return null;
+        }
+
+        try {
+            // 1 移除 Bearer 前缀
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+
+            //  解析 Token
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            //  从 subject 中拿 userId
+            return Long.valueOf(claims.getSubject());
+
+        } catch (JwtException | IllegalArgumentException e) {
+            System.out.println("JWT解析失败: " + e.getMessage());
+            return null;
+        }
+    }
+
 }

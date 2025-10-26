@@ -122,7 +122,10 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import axios from 'axios'
+
+const route = useRoute()
 
 interface GameDetail {
   releaseDate?: number[]
@@ -168,7 +171,8 @@ async function fetchGameDetails() {
   loading.value = true
   error.value = ''
   try {
-    const res = await axios.get('http://localhost:8080/game/details/1')
+    const id = route.params.id
+    const res = await axios.get(`http://localhost:8080/game/details/${id}`)
     // 支持两种后端结构：{ data: { data: {...} } } 或 { data: {...} }
     const payload = res.data?.data ?? res.data
     if (!payload) throw new Error('后端返回空数据')
@@ -184,7 +188,8 @@ async function fetchGameDetails() {
 }
 
 onMounted(() => {
-  fetchGameDetails()
+  const gameId = route.params.id || 1
+  fetchGameDetails(gameId)
 })
 </script>
 

@@ -8,10 +8,10 @@ import post from './views/testview/forum/post.vue'
 </script>
 
 <template>
-  <!-- <navigaton></navigaton>
-  <RouterView></RouterView> -->
+  <navigaton></navigaton>
+  <RouterView></RouterView>
   <!-- <testhome/> -->
-  <post/>
+  <!-- <post/> -->
 </template>
 
 <style>

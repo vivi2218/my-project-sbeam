@@ -139,4 +139,9 @@ public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements IG
     public Game getGameByType(String type) {
         return null;
     }
+
+    @Override
+    public List<Game> listAllGames() {
+        return this.list(); // MyBatis-Plus 自带 list 查询全部
+    }
 }

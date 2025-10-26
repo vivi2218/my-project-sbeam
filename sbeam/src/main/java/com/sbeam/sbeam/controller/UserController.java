@@ -1,7 +1,5 @@
 package com.sbeam.sbeam.controller;
 
-import com.sbeam.sbeam.utils.JwtUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.sbeam.sbeam.entity.User;
