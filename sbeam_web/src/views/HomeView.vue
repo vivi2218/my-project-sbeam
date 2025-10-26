@@ -187,8 +187,10 @@ main {
 }
 
 .main {
-  /* background-color: aqua; */
-  width: 1000px;
+   /* background-color: aqua;  */
+  width: 1400px;
+  left: 100px;
+  position: relative;
 }
 
 .game {

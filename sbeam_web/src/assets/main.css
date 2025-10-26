@@ -1,10 +1,13 @@
 @import './base.css';
 
+
+html,
+body,
 #app {
-  max-width: none;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 a,
@@ -29,11 +32,6 @@ a,
     /* 或直接删掉整块 body 规则 */
   }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
 
-  }
 
 }
