@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="完成支付">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/AlipayConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/AlipayConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/PaymentRecordsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/PaymentRecordsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/AlipayConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/AlipayConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CartController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/ConfirmOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/ConfirmOrder.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/PaySuccess.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/PaySuccess.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/User/Myorder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/User/Myorder.vue" afterDir="false" />
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="剩余我的订单vue,支付成功后取消超时监听">
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/RabbitMQConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/RabbitMQConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PaymentRecordsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PaymentRecordsController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761487747043</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="剩余我的订单vue,支付成功后取消超时监听">
+      <option name="closed" value="true" />
+      <created>1761498310342</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1761498310342</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,6 +199,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="要登录验证合并" />
     <MESSAGE value="完成支付" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成支付" />
+    <MESSAGE value="剩余我的订单vue,支付成功后取消超时监听" />
+    <option name="LAST_COMMIT_MESSAGE" value="剩余我的订单vue,支付成功后取消超时监听" />
   </component>
 </project>
