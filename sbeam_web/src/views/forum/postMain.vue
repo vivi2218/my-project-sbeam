@@ -27,20 +27,31 @@ const loadPost = async () => {
             likeCount: 0,
         };
 
-
-        replies.value = [
-            {
-                id: 1,
-                user: { id: post.value.userId || 101, name: post.value.userId ? `用户#${post.value.userId}` : '楼主' },
-                content: post.value.postContent,
-                time: post.value.createdAt,
-                likes: post.value.likeCount || 0,
-                floor: 1,
-            },
-            // 示例回复
-            { id: 2, user: { id: 202, name: '网友A' }, content: '顶一个，写得不错！', time: '2025-10-10 09:20', likes: 12, floor: 2 },
-            { id: 3, user: { id: 303, name: '网友B' }, content: '补充一点自己的看法。', time: '2025-10-11 14:32', likes: 3, floor: 3 },
-        ];
+        // 改为从后端加载回复列表（若后端无数据会返回空数组）
+        try {
+            const rres = await fetch(`${BACKEND}/reply/list?postId=${post.value.postId}`);
+            const rdata = await rres.json();
+            if (Array.isArray(rdata) && rdata.length) {
+                replies.value = rdata;
+            } else {
+                // fallback 示例
+                replies.value = [
+                    {
+                        id: 1,
+                        user: { id: post.value.userId || 101, name: post.value.userId ? `用户#${post.value.userId}` : '楼主' },
+                        content: post.value.postContent,
+                        time: post.value.createdAt,
+                        likes: post.value.likeCount || 0,
+                        floor: 1,
+                    },
+                    { id: 2, user: { id: 202, name: '网友A' }, content: '顶一个，写得不错！', time: '2025-10-10 09:20', likes: 12, floor: 2 },
+                    { id: 3, user: { id: 303, name: '网友B' }, content: '补充一点自己的看法。', time: '2025-10-11 14:32', likes: 3, floor: 3 },
+                ];
+            }
+        } catch (e) {
+            console.warn('加载回复失败，使用示例回复', e);
+            // ...existing sample replies...
+        }
     } catch (e) {
         console.error('加载帖子失败', e);
     }
@@ -55,19 +66,38 @@ const toggleLike = () => {
 };
 
 const submitReply = async () => {
-    if (!newReply.value.trim()) return;
-    // 简单模拟添加楼层。
-    const nextFloor = replies.value.length + 1;
-    replies.value.push({
-        id: Date.now(),
-        user: { id: 9999, name: '我' },
+    if (!newReply.value.trim() || !post.value) return;
+    const payload = {
+        postId: post.value.postId,
+        userId: 9999,
+        userName: '我',
         content: newReply.value,
-        time: new Date().toLocaleString(),
-        likes: 0,
-        floor: nextFloor,
-    });
-    newReply.value = '';
-    // 在此处实现 POST 请求
+    };
+    try {
+        const res = await fetch(`${BACKEND}/reply`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(`状态 ${res.status}`);
+        const created = await res.json();
+        // 后端返回新回复对象（含 id、time、floor 等）
+        if (created) {
+            // 兼容后端或旧数据结构：保持回复列表 item 有 user/name/time/likes/floor/content
+            replies.value.push({
+                id: created.id,
+                user: { id: created.userId || payload.userId, name: created.userName || '我' },
+                content: created.content,
+                time: created.time || new Date().toLocaleString(),
+                likes: created.likes ?? 0,
+                floor: created.floor ?? (replies.value.length + 1),
+            });
+            newReply.value = '';
+        }
+    } catch (e) {
+        console.error('提交回复失败', e);
+        // 可加入用户提示
+    }
 };
 </script>
 

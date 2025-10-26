@@ -26,12 +26,15 @@ import GameDetail from '@/views/GameDetail.vue'
 import Home from '@/views/Home.vue'
 import Library from '@/views/library.vue'
 
+
+
 import Cart from '@/views/User/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
 import forumHome from '@/views/forum/forumHome.vue'
 import PaySuccess from '@/views/Myorder/PaySuccess.vue'
 import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
+
 
 
 
@@ -57,31 +60,18 @@ const router = createRouter({
     // 其它页面
     { path: '/community', name: 'community', component: Community },
     { path: '/events', name: 'events', component: Events },
-    { path: '/store/:id', name: 'game-detail', component: GameDetail },
+
     { path: '/home', name: 'home2', component: Home },
     { path: '/library', name: 'library', component: Library },
 
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-    },
-    {
-      path: '/User/car',
-      name: 'usercar',
-      component: Cart,
-    },
-    {
-      path: '/User/myorder',
-      name: 'usermyorder',
-      component: Myorder,
-    },
-    {
-      path: '/homeuser',
-      name: 'userhome',
-      component: UserHome,
-    },
+    { path: '/', name: 'home', component: HomeView },
+    { path: '/User/cart', name: 'usercart', component: Cart },
+    { path: '/User/myorder', name: 'usermyorder', component: Myorder },
+    { path: '/homeuser', name: 'userhome', component: UserHome },
+    { path: '/store', name: 'store', component: Store },
 
+    // { path: '/store/:id', name: 'game-detail', component: GameDetail },
+    { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
     {
       path: '/store',
       name: 'store',

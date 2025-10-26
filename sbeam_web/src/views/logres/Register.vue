@@ -1,18 +1,95 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
-const username = ref('');
-const password = ref('');
-const phone = ref('');
-const code = ref('');
+const username = ref('')
+const password = ref('')
+const email = ref('') // 改为邮箱
+const code = ref('')
+const codeSent = ref(false)
 
-const sendCode = () => {
-  console.log('发送验证码到', phone.value);
-};
+// 倒计时相关
+const countdown = ref(0)
+let timer: number | null = null
 
+// 启动倒计时
+const startCountdown = () => {
+  countdown.value = 60
+  timer = window.setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      clearInterval(timer!)
+      timer = null
+    }
+  }, 1000)
+}
+// 发送验证码
+const sendCode = async () => {
+  if (!email.value) {
+    alert('请输入邮箱')
+    return
+  }
+  try {
+    const res = await fetch('http://localhost:8080/user/sendCode', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value }),
+    })
+    const data = await res.json()
+    if (data.success) {
+      codeSent.value = true
+      alert('验证码发送成功')
+      startCountdown() // <-- 调用这里
+    } else {
+      alert('发送失败: ' + (data.message || '请重试'))
+    }
+  } catch (err) {
+    console.error(err)
+    alert('发送验证码失败，网络错误')
+  }
+}
+
+//注册
 const register = () => {
-  console.log('注册信息:', username.value, password.value, phone.value, code.value);
-};
+  console.log('注册信息:', username.value, password.value, email.value, code.value)
+
+  //localhost:8080/user
+  fetch('http://localhost:8080/user', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user_name: username.value,
+      password: password.value,
+      email: email.value,
+      code: code.value, // 前端输入的验证码
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('注册成功:', data)
+
+      if (!username.value || !password.value || !email.value || !code.value) {
+        alert('请输入完整信息')
+        return
+      }
+
+      if (data.success) {
+        // 假设后端返回 { success: true } 表示注册成功
+        console.log('注册成功，跳转到登录页')
+        router.push('/login')
+      } else {
+        console.error('注册失败:', data.message || '未知错误')
+        alert('注册失败: ' + (data.message || '请检查输入信息'))
+      }
+    })
+    .catch((error) => {
+      console.error('网络请求失败:', error)
+      alert('注册失败，网络错误')
+    })
+}
 </script>
 
 <template>
@@ -27,13 +104,16 @@ const register = () => {
       <input v-model="password" type="password" placeholder="密码" />
 
       <div class="phone">
-        <input v-model="phone" type="text" placeholder="手机号" />
-        <button class="btn-login" @click="sendCode">获取</button>
+        <input v-model="email" type="text" placeholder="邮箱" />
+        <button class="btn-send" @click="sendCode" :disabled="countdown > 0">
+          <template v-if="countdown > 0"> {{ countdown }}<br />秒后重发 </template>
+          <template v-else> 发送<br />验证码 </template>
+        </button>
       </div>
 
       <input v-model="code" type="text" placeholder="验证码" />
 
-      <router-link to="/login" class="btn-login" @click="register">注册</router-link>
+      <button class="btn-login" @click="register">注册</button>
     </div>
   </div>
 </template>
@@ -48,14 +128,17 @@ body,
   width: 100%;
   height: 100%;
   /* 关键：高度100% */
+  overflow-x: hidden; /* 防止水平滚动 */
 }
 
-.container{
-  width: 100vw;
+.container {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto; /*关键：居中 */
 }
 
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .container {
@@ -149,6 +232,20 @@ body {
 .phone button:hover {
   background-color: aliceblue;
   color: #adaafe;
+}
+
+.btn-send {
+  outline: none;
+  background-color: #adaafe;
+  color: aliceblue;
+  border: none;
+  width: 250px;
+  padding: 0px 10px;
+  border-radius: 3px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
 }
 
 .btn-login {

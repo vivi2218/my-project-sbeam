@@ -1,23 +1,17 @@
 <script setup lang="ts">
-
-import navigaton from './components/share/navigaton.vue';
-import library from '@/views/library.vue';
-import GameDetail from '@/views/GameDetail.vue';
-import Orders from '@/views/Orders.vue';
-import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue';
-
+import navigaton from './components/share/navigaton.vue'
+import library from '@/views/library.vue'
+import GameDetail from '@/views/GameDetail.vue'
+import TestAutoIdempotent from './views/Myorder/TestAutoIdempotent.vue'
+import testhome from './views/testview/testhome.vue'
+import post from './views/testview/forum/post.vue'
 </script>
 
 <template>
-<!-- <ConfirmOrder /> -->
-  <div id="app">
-    <div class="navi">
-      <navigaton />
-    </div>
-    <router-view />
-  </div>
-
-
+  <navigaton></navigaton>
+  <RouterView></RouterView>
+  <!-- <testhome/> -->
+  <!-- <post/> -->
 </template>
 
 <style>
@@ -25,7 +19,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(to top left, #e2eff9);
+  background: linear-gradient(to top left, #ffffff);
   min-height: 100%;
 }
 
@@ -36,9 +30,6 @@ body {
   width: 100%;
   min-height: 100vh;
 }
-
-
-
 
 .navi {
   z-index: 1;

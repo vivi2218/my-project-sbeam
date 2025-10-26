@@ -17,4 +17,12 @@ public interface IUserService extends IService<User> {
 
     User getUserById(Long id);
 
+
+
+    boolean sendCode(String email); //发送验证码
+    boolean verifyCode(String email, String code);  //验证验证码
+    void registerUser(String username, String password, String email) throws Exception;   //注册
+
+
+
 }
