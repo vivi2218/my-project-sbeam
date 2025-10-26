@@ -26,6 +26,8 @@ public interface IPostService {
 
     boolean save(MogoPost entity);
 
+    List<MogoPost> getReply(String id);
+
 
 
 }

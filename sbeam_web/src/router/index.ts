@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 // 主页
 import HomeView from '../views/HomeView.vue'
 // 论坛
-import ForumHome from '@/views/forum/forumHome.vue'
-import ForumMain from '@/views/forum/forumMain.vue'
+import ForumHome from '@/views/forum/community-list.vue'
+import ForumMain from '@/views/forum/community-detail.vue'
 // 登录注册
 import Login from '@/views/logres/Login.vue'
 import Register from '@/views/logres/Register.vue'
@@ -27,6 +27,7 @@ import Cart from '@/views/cat/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
 import forumHome from '@/views/forum/forumHome.vue'
+import postMain from '@/views/forum/postMain.vue'
 
 // 游戏商城相关（如果有对应文件）
 
@@ -37,7 +38,8 @@ const router = createRouter({
 
     // 论坛
     { path: '/forum', name: 'forum-home', component: ForumHome },
-    { path: '/forum/main', name: 'forum-main', component: ForumMain },
+    { path: '/community-detail', name: 'community-detail', component: ForumMain },
+    { path: '/post-detail', name: 'post-detail', component: postMain },
 
     // 登录注册
     { path: '/login', name: 'login', component: Login },

@@ -14,11 +14,17 @@ const liking = ref(false);
 
 const loadPost = async () => {
     try {
-        const id = Number(route.query.id || route.params.id || 1);
-        const res = await fetch(`${BACKEND}/post/id?id=${id}`);
+        // 使用路径参数调用后端 MongoDB 接口：GET /mygo/{id}
+        const idRaw = route.query.id || route.params.id || '1';
+        const id = idRaw.toString();
+        const res = await fetch(`${BACKEND}/mygo/${encodeURIComponent(id)}`);
+        if (!res.ok) {
+            // 若后端返回非 2xx，抛出以走到 catch 分支使用 fallback 数据
+            throw new Error(`Failed to fetch post: ${res.status}`);
+        }
         const data = await res.json();
         post.value = data || {
-            postId: id,
+            postId: Number(id) || id,
             postTitle: '未找到帖子',
             postContent: '该帖子不存在或已被删除。',
             userId: null,
@@ -29,7 +35,7 @@ const loadPost = async () => {
 
         // 改为从后端加载回复列表（若后端无数据会返回空数组）
         try {
-            const rres = await fetch(`${BACKEND}/reply/list?postId=${post.value.postId}`);
+            const rres = await fetch(`${BACKEND}/mygo/reply?postId=${post.value.postId}`);
             const rdata = await rres.json();
             if (Array.isArray(rdata) && rdata.length) {
                 replies.value = rdata;
@@ -67,36 +73,63 @@ const toggleLike = () => {
 
 const submitReply = async () => {
     if (!newReply.value.trim() || !post.value) return;
-    const payload = {
-        postId: post.value.postId,
-        userId: 9999,
-        userName: '我',
-        content: newReply.value,
-    };
+
+    // 从 localStorage 获取已登录用户（Login.vue 保存为 sbeam_user）
+    let userId: any = null
+    let userName: string = '游客'
     try {
-        const res = await fetch(`${BACKEND}/reply`, {
+        const u = localStorage.getItem('sbeam_user')
+        if (u) {
+            const parsed = JSON.parse(u)
+            // 兼容性处理：后端可能返回 userId 或 id
+            userId = parsed.userId ?? parsed.id ?? parsed.user?.id ?? null
+            userName = parsed.username ?? parsed.userName ?? parsed.name ?? userName
+        }
+    } catch (e) {
+        console.warn('解析本地用户信息失败，使用游客', e)
+    }
+
+    // 构建符合 MogoPost/后端预期的回复对象
+    const payload = {
+        // parentPostId 表示回复所属的主帖 id
+        parentPostId: post.value.postId,
+        // 将回复内容放到 postContent 字段，与 MogoPost 对应
+        postContent: newReply.value.trim(),
+        // 继承社区 id，便于后端查询
+        communityId: post.value.communityId ?? null,
+        userId: userId ?? 'anonymous',
+        // 便于前端/后端显示用户名（实体中没有 userName 字段，但后端可以接受）
+        userName: userName,
+        // 初始点赞数与状态
+        likeCount: 0,
+        createdAt: new Date().toISOString(),
+        status: 'active',
+    }
+
+    try {
+        const res = await fetch(`${BACKEND}/mygo/reply`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-        });
-        if (!res.ok) throw new Error(`状态 ${res.status}`);
-        const created = await res.json();
-        // 后端返回新回复对象（含 id、time、floor 等）
-        if (created) {
-            // 兼容后端或旧数据结构：保持回复列表 item 有 user/name/time/likes/floor/content
-            replies.value.push({
-                id: created.id,
-                user: { id: created.userId || payload.userId, name: created.userName || '我' },
-                content: created.content,
-                time: created.time || new Date().toLocaleString(),
-                likes: created.likes ?? 0,
-                floor: created.floor ?? (replies.value.length + 1),
-            });
-            newReply.value = '';
+        })
+        if (!res.ok) throw new Error(`状态 ${res.status}`)
+        const created = await res.json()
+
+        // 后端可能返回新保存的 MogoPost（包含 postId、createdAt 等），兼容性处理：
+        const newItem = {
+            id: created?.postId ?? created?.id ?? Date.now(),
+            user: { id: created?.userId ?? payload.userId, name: created?.userName ?? payload.userName },
+            content: created?.postContent ?? payload.postContent,
+            time: created?.createdAt ?? new Date().toLocaleString(),
+            likes: created?.likeCount ?? payload.likeCount ?? 0,
+            floor: created?.floor ?? (replies.value.length + 1),
         }
+
+        replies.value.push(newItem)
+        newReply.value = ''
     } catch (e) {
-        console.error('提交回复失败', e);
-        // 可加入用户提示
+        console.error('提交回复失败', e)
+        // 可加入用户可见提示，例如 toast 或 alert
     }
 };
 </script>
@@ -162,7 +195,7 @@ const submitReply = async () => {
                 <textarea v-model="newReply" placeholder="写下你的回复..." rows="4"></textarea>
                 <div class="reply-controls">
                     <button class="btn-submit" @click="submitReply">发表</button>
-                    <div class="hint">群里不要发淫秽色情的东西，群主被抓住了要坐牢的</div>
+                    <div class="hint">群里头不要发那些淫秽的东西，乱发黄色群主可能会坐牢，大家绿色聊天把，小心那天群主被铐起来</div>
                 </div>
             </div>
         </section>

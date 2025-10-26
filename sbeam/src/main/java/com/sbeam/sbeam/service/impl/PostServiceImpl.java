@@ -46,6 +46,11 @@ public class PostServiceImpl  implements IPostService {
         return true;
     }
 
+    @Override
+    public List<MogoPost> getReply(String id) {
+        return postRepository.findByParentPostId(id);
+    }
+
 
 
 
