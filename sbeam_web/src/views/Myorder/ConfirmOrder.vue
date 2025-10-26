@@ -1,115 +1,126 @@
 <script setup>
-import { ref, onMounted, reactive } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import axios from 'axios';
+import { ref, onMounted, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import axios from 'axios'
 
-const router = useRouter();
-const route = useRoute();
+const router = useRouter()
+const route = useRoute()
 
-// 获取路由中的 userId 和 finalPrice
-const userId = route.query.userId;
-const finalPrice = ref(0);
-const countdown = ref(900); // 初始化倒计时为 15 分钟 (900 秒)
-const countdownTimer = ref(null);
-const isPaymentDisabled = ref(false);  // 控制支付按钮是否可点击
-const isExpired = ref(false);  // 控制是否显示过期信息
-const paymentStatus = ref('success'); // 支付状态
+// 用户ID
+const userId = route.query.userId || 1
+const token = localStorage.getItem('sbeam_token')
 
-// 订单和购物车数据
+// 倒计时
+const countdown = ref(900)
+const countdownTimer = ref(null)
+const isPaymentDisabled = ref(false)
+const isExpired = ref(false)
+
+// 订单信息
 const order = reactive({
-  orderNumber: "ORD20210101",
-  originalPrice: 500,
-  finalPrice: 200,
-  orderStatus: "unpaid",
-});
-const items = ref([game1={gameId: 1,gameName: "游戏A",gamePrice: 100},
-                  game2={gameId: 2,gameName: "游戏B",gamePrice: 150}
-                  ]);
+  orderNumber: '',
+  originalPrice: 0,
+  finalPrice: 0,
+  orderStatus: 'unpaid'
+})
 
+// 购物车商品
+const items = ref([])
 
-// 查询购物车和订单信息
+// === 获取购物车和订单信息 ===
 const getOrderData = async () => {
   try {
-    // 获取购物车数据
-    const cartResponse = await axios.get(`/api/cart/${userId}`);
-    items.value = cartResponse.data.items;
+    // 获取购物车
+    const cartRes = await axios.get('http://localhost:8080/cart', {
+      headers: { Authorization: token },
+    })
+    items.value = cartRes.data || []
 
-
-    // 获取未支付订单信息
-    const orderResponse = await axios.get(`/api/orders`, {
-      params: { userId, status: 'unpaid' }
-    });
-    console.log('未支付订单响应:', orderResponse);
-    if (orderResponse.data && orderResponse.data.length > 0) {
-      order.orderNumber = orderResponse.data[0].orderNumber;
-      order.originalPrice = orderResponse.data[0].originalPrice;
-      order.finalPrice = orderResponse.data[0].finalPrice;
-      order.orderStatus = orderResponse.data[0].orderStatus;
+    // 获取未支付订单
+    const orderRes = await axios.get(`http://localhost:8080/myorder/user/${userId}/status/unpaid`)
+    if (orderRes.data && orderRes.data.length > 0) {
+      const o = orderRes.data[0]
+      order.orderNumber = o.orderNumber
+      order.originalPrice = o.originalPrice
+      order.finalPrice = o.finalPrice
+      order.orderStatus = o.orderStatus
     } else {
-      console.log('没有未支付的订单');
+      console.log('当前无未支付订单')
     }
   } catch (error) {
-    console.error('获取数据失败:', error);
+    console.error('获取订单数据失败:', error)
   }
-};
+}
 
-// 开始倒计时（秒级倒计时）
+// === 倒计时逻辑 ===
 const startCountdown = () => {
   countdownTimer.value = setInterval(() => {
-    if (countdown.value > 0) {
-      countdown.value--;
-    } else {
-      isExpired.value = true;
-      isPaymentDisabled.value = true;
-      clearInterval(countdownTimer.value); // 停止倒计时
+    if (countdown.value > 0) countdown.value--
+    else {
+      clearInterval(countdownTimer.value)
+      isExpired.value = true
+      isPaymentDisabled.value = true
     }
-  }, 1000); // 每秒更新一次
-};
+  }, 1000)
+}
 
-// 格式化倒计时（转换为 "XX:XX" 格式）
+// 格式化倒计时
 const formatCountdown = (seconds) => {
-  const minutes = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-};
+  const min = Math.floor(seconds / 60)
+  const sec = seconds % 60
+  return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
+}
 
-// 支付处理
-const handlePayment = () => {
-  // 跳转到支付成功页面，模拟支付成功
+// === 发起支付（调用后端 /alipay 接口） ===
+const handlePayment = async () => {
+  if (isExpired.value) return alert('订单已过期，请重新下单')
 
-  router.push({ path: '/paysuccess' });
-  saveNewPayment();
-};
-const myorder = {
-  orderNumber: order.orderNumber,
-  amount: order.finalPrice,
-  userId: userId,
-  status: 'pending'  // 初始状态为待支付
-};
-  async function saveNewPayment(myorder){
-    const res  = await savePayment(myorder)
-     console.log(res)
-     const div = document.createElement('div')
+  try {
+    // 构造 Myorder 对象
+    const myorder = {
+      orderId: order.orderId,
+      userId: userId,
+      orderNumber: order.orderNumber,
+      originalPrice: order.originalPrice,
+      finalPrice: order.finalPrice,
+      orderStatus: order.orderStatus
+    }
 
+    // 向后端发送请求，获取支付宝支付表单
+    const res = await axios.post('http://localhost:8080/alipay', myorder, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+
+    // res.data 是 HTML 表单字符串，将其插入 DOM 并自动提交
+    const div = document.createElement('div')
     div.innerHTML = res.data
     document.body.appendChild(div)
-    document.forms[0].submit()  // 自动提交表单，跳转支付宝
-   }
+    document.forms[0].submit() // 自动跳转支付宝
 
+  } catch (err) {
+    console.error('发起支付失败:', err)
+  }
+}
+
+// === 页面初始化 ===
 onMounted(() => {
-  startCountdown();
-  getOrderData(); // 获取购物车和订单数据
-});
+  getOrderData()
+  startCountdown()
+})
 </script>
+
 <template>
   <div class="order-confirm">
     <h1 class="title">确认订单</h1>
+
     <div class="order-details">
-      <p><strong>订单号:</strong> {{ order.orderNumber || '无订单号' }}</p>
-      <p><strong>总价:</strong> <span class="price">{{ order.totalPrice }} 元</span></p>
-      <p><strong>商品:</strong></p>
+      <p><strong>订单号:</strong> {{ order.orderNumber || '未生成' }}</p>
+      <p><strong>原价:</strong> {{ order.originalPrice }} 元</p>
+      <p><strong>应付总价:</strong> <span class="price">{{ order.finalPrice }} 元</span></p>
+
+      <p><strong>商品列表:</strong></p>
       <ul class="items-list">
-        <li v-for="item in order.items" :key="item.gameId" class="item">
+        <li v-for="item in items" :key="item.gameId" class="item">
           <span class="game-name">{{ item.gameName }}</span>
           <span class="game-price">{{ item.gamePrice }} 元</span>
         </li>
@@ -118,125 +129,84 @@ onMounted(() => {
 
     <div class="payment-info">
       <p>请在 <span class="countdown">{{ formatCountdown(countdown) }}</span> 内完成支付</p>
-      <button @click="handlePayment" :disabled="isPaymentDisabled" class="payment-button">立即支付</button>
+      <button @click="handlePayment" :disabled="isPaymentDisabled" class="payment-button">
+        去 支 付
+      </button>
     </div>
 
     <div v-if="isExpired" class="expired-message">
-      <p>订单已过期，请重新提交订单。</p>
+      <p>订单已过期，请重新下单。</p>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* 主容器样式 */
 .order-confirm {
-  width: 800px; /* 减少宽度，使其看起来更紧凑 */
+  width: 800px;
   margin: 50px auto;
   padding: 30px;
-  background: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* 更轻微的阴影 */
+  background: #fff;
   border-radius: 8px;
-  font-family: 'Helvetica Neue', Arial, sans-serif; /* 更现代的字体 */
-  border: 1px solid #f0f0f0; /* 增加边框更简洁 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
-
-/* 标题样式 */
 .title {
   text-align: center;
-  font-size: 1.8rem; /* 适当减小字体 */
+  font-size: 1.8rem;
   color: #333;
   margin-bottom: 20px;
 }
-
-/* 订单详情样式 */
 .order-details {
-  background: #fafafa; /* 轻微的背景色 */
+  background: #fafafa;
   padding: 15px;
   border-radius: 8px;
+  border: 1px solid #eaeaea;
   margin-bottom: 20px;
-  border: 1px solid #eaeaea; /* 更简洁的边框 */
 }
-
-.order-details p {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 10px;
-}
-
-.price {
-  font-size: 1.2rem;
-  color: #f39c12;
-}
-
-/* 商品列表样式 */
 .items-list {
   list-style: none;
   padding: 0;
 }
-
 .item {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
   border-bottom: 1px solid #eaeaea;
+  padding: 10px 0;
 }
-
-.game-name {
-  font-weight: bold;
-}
-
-.game-price {
+.price {
   color: #f39c12;
-}
-
-/* 倒计时样式 */
-.countdown {
   font-weight: bold;
-  color: #e74c3c;
-  font-size: 1.8rem; /* 较小的倒计时字体 */
-  letter-spacing: 1px;
-  padding: 3px 10px;
-  background-color: rgba(231, 76, 60, 0.1);
-  border-radius: 5px;
-  display: inline-block;
-  margin-top: 10px;
 }
-
-/* 支付信息部分 */
 .payment-info {
   text-align: center;
   margin-top: 20px;
 }
-
+.countdown {
+  color: #e74c3c;
+  font-weight: bold;
+  background-color: rgba(231, 76, 60, 0.1);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
 .payment-button {
   width: 100%;
   padding: 12px;
   background-color: #4CAF50;
   color: white;
-  font-size: 1rem; /* 减小按钮文字大小 */
   border: none;
   border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
   margin-top: 15px;
+  cursor: pointer;
 }
-
 .payment-button:hover {
   background-color: #45a049;
 }
-
 .payment-button:disabled {
   background-color: #ccc;
-  cursor: not-allowed;
 }
-
-/* 过期信息 */
 .expired-message {
   margin-top: 20px;
+  text-align: center;
   color: #e74c3c;
   font-weight: bold;
-  font-size: 1.2rem;
-  text-align: center;
 }
-
 </style>

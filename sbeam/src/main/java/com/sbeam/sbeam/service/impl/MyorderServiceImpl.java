@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -105,10 +102,11 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         //计算订单original_Price
         //计算订单final_Price
         //计算订单总价
+// 核心：用 Optional 把 null 转为 BigDecimal.ZERO（0值，不影响累加结果）
         BigDecimal originalPrice = cartList.stream()
-                .map(cart -> cart.getGamePrice())
+                .map(cart -> Optional.ofNullable(cart.getGamePrice()).orElse(BigDecimal.ZERO))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        //创建订单
+// 创建订单
 
         Myorder myorder = new Myorder();
         myorder.setUserId(userId);

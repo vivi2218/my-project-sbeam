@@ -4,19 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="">
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="要登录验证合并">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CartController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/HistoricalOrdersController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/HistoricalOrdersController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyorderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyorderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IMyorderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IMyorderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/api/paymentrecord.js" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/api/paymentrecord.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/router/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/ConfirmOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/ConfirmOrder.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/cat/cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/cat/cart.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +28,7 @@
     </option>
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="origin/nll" />
+    <option name="BRANCH" value="origin/main" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -168,8 +165,17 @@
       <workItem from="1761267250597" duration="4484000" />
       <workItem from="1761320698167" duration="7000" />
       <workItem from="1761355303633" duration="6884000" />
-      <workItem from="1761483864477" duration="3600000" />
+      <workItem from="1761483864477" duration="8755000" />
     </task>
+    <task id="LOCAL-00001" summary="要登录验证合并">
+      <option name="closed" value="true" />
+      <created>1761487747043</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1761487747043</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,5 +191,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="要登录验证合并" />
+    <option name="LAST_COMMIT_MESSAGE" value="要登录验证合并" />
   </component>
 </project>
