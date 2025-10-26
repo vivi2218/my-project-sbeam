@@ -119,6 +119,10 @@ const register = () => {
 </template>
 
 <style scoped>
+html {
+  zoom: 110%;
+}
+
 /* App.vue 或 main.css */
 html,
 body,

@@ -19,7 +19,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(to top left, #ffffff);
+  background: linear-gradient(to top left, #b4b4b4);
   min-height: 100%;
 }
 
@@ -31,7 +31,8 @@ body {
   min-height: 100vh;
 }
 
-.navi {
+.navigaton {
   z-index: 1;
+  position: relative;
 }
 </style>

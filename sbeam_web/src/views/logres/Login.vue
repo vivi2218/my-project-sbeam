@@ -98,15 +98,16 @@ const login = async () => {
       </router-link>
     </div>
 
-    <router-link to="/register" id="reg" class="btn-login">注册</router-link>
   </div>
 </template>
 
 <style scoped>
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  width: ;
 }
 
 html,
@@ -217,6 +218,12 @@ body {
   transition:
     background-color 0.25s,
     color 0.25s;
+  margin-top: 10px;
+}
+
+.btn-register:hover {
+  background-color: aliceblue;
+  color: #adaafe;
 }
 
 .btn-login:hover {
@@ -224,16 +231,6 @@ body {
   color: #adaafe;
 }
 
-/* 注册链接样式（右上角） */
-#reg {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  color: #adaafe;
-  width: 120px;
-  text-decoration: none;
-  z-index: 10;
-}
 
 /* 动画 */
 @keyframes slide-out {
