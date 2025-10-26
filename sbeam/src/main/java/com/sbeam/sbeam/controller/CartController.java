@@ -45,13 +45,31 @@ public class CartController {
 
 
 
+
     @PostMapping("/add")
     public Result addGameToCart(
             @RequestHeader("Authorization") String token,
             @RequestParam int gameId,
             @RequestParam BigDecimal gamePrice) {
-        Long userId = jwtUtils.getUserId(token);
+
+        if (token == null || token.isEmpty()) {
+            return Result.getFail("未登录或 token 缺失");
+        }
+
+        Long userId;
+        try {
+            userId = jwtUtils.getUserId(token);
+        } catch (Exception e) {
+            return Result.getFail("登录已过期，请重新登录");
+        }
+
+        if (userId == null) {
+            return Result.getFail("登录已过期，请重新登录");
+        }
+
         return cartService.addGameToCart(userId.intValue(), gameId, gamePrice);
     }
+
+
 
 }

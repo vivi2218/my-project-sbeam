@@ -58,6 +58,12 @@ const router = createRouter({
 
     { path: '/store/:id', name: 'game-detail', component: GameDetail },
     // { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
+
+    {
+      path: '/game/:id',
+      name: 'game-detail',
+      component: () => import('../views/GameDetail.vue'),
+    },
   ],
 })
 
