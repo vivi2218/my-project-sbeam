@@ -12,12 +12,9 @@ import Register from '@/views/logres/Register.vue'
 import gameList from '@/views/games/gameList.vue'
 // 用户模块
 
-
 import ChatUser from '@/views/User/ChatUser.vue'
 
 import UserHome from '@/views/User/UserHome.vue'
-
-
 
 // 其它页面
 import Community from '@/views/Community.vue'
@@ -26,9 +23,7 @@ import GameDetail from '@/views/GameDetail.vue'
 import Home from '@/views/Home.vue'
 import Library from '@/views/library.vue'
 
-
-
-import Cart from '@/views/User/cart.vue'
+import Cart from '@/views/cat/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
 import forumHome from '@/views/forum/forumHome.vue'
@@ -43,7 +38,6 @@ import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-
     //{ path: '/about', name: 'about', component: () => import('../views/AboutView.vue') },
 
     // 论坛
@@ -53,9 +47,6 @@ const router = createRouter({
     // 登录注册
     { path: '/login', name: 'login', component: Login },
     { path: '/register', name: 'register', component: Register },
-
-
-
 
     // 其它页面
     { path: '/community', name: 'community', component: Community },
@@ -70,8 +61,8 @@ const router = createRouter({
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
 
-     { path: '/store/:id', name: 'game-detail', component: GameDetail },
-    //{ path: '/game/details', name: 'GameDetail', component: GameDetail },
+    { path: '/store/:id', name: 'game-detail', component: GameDetail },
+
     {
       path: '/store',
       name: 'store',

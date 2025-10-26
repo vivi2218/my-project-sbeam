@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import axios from 'axios'
+
+async function logout() {
+  try {
+    // 通知后端清除服务端会话
+    await axios.post('http://localhost:8080/auth/logout')
+
+    // 清除本地存储的用户信息和 token
+    localStorage.removeItem('sbeam_token')
+    localStorage.removeItem('sbeam_user')
+
+    console.log('用户已退出登录')
+
+    // 跳转回登录页
+    window.location.href = '/login'
+  } catch (error) {
+    console.error('登出失败：', error)
+    localStorage.removeItem('sbeam_token')
+    localStorage.removeItem('sbeam_user')
+    window.location.href = '/login'
+  }
+}
+</script>
+
 <template>
   <div class="UserHome">
     <div class="container">
@@ -49,6 +74,9 @@
             </div>
           </div>
         </div>
+
+
+        <button class="logout-button" @click="logout">退出登录</button>
       </main>
     </div>
   </div>
