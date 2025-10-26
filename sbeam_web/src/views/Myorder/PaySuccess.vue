@@ -7,7 +7,7 @@
       <p>支付金额：<span class="amount">{{ amount }} 元</span></p> -->
       <p>我们已经收到您的支付，订单正在处理中。</p>
       <button @click="viewOrderDetails" class="action-button">查看订单详情</button>
-      <button @click="viewPaymentHistory" class="action-button secondary">查看我的支付记录</button>
+      <!-- <button @click="viewPaymentHistory" class="action-button secondary">查看我的支付记录</button> -->
     </div>
 
     <div v-else-if="paymentStatus === 'failure'" class="failure">
@@ -61,7 +61,7 @@ const getPaymentStatusFromBackend = () => {
 
 // 查看订单详情
 const viewOrderDetails = () => {
-  window.location.href = `/order-details/${orderNumber.value}`;
+  axios.get;
 };
 
 // 查看支付记录

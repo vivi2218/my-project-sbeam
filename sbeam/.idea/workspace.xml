@@ -4,16 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="要登录验证合并">
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="完成支付">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/AlipayConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/config/AlipayConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/PaymentRecordsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/PaymentRecordsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/AuthController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/AlipayConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/AlipayConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CartController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/ConfirmOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/ConfirmOrder.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/cat/cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/cat/cart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/PaySuccess.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/PaySuccess.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/User/Myorder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/User/Myorder.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,6 +198,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="要登录验证合并" />
-    <option name="LAST_COMMIT_MESSAGE" value="要登录验证合并" />
+    <MESSAGE value="完成支付" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成支付" />
   </component>
 </project>

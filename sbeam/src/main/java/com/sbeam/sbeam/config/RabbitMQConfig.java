@@ -62,7 +62,23 @@ public class RabbitMQConfig {
     public Binding bindingOrderTimeout(){
         return BindingBuilder.bind(orderTimeoutQueue()).to(orderTimeoutExchange()).with("order.timeout");
     }
-
+    //创建一个取消超时检测
+//    @Bean
+//    public DirectExchange orderCancelExchange() {
+//        return new DirectExchange("orderCancelExchange", true, false);
+//    }
+//
+//    @Bean
+//    public Queue orderCancelQueue() {
+//        return new Queue("orderCancelQueue", true);
+//    }
+//
+//    @Bean
+//    public Binding bindingOrderCancel() {
+//        return BindingBuilder.bind(orderCancelQueue())
+//                .to(orderCancelExchange())
+//                .with("order.cancel");
+//    }
 
 
     @Bean

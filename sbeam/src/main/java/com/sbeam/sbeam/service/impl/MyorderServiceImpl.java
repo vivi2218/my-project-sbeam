@@ -166,7 +166,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
     @Override
     public Result getByOrderNumber(String orderNum) {
         QueryWrapper<Myorder> wrapper = new QueryWrapper<>();
-        wrapper.eq("order_num",orderNum);
+        wrapper.eq("order_number",orderNum);
         Myorder myorder = myorderMapper.selectOne(wrapper);
         if(myorder !=null)
             return Result.getSuccess(myorder);

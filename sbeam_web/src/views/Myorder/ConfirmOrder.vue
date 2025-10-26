@@ -87,7 +87,7 @@ const handlePayment = async () => {
     }
 
     // 向后端发送请求，获取支付宝支付表单
-    const res = await axios.post('http://localhost:8080/alipay', myorder, {
+    const res = await axios.post('http://localhost:8080/paymentRecords', myorder, {
       headers: { 'Content-Type': 'application/json' }
     })
 

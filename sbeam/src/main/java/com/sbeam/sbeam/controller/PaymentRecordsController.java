@@ -13,6 +13,7 @@ import com.sbeam.sbeam.util.Result;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,8 @@ public class PaymentRecordsController {
     private IMyorderService myorderService;
     @Autowired
     private IPaymentRecordsService paymentRecordsService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
     //------------------调用支付宝支付
     @PostMapping
     public String alipay(@RequestBody Myorder myorder, HttpServletResponse response) throws AlipayApiException {
@@ -81,14 +84,23 @@ public class PaymentRecordsController {
 
         // 添加流水
         Myorder orders =(Myorder)  myorderService.getByOrderNumber(orderNum).getData();
-        PaymentRecords paymentRecords = new PaymentRecords();
-        paymentRecords.setPayerId(orders.getUserId());
-        paymentRecords.setOrderId(orders.getOrderId());
-        paymentRecords.setTransactionAmount(orders.getFinalPrice());
 
-        Result result = paymentRecordsService.saveAndReturn(paymentRecords);
+        if(orders!=null){
+            orders.setOrderStatus("paid");
+            myorderService.updateById(orders);
 
-        PaymentRecords  paymentRecords1= (PaymentRecords) result.getData();
+            PaymentRecords paymentRecords = new PaymentRecords();
+            paymentRecords.setPayerId(orders.getUserId());
+            paymentRecords.setOrderId(orders.getOrderId());
+            paymentRecords.setTransactionAmount(orders.getFinalPrice());
+
+            Result result = paymentRecordsService.saveAndReturn(paymentRecords);
+
+            PaymentRecords  paymentRecords1= (PaymentRecords) result.getData();
+            //通知RabbitMQ停止监听此订单
+            rabbitTemplate.convertAndSend("order.cancel.exchange", "order.cancel.stop", orders.getOrderId());
+        }
+
         //页面跳转 **已支付成功**
         String vueUrl = "http://localhost:5173/paysuccess" ;//+ paymentRecords1.getPaymentId();
         response.sendRedirect(vueUrl);
