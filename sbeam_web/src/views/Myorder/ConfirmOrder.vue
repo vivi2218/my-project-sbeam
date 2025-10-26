@@ -80,6 +80,12 @@ const handlePayment = () => {
   router.push({ path: '/paysuccess' });
   saveNewPayment();
 };
+const myorder = {
+  orderNumber: order.orderNumber,
+  amount: order.finalPrice,
+  userId: userId,
+  status: 'pending'  // 初始状态为待支付
+};
   async function saveNewPayment(myorder){
     const res  = await savePayment(myorder)
      console.log(res)

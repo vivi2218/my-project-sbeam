@@ -5,6 +5,7 @@ import GameDetail from '@/views/GameDetail.vue'
 import TestAutoIdempotent from './views/Myorder/TestAutoIdempotent.vue'
 import testhome from './views/testview/testhome.vue'
 import post from './views/testview/forum/post.vue'
+import cart from './views/User/cart.vue'
 </script>
 
 <template>
@@ -12,6 +13,7 @@ import post from './views/testview/forum/post.vue'
   <RouterView></RouterView>
   <!-- <testhome/> -->
   <!-- <post/> -->
+
 </template>
 
 <style>

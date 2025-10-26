@@ -189,6 +189,7 @@ async function fetchGameDetails() {
 
 onMounted(() => {
   const gameId = route.params.id || 1
+
   fetchGameDetails(gameId)
 })
 </script>

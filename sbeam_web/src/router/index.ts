@@ -70,8 +70,8 @@ const router = createRouter({
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
 
-    // { path: '/store/:id', name: 'game-detail', component: GameDetail },
-    { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
+     { path: '/store/:id', name: 'game-detail', component: GameDetail },
+    //{ path: '/game/details', name: 'GameDetail', component: GameDetail },
     {
       path: '/store',
       name: 'store',
