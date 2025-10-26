@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 /**
@@ -119,6 +121,8 @@ public class UserController {
         String emailRegex = "^[\\w.-]+@[\\w.-]+\\.\\w+$";
         return Pattern.matches(emailRegex, email);
     }
+
+
 
 
 

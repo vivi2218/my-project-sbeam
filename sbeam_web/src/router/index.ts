@@ -23,7 +23,7 @@ import GameDetail from '@/views/GameDetail.vue'
 import Home from '@/views/Home.vue'
 import Library from '@/views/library.vue'
 
-import Cart from '@/views/User/cart.vue'
+import Cart from '@/views/cat/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
 import forumHome from '@/views/forum/forumHome.vue'
@@ -56,8 +56,8 @@ const router = createRouter({
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
 
-    // { path: '/store/:id', name: 'game-detail', component: GameDetail },
-    { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
+    { path: '/store/:id', name: 'game-detail', component: GameDetail },
+    // { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
   ],
 })
 
