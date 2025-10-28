@@ -6,14 +6,15 @@ import TestAutoIdempotent from './views/Myorder/TestAutoIdempotent.vue'
 import testhome from './views/testview/testhome.vue'
 import post from './views/testview/forum/post.vue'
 import cart from './views/User/cart.vue'
+import testtingView from './viNews/test/testtingView.vue'
 </script>
 
 <template>
-  <navigaton></navigaton>
-  <RouterView></RouterView>
+  <!-- <navigaton></navigaton> -->
+  <!-- <RouterView></RouterView> -->
   <!-- <testhome/> -->
   <!-- <post/> -->
-
+  <testtingView/>
 </template>
 
 <style>
@@ -21,7 +22,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(to top left, #b4b4b4);
+  /* background: linear-gradient(to top left, #b4b4b4); */
   min-height: 100%;
 }
 

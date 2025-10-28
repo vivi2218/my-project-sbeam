@@ -27,15 +27,12 @@ import Cart from '@/views/cat/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
 import forumHome from '@/views/forum/forumHome.vue'
-<<<<<<< HEAD
 import postMain from '@/views/forum/postMain.vue'
-=======
 import PaySuccess from '@/views/Myorder/PaySuccess.vue'
 import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
 
 
 
->>>>>>> 060f883bb9ca4b80a0fee6adc89e0ed338499c33
 
 // 游戏商城相关（如果有对应文件）
 
