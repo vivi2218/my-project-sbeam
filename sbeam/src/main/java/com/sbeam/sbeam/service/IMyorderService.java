@@ -4,6 +4,7 @@ import com.sbeam.sbeam.entity.Myorder;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sbeam.sbeam.util.Result;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -28,5 +29,12 @@ public interface IMyorderService extends IService<Myorder> {
     boolean deleteOrder(Integer orderId);
 
     //创建订单
-    public Result createOrder(Integer cartId);
+    public Result createOrder(Integer userId, BigDecimal finalPrice);
+    //订单编号查询订单
+    public Result getByOrderNumber(String orderNum);
+    //处理订单超时取消
+    public void cancelOrderDueToTimeout(Integer orderId);
+    //处理订单支付成功
+
+    public Result confirmPayment(Integer orderId);
 }

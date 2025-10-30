@@ -11,6 +11,7 @@ import com.sbeam.sbeam.service.ICommentService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @RestController
 @RequestMapping("/comment")
+@CrossOrigin
 public class CommentController {
     @Autowired
     private ICommentService commentService;
@@ -44,5 +46,11 @@ public class CommentController {
         commentService.save(comment);
         return "Comment added successfully";
     }
+
+    @GetMapping("id")
+    public Comment getByCommentId(@PathVariable Integer id) {
+        return commentService.getById(id);
+    }
+    
     
 }

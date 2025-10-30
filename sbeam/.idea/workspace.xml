@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="" />
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="剩余我的订单vue,支付成功后取消超时监听">
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/RabbitMQConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/RabbitMQConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PaymentRecordsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PaymentRecordsController.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +25,11 @@
     <option name="BRANCH" value="main" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -60,6 +68,7 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;c8bf81f5099ea5ae093a09565646fb19&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\software\\Idea\\IntelliJ IDEA 2023.1.4\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -106,6 +115,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.TestMybatisGenerate" />
+        <item itemvalue="Application.TestMybatisGenerate" />
+        <item itemvalue="Application.TestMybatisGenerate" />
       </list>
     </recent_temporary>
   </component>
@@ -136,6 +147,9 @@
       <workItem from="1760959938304" duration="8253000" />
       <workItem from="1761062683909" duration="3042000" />
       <workItem from="1761095110383" duration="8076000" />
+      <workItem from="1761181116498" duration="15040000" />
+      <workItem from="1761273833053" duration="15208000" />
+      <workItem from="1761354070129" duration="28955000" />
       <workItem from="1761146949361" duration="611000" />
       <workItem from="1761152421770" duration="11881000" />
       <workItem from="1761181128402" duration="770000" />
@@ -149,6 +163,7 @@
       <workItem from="1761483407986" duration="7000" />
       <workItem from="1761483474118" duration="1197000" />
       <workItem from="1761487585577" duration="3165000" />
+<<<<<<< HEAD
       <workItem from="1761528305073" duration="174000" />
       <workItem from="1761528519157" duration="747000" />
       <workItem from="1761559873449" duration="1377000" />
@@ -159,7 +174,27 @@
       <workItem from="1761700068396" duration="2631000" />
       <workItem from="1761786063326" duration="599000" />
       <workItem from="1761809414254" duration="1249000" />
+=======
+      <workItem from="1761483864477" duration="8755000" />
+>>>>>>> 1b879d9671153d1b66854ded500ccaf508ae1aa2
     </task>
+    <task id="LOCAL-00001" summary="要登录验证合并">
+      <option name="closed" value="true" />
+      <created>1761487747043</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1761487747043</updated>
+    </task>
+    <task id="LOCAL-00002" summary="剩余我的订单vue,支付成功后取消超时监听">
+      <option name="closed" value="true" />
+      <created>1761498310342</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1761498310342</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,5 +210,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="要登录验证合并" />
+    <MESSAGE value="完成支付" />
+    <MESSAGE value="剩余我的订单vue,支付成功后取消超时监听" />
+    <option name="LAST_COMMIT_MESSAGE" value="剩余我的订单vue,支付成功后取消超时监听" />
   </component>
 </project>

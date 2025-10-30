@@ -2,7 +2,10 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+const isLoading = ref(false)
 const cartItems = ref([])
 // 取 token
 const token = localStorage.getItem('sbeam_token')
@@ -30,6 +33,36 @@ const removeItem = async (cartId) => {
     console.error('删除失败', e)
   }
 }
+const checkout = async () => {
+  if (cartItems.value.length === 0) {
+    alert('购物车为空，无法结算')
+    return
+  }
+  isLoading.value = true
+  try{
+    const res = await axios.post(
+      'http://localhost:8080/myorder/create/1',
+       totalPrice.value,
+
+      {
+        headers: { Authorization: token ,
+          'Content-Type': 'application/json'
+        },
+      },
+    )
+      console.log(res);
+      if(res.data.code===200){
+        const { order } = res.data.data
+        //跳转到确认订单页面
+        router.push({path:'/confirmorder',
+        query: { userId: order.userId, orderNumber: order.orderNumber }
+        })
+      }
+    }finally{
+    isLoading.value = false
+  }
+
+}
 </script>
 
 <template>
@@ -50,7 +83,8 @@ const removeItem = async (cartId) => {
 
       <div class="checkout">
         <p>总价：{{ totalPrice }} 元</p>
-        <button>去结算</button>
+        <button @click="checkout" :disabled="isLoading">
+            {{ isLoading ? '创建订单中...' : '去结算' }}</button>
       </div>
     </div>
   </div>

@@ -2,64 +2,140 @@
   <div class="order-page">
     <div class="orderStyle">
 
+      <!-- 订单列表 -->
+      <div class="order-list">
+        <!-- 遍历订单 -->
+        <div
+          v-for="order in orders"
+          :key="order.orderId"
+          class="order-card"
+        >
+          <div class="order-header">
+            <span class="order-id">订单号: {{ order.orderNumber }}</span>
+            <span
+              class="order-status"
+              :class="{
+                'status-paid': order.orderStatus === 'paid',
+                'status-unpaid': order.orderStatus === 'unpaid',
+                'status-cancelled': order.orderStatus === 'cancelled'
+              }"
+            >
+              {{ formatStatus(order.orderStatus) }}
+            </span>
+          </div>
 
-    <!-- 订单列表 -->
-    <div class="order-list">
-      <!-- 单个订单 -->
-      <div class="order-card">
-        <div class="order-header">
-          <span class="order-id">订单号: #20250922001</span>
-          <span class="order-status status-paid">已支付</span>
-        </div>
-        <div class="order-body">
-          <img class="game-cover" src="https://via.placeholder.com/80x100" alt="Game Cover" />
-          <div class="game-info">
-            <h3 class="game-title">塞尔达传说：旷野之息</h3>
-            <p class="game-price">￥299.00</p>
-            <p class="game-time">下单时间：2025-09-20</p>
+          <div class="order-body">
+            <!-- 暂无游戏封面数据，可后期关联订单详情 -->
+            <img class="game-cover" src="https://via.placeholder.com/80x100" alt="Game Cover" />
+            <div class="game-info">
+              <h3 class="game-title">订单金额：￥{{ order.finalPrice }}</h3>
+              <p class="game-time">下单时间：{{ formatDate(order.createdAt) }}</p>
+            </div>
+          </div>
+
+          <div class="order-footer">
+            <button class="btn btn-detail" @click="viewDetail(order.orderId)">查看详情</button>
+
+            <template v-if="order.orderStatus === 'unpaid'">
+              <button class="btn btn-pay" @click="payOrder(order)">立即支付</button>
+              <button class="btn btn-cancel" @click="cancelOrder(order.orderId)">取消订单</button>
+            </template>
+
+            <template v-else-if="order.orderStatus === 'paid'">
+              <button class="btn btn-download">下载游戏</button>
+            </template>
           </div>
         </div>
-        <div class="order-footer">
-          <button class="btn btn-detail">查看详情</button>
-          <button class="btn btn-download">下载游戏</button>
-        </div>
       </div>
-
-      <!-- 示例订单 -->
-      <div class="order-card">
-        <div class="order-header">
-          <span class="order-id">订单号: #20250922002</span>
-          <span class="order-status status-unpaid">待支付</span>
-        </div>
-        <div class="order-body">
-          <img class="game-cover" src="https://via.placeholder.com/80x100" alt="Game Cover" />
-          <div class="game-info">
-            <h3 class="game-title">艾尔登法环</h3>
-            <p class="game-price">￥399.00</p>
-            <p class="game-time">下单时间：2025-09-21</p>
-          </div>
-        </div>
-        <div class="order-footer">
-          <button class="btn btn-pay">立即支付</button>
-          <button class="btn btn-cancel">取消订单</button>
-        </div>
-      </div>
-    </div>
     </div>
   </div>
 </template>
 
+<script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const userId = 1 // 暂时写死，后期可从 token 或路由传参
+const orders = ref([])
+
+// ===== 获取订单数据 =====
+const getOrders = async () => {
+  try {
+    const res = await axios.get(`http://localhost:8080/myorder/user/${userId}`)
+    if (Array.isArray(res.data)) {
+      orders.value = res.data
+    } else {
+      console.warn('订单返回不是数组:', res.data)
+    }
+  } catch (error) {
+    console.error('获取订单失败:', error)
+  }
+}
+
+// ===== 支付功能 =====
+const payOrder = async (order) => {
+  try {
+    const res = await axios.post('http://localhost:8080/paymentRecords/alipay', order, {
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const div = document.createElement('div')
+    div.innerHTML = res.data
+    document.body.appendChild(div)
+    document.forms[0].submit() // 自动跳转支付宝
+  } catch (error) {
+    console.error('支付失败:', error)
+  }
+}
+
+// ===== 取消订单 =====
+const cancelOrder = async (orderId) => {
+  try {
+    await axios.put(`http://localhost:8080/myorder/cancel/${orderId}`)
+    getOrders()
+  } catch (error) {
+    console.error('取消订单失败:', error)
+  }
+}
+
+// ===== 查看详情 =====
+const viewDetail = (orderId) => {
+  router.push({ path: `/order/details/${orderId}` })
+}
+
+// ===== 工具函数 =====
+const formatDate = (arr) => {
+  if (!Array.isArray(arr)) return ''
+  const [y, m, d, h, min, s] = arr
+  return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')} ${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}`
+}
+
+const formatStatus = (status) => {
+  switch (status) {
+    case 'paid': return '已支付'
+    case 'unpaid': return '待支付'
+    case 'cancelled': return '已取消'
+    default: return status
+  }
+}
+
+onMounted(() => {
+  getOrders()
+})
+</script>
+
 <style scoped>
-/* ========== 基础样式 ========== */
+/* 你原来的样式完全保留 */
 body {
   overflow-x: hidden;
-  background-color: rgb(14, 16, 14); /* 保证背景统一 */
+  background-color: rgb(14, 16, 14);
 }
 
 .orderStyle {
-  width: 100vw;         /* 容器宽度 */
-  max-width: 1600px;   /* 可以加个最大宽度，让大屏不至于太宽 */
-  margin: 0 auto;      /* 👈 关键：居中 */
+  width: 100vw;
+  max-width: 1600px;
+  margin: 0 auto;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -70,7 +146,6 @@ body {
   color: #f5f5f5;
 }
 
-
 .title {
   text-align: center;
   margin-bottom: 20px;
@@ -78,23 +153,22 @@ body {
 }
 
 .order-list {
-
   display: flex;
   flex-direction: column;
   gap: 20px;
-  flex: 1; /* 撑开剩余空间 */
+  flex: 1;
 }
 
 .order-card {
   background: #2a2a2a;
   border-radius: 12px;
   padding: 15px;
-   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease; /* 添加过渡效果 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 .order-card:hover {
-  border: 6px solid #076f1d;  /* 加粗描边 */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* 更柔和的阴影效果 */
+  border: 6px solid #076f1d;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .order-header {
@@ -113,6 +187,14 @@ body {
 .status-unpaid {
   background-color: #ffc107;
   color: #333;
+}
+.status-paid {
+  background-color: #28a745;
+  color: white;
+}
+.status-cancelled {
+  background-color: #dc3545;
+  color: white;
 }
 
 .order-body {
@@ -160,7 +242,7 @@ body {
 
 .btn-detail {
   background-color: #ffffff;
-  color: #fff;
+  color: #363636;
 }
 
 .btn-pay {

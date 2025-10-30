@@ -20,6 +20,8 @@ import com.sbeam.sbeam.entity.Myorder;
 import com.sbeam.sbeam.service.IMyorderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -65,10 +67,19 @@ public class MyorderController {
     public boolean deleteOrder(@PathVariable Integer orderId) {
         return myorderService.deleteOrder(orderId);
     }
-    //localhost:8080/myorder/create/20
-    @PostMapping("/create/{cartId}")
-    public Result createOrder(@PathVariable int cartId){
-        return myorderService.createOrder(cartId);
+
+    /**
+     * 创建订单
+     * @param userId
+     * @param finalPrice
+     * @return
+     */
+    //localhost:8080/myorder/create/20     URL 示例为 POST /create/123，请求体（Body）中传递 99.99
+    // （需符合 JSON 格式，如 99.99 或 "99.99"）。
+    @PostMapping("/create/{userId}")
+    public Result createOrder(@PathVariable Integer userId,
+                              @RequestBody BigDecimal finalPrice){
+        return myorderService.createOrder(userId,finalPrice);
     }
 }
 
