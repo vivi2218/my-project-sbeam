@@ -1,13 +1,21 @@
 package com.sbeam.sbeam.controller;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.UpdateRequest;
+import co.elastic.clients.elasticsearch.core.UpdateResponse;
+import co.elastic.clients.json.JsonData;
 import com.sbeam.sbeam.entity.Game;
 import com.sbeam.sbeam.entity.VO.GameDetailVO;
+import com.sbeam.sbeam.mapper.GameMapper;
 import com.sbeam.sbeam.service.IGameService;
 import com.sbeam.sbeam.service.IUserGameLibraryService;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -26,6 +34,12 @@ import java.util.List;
 public class GameController {
     @Autowired
     private IGameService gameService;
+
+    @Autowired
+    private GameMapper gameMapper;
+
+    @Autowired
+    private ElasticsearchClient esClient;
     public GameController(IGameService gameService) {
         this.gameService = gameService;
     }
@@ -40,6 +54,20 @@ public class GameController {
     public List<Game> getAllGames() {
         return gameService.listAllGames();
     }
+
+
+    // 批量同步接口
+    // 批量同步接口
+    @PostMapping("/syncEs")
+    public Result syncEsFromDb() {
+        gameService.syncAllGamesToEs();
+        return Result.getSuccess("数据库数据已同步到 ES");
+    }
+
+
+
+
+
 
 
 
