@@ -51,6 +51,21 @@ public class PostServiceImpl  implements IPostService {
         return postRepository.findByParentPostId(id);
     }
 
+    private MogoPost findMygoPostById(MogoPost parent, String id) {
+        if (parent.getPostId() != null && parent.getPostId().equals(id)) {
+            return parent;
+        }
+        if (parent.getReplies() != null) {
+            for (MogoPost reply : parent.getReplies()) {
+                MogoPost found = findMygoPostById(reply, id);// 对每一个子节点再次遍历
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        return null;
+    }
+
 
 
 

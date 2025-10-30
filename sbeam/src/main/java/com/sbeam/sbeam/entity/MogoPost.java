@@ -1,5 +1,7 @@
 package com.sbeam.sbeam.entity;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,4 +26,5 @@ public class MogoPost {
     private String updatedAt;
     private String status;
     private String version;
+    private List<MogoPost> replies;
 }
