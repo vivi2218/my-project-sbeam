@@ -1,6 +1,7 @@
 package com.sbeam.sbeam.entity;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,9 +16,11 @@ import lombok.ToString;
 @Setter
 public class MogoPost {
     @Id
-    private String postId;
+    private String postId = UUID.randomUUID().toString();
     private String communityId;
     private String userId;
+    private String author;
+    private String content;
     private String postTitle;
     private String postContent;
     private String parentPostId;

@@ -53,6 +53,7 @@ public class MyMongoDBPostController {
 
     @PostMapping("/{id}/reply")
     public Result addreply(@PathVariable String id, @RequestBody MogoPost reply) {
+        System.out.println(reply);
         service.addReply(id, reply);
         return Result.saveSuccess(reply);
     }
