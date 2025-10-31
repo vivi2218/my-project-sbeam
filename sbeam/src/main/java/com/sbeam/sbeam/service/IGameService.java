@@ -20,5 +20,10 @@ public interface IGameService extends IService<Game> {
 
     Game getGameByType(String type);
     List<Game> listAllGames();
+    public void addGame(Game game);
+    public void updateGame(Game game);
+    public void deleteGame(Integer gameId);
+    public void syncAllGames();
+    public void syncAllGamesToEs();
 
 }

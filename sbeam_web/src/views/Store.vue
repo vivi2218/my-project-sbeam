@@ -79,26 +79,9 @@ const activeCategory = ref('全部')
 
 const categories = ['全部', '动作', '冒险', '角色扮演', '策略', '射击']
 
-// 游戏列表（初始为空）
-const gameList = ref([]) // 不再写死本地假数据
 
-// 分类 + 搜索 + 排序
+const gameList = ref([])
 
-// const filteredGames = computed(() => {
-//   let result = gameList.value.filter((g) => g.name.includes(keyword.value))
-
-//   if (activeCategory.value !== '全部') {
-//     result = result.filter((g) => g.category === activeCategory.value)
-//   }
-
-//   if (sortType.value === 'rating') {
-//     result.sort((a, b) => b.rating - a.rating)
-//   } else if (sortType.value === 'price') {
-//     result.sort((a, b) => a.price - b.price)
-//   }
-
-//   return result
-// })
 
 // 搜索 + 分类 + 排序
 const filteredGames = computed(() => {

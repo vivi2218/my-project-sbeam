@@ -21,7 +21,7 @@ import lombok.Setter;
  *
 
  * @author yourname
- * @since 2025-10-09
+ * @since 2025-10-09.
  */
 @Getter
 @Setter

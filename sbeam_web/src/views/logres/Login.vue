@@ -43,46 +43,6 @@ const login = async () => {
     alert('登录请求失败，网络或服务器错误')
   }
 }
-
-// const login = async () => {
-//   if (!username.value || !password.value) {
-//     alert('请输入账号和密码')
-//     return
-//   }
-
-//   try {
-//     const resp = await axios.post(
-//       'http://localhost:8080/auth/login',
-//       {
-//         username: username.value,
-//         password: password.value,
-//       },
-//       {
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       },
-//     )
-
-//     // 后端返回数据示例：
-//     // { "code": 200, "token": "xxx", "userId": 1 }
-//     if (resp.data.code === 200 && resp.data.token) {
-//       const token = resp.data.token
-//       localStorage.setItem('sbeam_token', token)
-//       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-//       containerClass.value = 'container success'
-
-//       alert('登录成功，Token 已保存')
-//       // 跳转首页
-//       setTimeout(() => router.push('/'), 400)
-//     } else {
-//       alert(resp.data.msg || '登录失败')
-//     }
-//   } catch (e) {
-//     console.error('登录请求失败', e)
-//     alert('登录请求失败，网络或服务器错误')
-//   }
-// }
 </script>
 
 <template>
@@ -97,17 +57,15 @@ const login = async () => {
         <button class="btn-register">注册</button>
       </router-link>
     </div>
-
   </div>
 </template>
 
 <style scoped>
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  width: ;
+  width:;
 }
 
 html,
@@ -230,7 +188,6 @@ body {
   background-color: aliceblue;
   color: #adaafe;
 }
-
 
 /* 动画 */
 @keyframes slide-out {
