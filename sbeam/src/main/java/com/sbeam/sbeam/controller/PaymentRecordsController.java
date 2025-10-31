@@ -98,7 +98,7 @@ public class PaymentRecordsController {
 
             PaymentRecords  paymentRecords1= (PaymentRecords) result.getData();
             //通知RabbitMQ停止监听此订单
-            rabbitTemplate.convertAndSend("order.cancel.exchange", "order.cancel.stop", orders.getOrderId());
+            //rabbitTemplate.convertAndSend("order.cancel.exchange", "order.cancel.stop", orders.getOrderId());
         }
 
         //页面跳转 **已支付成功**

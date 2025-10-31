@@ -36,9 +36,7 @@ public class HistoricalOrdersServiceImpl extends ServiceImpl<HistoricalOrdersMap
     private HistoricalOrdersMapper historicalOrdersMapper;
     @Autowired
     private OrderDetailsMapper orderDetailsMapper;
-    //消费者监听死信队列，处理过期订单
-    @RabbitListener(queues = "orderDLXQueue")
-    @RabbitHandler
+
     public void migrateOrder(Integer orderId) {
         // 获取订单信息
         Myorder order = myorderMapper.selectById(orderId);

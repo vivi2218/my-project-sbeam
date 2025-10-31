@@ -83,7 +83,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         String lockKey = "order_lock"+userId;
         String orderKey = "processing_order:" + userId;
         if(redisTemplate.hasKey(orderKey)){
-            return Result.getFail("您有订单正在处理中，请稍后");
+            return Result.getFail("您的订单已存在");
         }
 
         //获取分布式锁
@@ -99,9 +99,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         if(cartList.isEmpty()){
             return Result.getFail("购物车中没有游戏");
         }
-        //计算订单original_Price
-        //计算订单final_Price
-        //计算订单总价
+
 // 核心：用 Optional 把 null 转为 BigDecimal.ZERO（0值，不影响累加结果）
         BigDecimal originalPrice = cartList.stream()
                 .map(cart -> Optional.ofNullable(cart.getGamePrice()).orElse(BigDecimal.ZERO))
@@ -110,7 +108,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
 
         Myorder myorder = new Myorder();
         myorder.setUserId(userId);
-        myorder.setOrderNumber("ORDER-" + UUID.randomUUID().toString());
+        myorder.setOrderNumber("ORDER" + UUID.randomUUID().toString());
         myorder.setOriginalPrice(originalPrice);// 计算原价
         myorder.setFinalPrice(finalPrice); // 最终支付价格
         myorder.setOrderDate(LocalDateTime.now());
@@ -123,7 +121,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         myorderMapper.insert(myorder);
         System.out.println("生成我的订单:"+myorder);
         //创建订单详情
-        ArrayList<OrderDetails> orderDetailsList = new ArrayList<>();
+        List<OrderDetails> orderDetailsList = new ArrayList<>();
         for(Cart cart : cartList){
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setOrderId(myorder.getOrderId());
@@ -136,31 +134,29 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
             //保存订单详情
             int rows = orderDetailsMapper.insert(orderDetails);
             boolean add = orderDetailsList.add(orderDetails);
-//            if(rows>0){
-//                //订单创建成功后发送消息到队列
-//                sendOrderToQueue(myorder.getOrderId());
-//
-//            }
-            if(add)
+            if(rows>0 && add)
                 System.out.println("Order保存添加订单详情成功!!!!");
+            else {
+                System.out.println("Order保存订单失败....");
+                return Result.saveFail(myorder);
+            }
         }
             // 标记购物车项为已下单状态（可选）  没有支付成功就先不改
              //cartMapper.updateCartStatus(cartItems.stream().map(Cart::getCartId).collect(Collectors.toList()), 1);
 
+            for(Cart cart:cartList){
+                cart.setStatus(1);
+                cartMapper.updateById(cart);
+            }
             //设置处理中订单标记(15分钟过期)
             redisTemplate.opsForValue().set(orderKey,myorder.getOrderId(),15,TimeUnit.MINUTES);
+
             //发送延迟消息到RabbitMQ进行超时取消
             sendOrderTimeoutMessage(myorder.getOrderId());
             System.out.println("订单创建成功,订单号:"+myorder.getOrderNumber());
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("order",myorder);
-            result.put("orderDetails",orderDetailsList);
-            if(result!=null){
-                return Result.saveSuccess(result);
-            }
-        return Result.saveFail(null);
-            //可以finally 释放分布式锁 主动释放资源
-        //redisTemplate.delete(lockKey);
+
+        return Result.saveSuccess(myorder);
+
     }
 
     @Override
@@ -173,29 +169,25 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         return Result.getFail(orderNum);
     }
 
-    //发送订单超时消息
-
+    //发送订单到延时队列
     private void sendOrderTimeoutMessage(Integer orderId){
         HashMap<String, Object> message = new HashMap<>();
         message.put("orderId",orderId);
         message.put("timestamp",System.currentTimeMillis());
 
-        //设置15分钟过期时间
-        rabbitTemplate.convertAndSend("orderTimeoutExchange", "order.timeout", message, messagePostProcessor -> {
-            messagePostProcessor.getMessageProperties().setExpiration("900000"); // 15分钟
+        //设置15分钟延迟时间
+        rabbitTemplate.convertAndSend("sbeam-delayed-exchange", "key3", message, messagePostProcessor -> {
+            messagePostProcessor.getMessageProperties().setDelayLong(900000L); // 15分钟
             return messagePostProcessor;
         });
-        System.out.println("订单超时消息已发送，订单ID: " + orderId);
+        System.out.println("订单延时消息已发送，订单ID: " + orderId);
     }
     //处理订单支付成功
     @Override
     public Result confirmPayment(Integer orderId){
         Myorder myorder = myorderMapper.selectById(orderId);
-        if(myorder == null){
-            return Result.getFail("dingdan 不存在");
-        }
-        if(!"unpaid".equals(myorder.getOrderStatus())){
-            return Result.getFail("dingdan 状态异常");
+        if(myorder == null || !"unpaid".equals(myorder.getOrderStatus())){
+            return Result.getFail("订单 状态异常");
         }
         //更新订单状态为已支付
         myorder.setOrderStatus("paid");
@@ -207,7 +199,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         //redisTemplate.delete(orderKey);
 
         //可以添加其他业务处理,如库存扣减,发放游戏
-        return Result.updateSuccess("支付成功");
+        return Result.updateSuccess(myorder);
     }
 
     //处理订单超时取消
@@ -227,17 +219,5 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
             System.out.println("订单超时自动取消，订单ID: " + orderId);
         }
     }
-
-    //发送订单ID到RabbitMQ队列
-    private void sendOrderToQueue(Integer orderId){
-        // 设置消息的过期时间为7天（TTL）
-        rabbitTemplate.convertAndSend("orderExchange", "orderkey", message, messagePostProcessor -> {
-            messagePostProcessor.getMessageProperties().setExpiration("604800000");  // 7天的TTL（毫秒）
-            return messagePostProcessor;
-        });
-
-        System.out.println("Order " + orderId + " sent to queue for migration");
-    }
-
 
 }
