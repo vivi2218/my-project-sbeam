@@ -33,11 +33,11 @@ const fetchCommunityAndPosts = async () => {
 
     const resPosts = await fetch(`${BACKEND}/mygo`)
     const posts = await resPosts.json()
-    
+
     // 调试信息
     console.log('所有帖子:', posts)
     console.log('当前社区ID:', comm.communityId, '类型:', typeof comm.communityId)
-    
+
     // 临时测试：显示所有帖子（不过滤）
     community.value.posts = posts
       // .filter((p: any) => {
@@ -55,7 +55,7 @@ const fetchCommunityAndPosts = async () => {
         replies: p.likeCount || 0,
       }))
       .sort((a: any, b: any) => new Date(b.time).getTime() - new Date(a.time).getTime()) // 按时间倒序
-    
+
     console.log('过滤后的帖子:', community.value.posts)
   } catch (err) {
     console.error('加载社区/帖子失败', err)
@@ -100,13 +100,13 @@ const addPost = async () => {
       console.log('发帖成功，重新获取帖子列表')
       // 发帖成功后重新获取帖子列表
       await fetchCommunityAndPosts()
-      
+
       // 清空输入框
       newPostTitle.value = ''
       newPostContent.value = ''
       newPostAuthor.value = '页友'
       showPostInput.value = false
-      
+
       alert('发帖成功!')
     } else {
       const errorText = await response.text()
@@ -155,18 +155,13 @@ const goToPostDetail = (id: number) => {
         <span class="time">时间</span>
         <span class="replies">回复</span>
       </div>
-      <div
-        v-for="post in community.posts"
-        :key="post.id"
-        class="post-item"
-        @click="goToPostDetail(post.id)"
-      >
+      <div v-for="post in community.posts" :key="post.id" class="post-item" @click="goToPostDetail(post.id)">
         <span class="title">{{ post.title }}</span>
         <span class="author">{{ post.author }}</span>
         <span class="time">{{ post.time }}</span>
         <span class="replies">{{ post.replies }}</span>
       </div>
-      
+
       <!-- 如果没有帖子，显示提示 -->
       <div v-if="community.posts.length === 0" style="padding: 20px; text-align: center; color: #999;">
         暂无帖子，快来发第一帖吧！
@@ -176,11 +171,187 @@ const goToPostDetail = (id: number) => {
 </template>
 
 <style scoped>
-.post-item {
+/* 整体布局 */
+.community-detail-main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: #f7f8fa;
+  min-height: 100vh;
+  font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+/* 社区头部 */
+.community-header {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  padding: 30px 20px;
+  margin-bottom: 30px;
+  transition: transform 0.25s ease;
+}
+
+.community-header:hover {
+  transform: translateY(-3px);
+}
+
+.community-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #e6e6e6;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.community-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.community-header p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* 发帖区域 */
+.post-actions {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+}
+
+.post-actions button {
+  background: #409eff;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 15px;
   cursor: pointer;
   transition: background 0.2s;
 }
+
+.post-actions button:hover {
+  background: #66b1ff;
+}
+
+/* 发帖输入框 */
+.post-input {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.post-input input,
+.post-input textarea {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.post-input input:focus,
+.post-input textarea:focus {
+  border-color: #409eff;
+  outline: none;
+}
+
+.post-input textarea.big {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.post-input button {
+  align-self: flex-end;
+  background: #67c23a;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.post-input button:hover {
+  background: #85ce61;
+}
+
+/* 帖子列表 */
+.posts-list {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* 帖子表头 */
+.post-item-header {
+  display: grid;
+  grid-template-columns: 4fr 1fr 2fr 1fr;
+  background: #f1f3f5;
+  color: #333;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 帖子行 */
+.post-item {
+  display: grid;
+  grid-template-columns: 4fr 1fr 2fr 1fr;
+  padding: 12px 18px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
 .post-item:hover {
   background-color: #eef8f3;
+  transform: translateX(4px);
+}
+
+/* 各列样式 */
+.post-item span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.post-item .title {
+  color: #222;
+  font-weight: 500;
+}
+
+.post-item .author {
+  color: #666;
+  text-align: center;
+}
+
+.post-item .time {
+  color: #888;
+  text-align: center;
+}
+
+.post-item .replies {
+  color: #409eff;
+  text-align: right;
+}
+
+/* 空状态提示 */
+.posts-list>div:last-child {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
 }
 </style>

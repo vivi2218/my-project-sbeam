@@ -8,6 +8,7 @@ import com.sbeam.sbeam.entity.testEntity;
 import com.sbeam.sbeam.repository.PostRepository;
 import com.sbeam.sbeam.repository.testRepository;
 import com.sbeam.sbeam.service.IPostService;
+import com.sbeam.sbeam.util.Result;
 
 import java.util.List;
 
@@ -35,28 +36,26 @@ public class MyMongoDBPostController {
     }
 
     @PostMapping
-    public boolean addpost(@RequestBody MogoPost entity) {
-        System.out.println("Received Entity: " + entity);
+    public Result addpost(@RequestBody MogoPost entity) {
         service.save(entity);
-        return true;
+        return Result.saveSuccess(entity);
     }
 
     @GetMapping("/{id}")
-    public MogoPost getMethodName(@PathVariable String id) {
+    public MogoPost getById(@PathVariable String id) {
         return service.getById(id);
     }
 
     @GetMapping("/reply")
-    public List<MogoPost> getRepliesByPostId(@RequestParam String postId) {
-        System.out.println("Getting replies for postId: " + postId);
-        return service.getReply(postId);
+    public Result getRepliesByPostId(@RequestParam String postId) {
+        return Result.getSuccess(service.getReply(postId));
     }
 
-    @PostMapping("/reply")
-    public boolean addreply(@RequestBody MogoPost entity) {
-        System.out.println("Received Entity: " + entity);
-        service.save(entity);
-        return true;
+    @PostMapping("/{id}/reply")
+    public Result addreply(@PathVariable String id, @RequestBody MogoPost reply) {
+        System.out.println(reply);
+        service.addReply(id, reply);
+        return Result.saveSuccess(reply);
     }
 
 }

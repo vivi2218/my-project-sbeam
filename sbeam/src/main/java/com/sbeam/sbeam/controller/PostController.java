@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  * <p>
  *  前端控制器
  * </p>
- *
+ *  已废弃
  * @author yourname
  * @since 2025-10-09
  */
 @RestController
-// 同时支持 /post/... 和 根路径下的路由（例如 /mygo）
+
 @RequestMapping({"/post", ""})
 @CrossOrigin
 public class PostController {

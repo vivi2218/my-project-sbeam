@@ -40,6 +40,7 @@ const getOrderData = async () => {
     const orderRes = await axios.get(`http://localhost:8080/myorder/user/${userId}/status/unpaid`)
     if (orderRes.data && orderRes.data.length > 0) {
       const o = orderRes.data[0]
+      order.orderId = o.orderId
       order.orderNumber = o.orderNumber
       order.originalPrice = o.originalPrice
       order.finalPrice = o.finalPrice
