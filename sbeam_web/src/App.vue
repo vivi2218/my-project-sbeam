@@ -33,8 +33,19 @@ body {
 
 html,
 body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* 防止 body 滚动 */
   background: linear-gradient(to top left, #013354, #444, #5a005a);
-  z-index: -1;
+  background-attachment: fixed;
+}
+
+#app {
+  height: 100%;
+  overflow-y: auto;
+  /* 让内容区域滚动 */
 }
 
 * {

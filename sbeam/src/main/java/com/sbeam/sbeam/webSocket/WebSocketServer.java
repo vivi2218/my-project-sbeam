@@ -20,8 +20,12 @@ import jakarta.websocket.server.ServerEndpoint;
 @Component
 public class WebSocketServer {
     private static final ConcurrentHashMap<String, Session> SEESIONMAP = new ConcurrentHashMap<>();
+    private static RedisTemplate<String, String> redisTemplate;
+
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
+        WebSocketServer.redisTemplate = redisTemplate;
+    }
 
     @OnOpen
     public void onOpen(Session session, @PathParam("userId") String userId) {
@@ -42,7 +46,7 @@ public class WebSocketServer {
         System.out.println("发生错误" + error.getMessage());
     }
 
-    public void sendToUser(String userId, String message) {
+    public static void sendToUser(String userId, String message) {
         Session session = SEESIONMAP.get(userId);
         if (session != null && session.isOpen()) {
             try {
@@ -57,7 +61,7 @@ public class WebSocketServer {
         }
     }
 
-    public void sendPendingMessages(String userId) {
+    public static void sendPendingMessages(String userId) {
         List<String> messages = redisTemplate.opsForList().range(userId + ":pendingMessages", 0, -1);
         if (messages != null && !messages.isEmpty()) {
             for (String msg : messages) {

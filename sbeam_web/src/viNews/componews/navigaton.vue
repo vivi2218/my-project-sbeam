@@ -20,6 +20,7 @@
 
 <style>
 .navigation {
+  
   display: flex;
   /* 开启 flex 布局 */
   justify-content: space-between;

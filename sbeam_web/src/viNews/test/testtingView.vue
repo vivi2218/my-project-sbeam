@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Navigation from '../componews/navigaton.vue'
+import Shiriusu from '../componews/shiriusu.vue';
 import Mygotest from '../forum/mygotest.vue';
 import HomeView from '../homeView.vue'
 </script>
@@ -7,7 +8,8 @@ import HomeView from '../homeView.vue'
 <template>
 
   <!-- <HomeView /> -->
-  <Mygotest />
+  <!-- <Mygotest /> -->
+  <Shiriusu/>
 </template>
 
 <style>
