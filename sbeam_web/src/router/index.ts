@@ -27,15 +27,11 @@ import Cart from '@/views/cat/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
 import forumHome from '@/views/forum/forumHome.vue'
-<<<<<<< HEAD
+
 import postMain from '@/views/forum/postMain.vue'
-=======
+
 import PaySuccess from '@/views/Myorder/PaySuccess.vue'
 import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
-
-
-
->>>>>>> 060f883bb9ca4b80a0fee6adc89e0ed338499c33
 
 // 游戏商城相关（如果有对应文件）
 
@@ -66,26 +62,18 @@ const router = createRouter({
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
 
-<<<<<<< HEAD
     // { path: '/store/:id', name: 'game-detail', component: GameDetail },
-=======
+
     { path: '/store/:id', name: 'game-detail', component: GameDetail },
 
     {
       path: '/store',
       name: 'store',
-      component: Store
+      component: Store,
     },
-    {path:'/paysuccess',
-      name:"paysuccess",
-      component:PaySuccess
-    },
-    {path:'/confirmorder',
-      name:"confirmorder",
-      component:ConfirmOrder
-    },
+    { path: '/paysuccess', name: 'paysuccess', component: PaySuccess },
+    { path: '/confirmorder', name: 'confirmorder', component: ConfirmOrder },
 
->>>>>>> 1b879d9671153d1b66854ded500ccaf508ae1aa2
     // { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
 
     {

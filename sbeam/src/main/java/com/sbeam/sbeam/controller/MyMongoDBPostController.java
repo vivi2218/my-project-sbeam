@@ -34,6 +34,8 @@ public class MyMongoDBPostController {
         return service.getAllPosts();
     }
 
+
+    //新建帖子
     @PostMapping
     public boolean addpost(@RequestBody MogoPost entity) {
         System.out.println("Received Entity: " + entity);
@@ -41,17 +43,24 @@ public class MyMongoDBPostController {
         return true;
     }
 
+
+    //根据帖子ID获取帖子
     @GetMapping("/{id}")
     public MogoPost getMethodName(@PathVariable String id) {
         return service.getById(id);
     }
 
+
+
+    //获得所有回复
     @GetMapping("/reply")
     public List<MogoPost> getRepliesByPostId(@RequestParam String postId) {
         System.out.println("Getting replies for postId: " + postId);
         return service.getReply(postId);
     }
 
+
+    //发评论
     @PostMapping("/reply")
     public boolean addreply(@RequestBody MogoPost entity) {
         System.out.println("Received Entity: " + entity);

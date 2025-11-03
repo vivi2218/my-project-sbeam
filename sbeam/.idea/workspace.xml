@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="剩余我的订单vue,支付成功后取消超时监听">
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/RabbitMQConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/RabbitMQConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PaymentRecordsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PaymentRecordsController.class" afterDir="false" />
-    </list>
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="剩余我的订单vue,支付成功后取消超时监听" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -163,7 +160,6 @@
       <workItem from="1761483407986" duration="7000" />
       <workItem from="1761483474118" duration="1197000" />
       <workItem from="1761487585577" duration="3165000" />
-<<<<<<< HEAD
       <workItem from="1761528305073" duration="174000" />
       <workItem from="1761528519157" duration="747000" />
       <workItem from="1761559873449" duration="1377000" />
@@ -174,9 +170,10 @@
       <workItem from="1761700068396" duration="2631000" />
       <workItem from="1761786063326" duration="599000" />
       <workItem from="1761809414254" duration="1249000" />
-=======
       <workItem from="1761483864477" duration="8755000" />
->>>>>>> 1b879d9671153d1b66854ded500ccaf508ae1aa2
+      <workItem from="1761959959520" duration="1468000" />
+      <workItem from="1762131373152" duration="61000" />
+      <workItem from="1762131456253" duration="3510000" />
     </task>
     <task id="LOCAL-00001" summary="要登录验证合并">
       <option name="closed" value="true" />
