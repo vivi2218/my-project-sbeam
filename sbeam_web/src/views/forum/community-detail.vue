@@ -64,6 +64,11 @@ const fetchCommunityAndPosts = async () => {
 
 onMounted(fetchCommunityAndPosts)
 
+
+const token = localStorage.getItem('token');
+const decoded = jwtDecode(token);
+const userId = decoded.userId;
+
 const addPost = async () => {
   if (newPostTitle.value.trim() === '') {
     alert('请输入帖子标题')
@@ -74,7 +79,7 @@ const addPost = async () => {
     // 构建符合后端实体类的请求体
     const postData = {
       communityId: String(community.value.id),
-      userId: null, // 或者从用户登录信息获取
+      userId: userId, // 或者从用户登录信息获取
       postTitle: newPostTitle.value,
       postContent: newPostContent.value,
       parentPostId: null, // 新帖子没有父帖

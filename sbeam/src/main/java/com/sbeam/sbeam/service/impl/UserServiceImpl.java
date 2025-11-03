@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public void registerUser(String username, String password, String email) throws Exception {
+    public void registerUser(String userName, String password, String email) throws Exception {
         // 验证邮箱格式
         if (!isValidEmail(email)) {
             throw new Exception("邮箱格式不正确");
@@ -68,7 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<User>()
                         .eq("email", email)
                         .or()
-                        .eq("user_name", username)
+                        .eq("user_name", userName)
         );
         if (existUser != null) {
             throw new Exception("用户已存在");
@@ -76,7 +76,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         // 创建新用户
         User user = new User();
-        user.setUserName(username);
+        user.setuserName(userName);
         user.setPassword(password); // 建议加密存储
         user.setEmail(email);
 

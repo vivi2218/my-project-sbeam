@@ -2,6 +2,7 @@
 
 </script>
 <template>
+
   <div class="navigation">
     <div class="nav-left">
       <router-link to="/" class="rout">logo</router-link>
@@ -10,8 +11,9 @@
       <router-link to="/" class="rout">社区</router-link>
     </div>
     <div class="nav-right">
+      <router-link to="/test" class="rout">测试用</router-link>
       <router-link to="/" class="rout">消息</router-link>
-      <router-link to="/" class="rout">个人中心</router-link>
+      <router-link to="/login" class="rout">个人中心</router-link>
     </div>
   </div>
 </template>

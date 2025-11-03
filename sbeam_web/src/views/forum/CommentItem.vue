@@ -3,7 +3,7 @@ import { ref, PropType } from 'vue'
 import axios from 'axios'
 
 interface CommentType {
-  id: string
+  postId: string
   content: string
   author: string
   replies?: CommentType[]
@@ -22,13 +22,22 @@ const toggleReply = () => {
   showReply.value = !showReply.value
 }
 
+const user = JSON.parse(localStorage.getItem('sbeam_user') || '{}')
+const userId = user.userId
+const userName = user.userName
+// console.log('当前用户ID:', userId)
+
+
 // 发送回复
 const sendReply = async () => {
+  console.log(props.comment.postId)
   if (!replyText.value) return
-  if (!props.comment.id) return  // ⚠️ 避免 id=null
-  await axios.post(`http://localhost:8080/mygo/${props.comment.id}/reply`, {
-    author: '页友',
-    content: replyText.value
+  if (!props.comment.postId) return  // ⚠️ 避免 id=null
+  console.log("post")
+  await axios.post(`http://localhost:8080/mygo/${props.comment.postId}/reply`, {
+    author: userName,
+    content: replyText.value,
+    userId: userId
   })
   replyText.value = ''
   showReply.value = false

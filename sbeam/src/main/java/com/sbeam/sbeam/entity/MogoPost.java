@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,6 +18,7 @@ import lombok.ToString;
 @Setter
 public class MogoPost {
     @Id
+    @JsonProperty("id")
     private String postId = UUID.randomUUID().toString();
     private String communityId;
     private String userId;

@@ -11,11 +11,16 @@ const loadComments = async () => {
   comments.value = res.data
 }
 
+const user = JSON.parse(localStorage.getItem('sbeam_user') || '{}')
+const userId = user.userId
+const userName = user.userName
+console.log('当前用户', user)
+
 const postComment = async () => {
   if (!newComment.value) return
   await axios.post('http://localhost:8080/mygo', {
-    userId: 1,
-    author: '页友',
+    userId: userId,
+    author: userName,
     content: newComment.value
   })
   newComment.value = ''

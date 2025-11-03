@@ -83,7 +83,7 @@ const submitReply = async () => {
             const parsed = JSON.parse(u)
             // 兼容性处理：后端可能返回 userId 或 id
             userId = parsed.userId ?? parsed.id ?? parsed.user?.id ?? null
-            userName = parsed.username ?? parsed.userName ?? parsed.name ?? userName
+            userName = parsed.userName ?? parsed.userName ?? parsed.name ?? userName
         }
     } catch (e) {
         console.warn('解析本地用户信息失败，使用游客', e)

@@ -30,6 +30,8 @@ import forumHome from '@/views/forum/forumHome.vue'
 import postMain from '@/views/forum/postMain.vue'
 import PaySuccess from '@/views/Myorder/PaySuccess.vue'
 import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
+import homeView from '@/viNews/homeView.vue'
+import testtingView from '@/viNews/test/testtingView.vue'
 
 
 
@@ -57,15 +59,16 @@ const router = createRouter({
     { path: '/home', name: 'home2', component: Home },
     { path: '/library', name: 'library', component: Library },
 
-    { path: '/', name: 'home', component: HomeView },
+    { path: '/', name: 'home', component: homeView },
     { path: '/User/cart', name: 'usercart', component: Cart },
     { path: '/User/myorder', name: 'usermyorder', component: Myorder },
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
 
-<<<<<<< HEAD
+    //测试
+    { path: '/test', name: 'test', component: testtingView },
+
     // { path: '/store/:id', name: 'game-detail', component: GameDetail },
-=======
     { path: '/store/:id', name: 'game-detail', component: GameDetail },
 
     {
@@ -82,7 +85,6 @@ const router = createRouter({
       component:ConfirmOrder
     },
 
->>>>>>> 1b879d9671153d1b66854ded500ccaf508ae1aa2
     // { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
 
     {

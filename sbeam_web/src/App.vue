@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
 import testtingView from './viNews/test/testtingView.vue'
+import navigaton from './viNews/componews/navigaton.vue';
 </script>
 
 <template>
-
-  <testtingView/>
+  <navigaton />
+  <RouterView />
 </template>
 
 <style>
@@ -28,5 +29,15 @@ body {
 .navigaton {
   z-index: 1;
   position: relative;
+}
+
+html,
+body {
+  background: linear-gradient(to top left, #013354, #444, #5a005a);
+  z-index: -1;
+}
+
+* {
+  color: rgb(140, 140, 140);
 }
 </style>

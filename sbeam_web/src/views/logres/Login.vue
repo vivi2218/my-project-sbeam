@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
-const username = ref('')
+const userName = ref('')
 const password = ref('')
 const containerClass = ref('container')
 const router = useRouter()
@@ -11,7 +11,7 @@ const router = useRouter()
 const login = async () => {
   try {
     const resp = await axios.post('http://localhost:8080/auth/login', {
-      username: username.value,
+      userName: userName.value,
       password: password.value,
     })
 
@@ -23,7 +23,7 @@ const login = async () => {
       // 保存用户信息
       const userData = {
         userId: resp.data.userId,
-        username: resp.data.username,
+        userName: resp.data.userName,
         email: resp.data.email,
       }
       localStorage.setItem('sbeam_user', JSON.stringify(userData))
@@ -50,7 +50,7 @@ const login = async () => {
     <h1>Ciallo～(∠・ω< )⌒☆</h1>
 
     <div class="form">
-      <input v-model="username" type="text" placeholder="账号" />
+      <input v-model="userName" type="text" placeholder="账号" />
       <input v-model="password" type="password" placeholder="密码" />
       <button class="btn-login" @click="login">登录</button>
       <router-link to="/register">

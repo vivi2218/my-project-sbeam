@@ -25,13 +25,13 @@ public class AuthController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-     // 登录
+    // 登录
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
+        String userName = body.get("userName");
         String password = body.get("password");
 
-        User user = userService.lambdaQuery().eq(User::getUserName, username).one();
+        User user = userService.lambdaQuery().eq(User::getUserName, userName).one();
         if (user == null) {
             return Map.of("code", 401, "msg", "用户不存在");
         }
@@ -56,7 +56,9 @@ public class AuthController {
         redisTemplate.opsForValue().set(redisKey, accessToken, 1, TimeUnit.HOURS);
 //        redisTemplate.opsForValue().set();
 
-        return Map.of("code", 200, "token", accessToken, "userId", user.getUserId());
+        return Map.of(
+            "code", 200, "token", accessToken, "userId", user.getUserId(),
+            "userName", user.getUserName() );
     }
 
     // 登出

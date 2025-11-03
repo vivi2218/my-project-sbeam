@@ -5,7 +5,7 @@ import HomeView from '../homeView.vue'
 </script>
 
 <template>
-  <Navigation />
+
   <!-- <HomeView /> -->
   <Mygotest />
 </template>

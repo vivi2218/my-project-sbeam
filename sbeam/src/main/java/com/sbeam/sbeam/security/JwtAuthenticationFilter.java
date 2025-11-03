@@ -1,7 +1,7 @@
 // package com.sbeam.sbeam.security;
 
 // import com.sbeam.sbeam.util.JWTUtils;
-// import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+// import org.springframework.security.authentication.userNamePasswordAuthenticationToken;
 // import org.springframework.security.core.context.SecurityContextHolder;
 // import org.springframework.web.filter.OncePerRequestFilter;
 // import jakarta.servlet.FilterChain;
@@ -27,8 +27,8 @@
 //             String token = auth.substring(7);
 //             if (jwtUtils.validateToken(token)) {
 //                 String userId = jwtUtils.getUserIdFromToken(token);
-//                 UsernamePasswordAuthenticationToken authToken =
-//                         new UsernamePasswordAuthenticationToken(userId, null, Collections.emptyList());
+//                 userNamePasswordAuthenticationToken authToken =
+//                         new userNamePasswordAuthenticationToken(userId, null, Collections.emptyList());
 //                 SecurityContextHolder.getContext().setAuthentication(authToken);
 //             }
 //         }
