@@ -3,18 +3,18 @@ package com.sbeam.sbeam.service;
 import com.sbeam.sbeam.entity.MogoPost;
 import com.sbeam.sbeam.entity.Post;
 
-
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
-
+ * 
  * @author yourname
  * @since 2025-10-09
  */
@@ -26,6 +26,8 @@ public interface IPostService {
 
     boolean save(MogoPost entity);
 
+    List<MogoPost> getReply(String id);
 
+    MogoPost addReply(String id, MogoPost reply);
 
 }

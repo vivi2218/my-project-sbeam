@@ -25,7 +25,7 @@ public class EmailUtils {
 
         // 构建邮件
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("861777592@qq.com"); // 必须与 username 一致
+        message.setFrom("861777592@qq.com"); // 必须与 userName 一致
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);

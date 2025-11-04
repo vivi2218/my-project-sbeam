@@ -3,6 +3,7 @@ package com.sbeam.sbeam.controller;
 import com.sbeam.sbeam.entity.User;
 import com.sbeam.sbeam.service.IUserService;
 import com.sbeam.sbeam.util.JWTUtils;
+import com.sbeam.sbeam.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,13 @@ public class AuthController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-     // 登录
+    // 登录
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
+        String userName = body.get("userName");
         String password = body.get("password");
 
-        User user = userService.lambdaQuery().eq(User::getUserName, username).one();
+        User user = userService.lambdaQuery().eq(User::getUserName, userName).one();
         if (user == null) {
             return Map.of("code", 401, "msg", "用户不存在");
         }
@@ -39,13 +40,25 @@ public class AuthController {
         }
 
         // 生成 token
-        String token = jwtUtils.generateToken(user);
+        String accessToken = jwtUtils.generateToken(user);
+
+
+//        String refreshToken = jwtUtils.generateToken(user, 7 * 24 * 60 * 60 * 1000); // 7天
+//        return ResponseEntity.ok(Map.of(
+//                "accessToken", accessToken,
+//                "refreshToken", refreshToken
+//        ));
+//
+//        String redis
 
         // 存入 Redis，设置过期时间与 JWT 一致（假设 1 小时）
-        String redisKey = "login:token:" + user.getUserId();
-        redisTemplate.opsForValue().set(redisKey, token, 1, TimeUnit.HOURS);
+        String redisKey = "login:accessToken:" + user.getUserId();
+        redisTemplate.opsForValue().set(redisKey, accessToken, 1, TimeUnit.HOURS);
+//        redisTemplate.opsForValue().set();
 
-        return Map.of("code", 200, "token", token, "userId", user.getUserId());
+        return Map.of(
+            "code", 200, "token", accessToken, "userId", user.getUserId(),
+            "userName", user.getUserName() );
     }
 
     // 登出
@@ -60,5 +73,21 @@ public class AuthController {
             }
         }
         return Map.of("code", 200, "msg", "已登出");
+    }
+    @GetMapping("/userInfo")
+    public Map<String,Object>
+    getUserInfo(@RequestHeader("Authorization")String authHeader){
+        String token = authHeader.substring(7);
+        String userId = jwtUtils.getUserIdFromToken(token);
+        String username = jwtUtils.getUserNameFromToken(token);
+        String role = jwtUtils.getUserRoleFromToken(token);
+        return Map.of(
+                "code", 200,
+                "data", Map.of(
+                        "userId", userId,
+                        "username", username,
+                        "role", role
+                )
+        );
     }
 }
