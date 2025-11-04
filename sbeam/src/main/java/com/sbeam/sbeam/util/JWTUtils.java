@@ -43,15 +43,10 @@ public class JWTUtils {
                 .setId(jti)
                 .setSubject(String.valueOf(user.getUserId()))
                 .setIssuedAt(new Date(now))
-<<<<<<< HEAD
-                .setExpiration(new Date(now + expiration * 1000 * 60 * 360));
-        claims.put("userName", user.getUserName());
-=======
                 .setExpiration(new Date(now + expiration * 1000));
-        //claims.put("username", user.getUserName());
+        claims.put("username", user.getUserName());
         claims.put("role",user.getRole());//添加角色信息到token
 
->>>>>>> origin/feature/vivi
         String token = Jwts.builder()
                 .setClaims(claims)
                 .signWith(key, SignatureAlgorithm.HS256)
