@@ -2,6 +2,7 @@ package com.sbeam.sbeam.controller;
 
 
 
+import com.sbeam.sbeam.util.JWTUtils;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,14 +33,25 @@ public class MyorderController {
 
     @Autowired
     private IMyorderService myorderService;
-
-    /**
-     * 查询用户所有订单
-     */
+    @Autowired
+    private JWTUtils jwtUtils;
+    // 普通用户只能查看自己的订单，管理员可以查看所有订单
     @GetMapping("/user/{userId}")
-    public List<Myorder> getUserAllOrders(@PathVariable Integer userId) {
+    public List<Myorder> getUserAllOrders(@PathVariable Integer userId,
+                                          @RequestHeader("Authorization") String authHeader) {
+        // 获取当前登录用户ID和角色
+        String token = authHeader.substring(7);
+        String currentUserId = jwtUtils.getUserIdFromToken(token);
+        String role = jwtUtils.getUserRoleFromToken(token);
+
+        // 非管理员只能查看自己的订单
+        if (!"admin".equals(role) && !currentUserId.equals(userId.toString())) {
+            throw new RuntimeException("无权访问其他用户的订单");
+        }
+
         return myorderService.getOrdersByUserId(userId);
     }
+
 
     /**
      * 查询用户特定状态的订单

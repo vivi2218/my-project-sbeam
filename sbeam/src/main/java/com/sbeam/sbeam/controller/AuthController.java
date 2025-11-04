@@ -74,4 +74,20 @@ public class AuthController {
         }
         return Map.of("code", 200, "msg", "已登出");
     }
+    @GetMapping("/userInfo")
+    public Map<String,Object>
+    getUserInfo(@RequestHeader("Authorization")String authHeader){
+        String token = authHeader.substring(7);
+        String userId = jwtUtils.getUserIdFromToken(token);
+        String username = jwtUtils.getUserNameFromToken(token);
+        String role = jwtUtils.getUserRoleFromToken(token);
+        return Map.of(
+                "code", 200,
+                "data", Map.of(
+                        "userId", userId,
+                        "username", username,
+                        "role", role
+                )
+        );
+    }
 }

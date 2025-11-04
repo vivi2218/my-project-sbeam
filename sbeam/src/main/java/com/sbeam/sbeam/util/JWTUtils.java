@@ -43,12 +43,20 @@ public class JWTUtils {
                 .setId(jti)
                 .setSubject(String.valueOf(user.getUserId()))
                 .setIssuedAt(new Date(now))
+<<<<<<< HEAD
                 .setExpiration(new Date(now + expiration * 1000 * 60 * 360));
         claims.put("userName", user.getUserName());
+=======
+                .setExpiration(new Date(now + expiration * 1000));
+        //claims.put("username", user.getUserName());
+        claims.put("role",user.getRole());//添加角色信息到token
+
+>>>>>>> origin/feature/vivi
         String token = Jwts.builder()
                 .setClaims(claims)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+
 
         // 存 Redis：token:{jti} -> userId
         String tokenKey = "token:" + jti;
@@ -58,11 +66,52 @@ public class JWTUtils {
         redisTemplate.opsForValue().set("user_token:" + user.getUserId(), jti, Duration.ofSeconds(expiration));
         return token;
     }
+    /**
+     * 从 Token 中获取用户名
+     * @param token JWT Token（支持带或不带 "Bearer " 前缀）
+     * @return 用户名，解析失败返回 null
+     */
+    public String getUserNameFromToken(String token) {
+        if (token == null || token.isEmpty()) {
+            return null;
+        }
 
+        try {
+            // 1. 移除 Token 中的 "Bearer " 前缀（兼容前端传参格式）
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+
+            // 2. 解析 Token 并获取 claims
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key) // 使用初始化好的密钥（与生成 Token 时一致）
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // 3. 从 claims 中提取 "userName" 字段（与 generateToken 中存储的字段名一致）
+            return claims.get("userName", String.class);
+
+        } catch (JwtException | IllegalArgumentException e) {
+            // 捕获 Token 过期、签名错误、格式异常等问题
+            System.out.println("JWT 用户名解析失败: " + e.getMessage());
+            return null;
+        }
+    }
     public Jws<Claims> parseToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
     }
+    //获取用户角色
+    public String getUserRoleFromToken(String token){
 
+        try {
+            Claims c = parseToken(token).getBody();
+            return c.get("role", String.class);
+        }catch (Exception e){
+            return null;
+
+        }
+    }
     public boolean validateToken(String token) {
         try {
             Jws<Claims> jws = parseToken(token);
