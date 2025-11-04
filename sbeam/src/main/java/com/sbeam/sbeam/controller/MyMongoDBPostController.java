@@ -9,6 +9,7 @@ import com.sbeam.sbeam.repository.PostRepository;
 import com.sbeam.sbeam.repository.testRepository;
 import com.sbeam.sbeam.service.IPostService;
 import com.sbeam.sbeam.util.Result;
+import com.sbeam.sbeam.webSocket.MessagePushService;
 
 import java.util.List;
 
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MyMongoDBPostController {
     @Autowired
     private IPostService service;
+    @Autowired
+    private MessagePushService pushService;
 
     @GetMapping
     public List<MogoPost> getAllPost() {
@@ -51,10 +54,12 @@ public class MyMongoDBPostController {
         return Result.getSuccess(service.getReply(postId));
     }
 
-    @PostMapping("/{id}/reply")
-    public Result addreply(@PathVariable String id, @RequestBody MogoPost reply) {
+    @PostMapping("/{parentid}/reply")
+    public Result addreply(@PathVariable String parentid, @RequestBody MogoPost reply) {
         System.out.println(reply);
-        service.addReply(id, reply);
+        service.addReply(parentid, reply);
+        String parentUserId = service.getById(reply.getParentPostId()).getUserId();
+        pushService.notifyUser(parentUserId, reply.getAuthor()+"回复了你的帖子");
         return Result.saveSuccess(reply);
     }
 

@@ -76,10 +76,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         // 创建新用户
         User user = new User();
-        user.setuserName(userName);
+        user.setUserName(userName);
         user.setPassword(password); // 建议加密存储
         user.setEmail(email);
-
         userMapper.insert(user);
     }
 

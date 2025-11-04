@@ -12,7 +12,7 @@ public class EmailUtils {
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
         sender.setHost("smtp.qq.com");
         sender.setPort(587); // STARTTLS
-        sender.setuserName("861777592@qq.com"); // 发件人邮箱
+        sender.setUsername("861777592@qq.com"); // 发件人邮箱
         sender.setPassword("voojqutkszgibfci"); // QQ 授权码
 
         // 配置邮件属性
