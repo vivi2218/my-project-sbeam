@@ -58,8 +58,8 @@ public class MyMongoDBPostController {
     public Result addreply(@PathVariable String parentid, @RequestBody MogoPost reply) {
         System.out.println(reply);
         service.addReply(parentid, reply);
-        String parentUserId = service.getById(reply.getParentPostId()).getUserId();
-        pushService.notifyUser(parentUserId, reply.getAuthor()+"回复了你的帖子");
+        String parentUserId = service.getById(parentid).getUserId();
+        pushService.notifyUser(parentUserId, reply.getAuthor() + "回复了你的帖子");
         return Result.saveSuccess(reply);
     }
 

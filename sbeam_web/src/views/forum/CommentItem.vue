@@ -30,7 +30,7 @@ const userName = user.userName
 
 // 发送回复
 const sendReply = async () => {
-  console.log(props.comment.postId)
+  console.log(props.comment)
   if (!replyText.value) return
   if (!props.comment.postId) return  // ⚠️ 避免 id=null
   console.log("post")
