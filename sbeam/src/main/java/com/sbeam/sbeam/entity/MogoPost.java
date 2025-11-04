@@ -18,7 +18,6 @@ import lombok.ToString;
 @Setter
 public class MogoPost {
     @Id
-    @JsonProperty("id")
     private String postId = UUID.randomUUID().toString();
     private String communityId;
     private String userId;

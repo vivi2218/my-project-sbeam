@@ -8,8 +8,8 @@ import HomeView from '../homeView.vue'
 <template>
 
   <!-- <HomeView /> -->
-  <!-- <Mygotest /> -->
-  <Shiriusu/>
+  <Mygotest />
+  <!-- <Shiriusu/> -->
 </template>
 
 <style>

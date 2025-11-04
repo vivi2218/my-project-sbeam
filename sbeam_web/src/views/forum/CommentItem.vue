@@ -30,14 +30,15 @@ const userName = user.userName
 
 // 发送回复
 const sendReply = async () => {
-  console.log(props.comment.postId)
+  console.log(props.comment)
   if (!replyText.value) return
   if (!props.comment.postId) return  // ⚠️ 避免 id=null
   console.log("post")
   await axios.post(`http://localhost:8080/mygo/${props.comment.postId}/reply`, {
     author: userName,
     content: replyText.value,
-    userId: userId
+    userId: userId,
+    parentPostId: props.comment.postId  // 优先使用评论id，否则用帖子id
   })
   replyText.value = ''
   showReply.value = false
@@ -57,12 +58,7 @@ const sendReply = async () => {
 
     <!-- 递归渲染子回复 -->
     <div class="replies" v-if="comment.replies && comment.replies.length">
-      <CommentItem
-        v-for="reply in comment.replies"
-        :key="reply.id"
-        :comment="reply"
-        :reload="props.reload"
-      />
+      <CommentItem v-for="reply in comment.replies" :key="reply.id" :comment="reply" :reload="props.reload" />
     </div>
   </div>
 </template>
@@ -73,9 +69,11 @@ const sendReply = async () => {
   padding: 10px;
   border: 1px solid #ccc;
 }
+
 .replies {
   margin-left: 20px;
 }
+
 .reply-box {
   margin-top: 5px;
 }
