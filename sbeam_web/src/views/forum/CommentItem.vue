@@ -32,7 +32,7 @@ const userName = user.userName
 const sendReply = async () => {
   console.log(props.comment)
   if (!replyText.value) return
-  if (!props.comment.postId) return  // ⚠️ 避免 id=null
+  if (!props.comment.postId) return  // 
   console.log("post")
   await axios.post(`http://localhost:8080/mygo/${props.comment.postId}/reply`, {
     author: userName,
