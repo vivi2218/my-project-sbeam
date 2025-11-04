@@ -22,12 +22,7 @@ public class RabbitMQConfig {
         args.put("x-delayed-type", "direct");//配置交换机类型
         return new CustomExchange("sbeam-delayed-exchange", "x-delayed-message", true, false, args);
     }
-        public Queue newOrderDeadQueue() {
-        return new Queue("orderDLXQueue", true);
-    }
     //延时队列
-
-
     @Bean
     public Queue newDelayQueue() {
         return new Queue("sbeam-delayed-queue", true, false, false);

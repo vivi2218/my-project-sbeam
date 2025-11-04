@@ -34,8 +34,7 @@ public class MyorderController {
 
     @Autowired
     private IMyorderService myorderService;
-    @Autowired
-    private JWTUtils jwtUtils;
+
     // 普通用户只能查看自己的订单，管理员可以查看所有订单
     @Autowired
     private JWTUtils jwtUtils;

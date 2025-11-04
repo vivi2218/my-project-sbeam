@@ -33,15 +33,18 @@ public class OrderTimeoutConsumer {
             Myorder myorder = myorderService.getById(orderId);
             if(myorder == null){
                 System.out.println("订单不存在,ID:"+ orderId);
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
                 return;
             }
             // 2. 校验订单状态（仅处理“未支付”的订单）
             if("paid".equals(myorder.getOrderStatus())){
                 System.out.println("订单已支付,无需取消,ID:"+ orderId);
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
                 return;
             }
             if("cancelled".equals(myorder.getOrderStatus())){
                 System.out.println("订单已取消,ID:"+ orderId);
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
                 return;
             }
 
