@@ -25,7 +25,6 @@ public class PaymentRecordsServiceImpl extends ServiceImpl<PaymentRecordsMapper,
     private PaymentRecordsMapper paymentRecordsMapper;
     @Override
     public Result saveAndReturn(PaymentRecords paymentRecords) {
-        paymentRecords.setTransactionNumber(UUID.randomUUID().toString().replace("_",""));
         paymentRecords.setStatus(0);
         paymentRecords.setVersion(0);
         paymentRecords.setCreatedAt(LocalDateTime.now());

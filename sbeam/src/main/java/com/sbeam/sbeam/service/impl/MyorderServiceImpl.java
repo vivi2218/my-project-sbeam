@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sbeam.sbeam.entity.Cart;
 import com.sbeam.sbeam.entity.Myorder;
 import com.sbeam.sbeam.entity.OrderDetails;
-import com.sbeam.sbeam.mapper.CartMapper;
-import com.sbeam.sbeam.mapper.GameMapper;
-import com.sbeam.sbeam.mapper.MyorderMapper;
-import com.sbeam.sbeam.mapper.OrderDetailsMapper;
+import com.sbeam.sbeam.entity.Sales;
+import com.sbeam.sbeam.mapper.*;
 import com.sbeam.sbeam.service.IMyorderService;
+import com.sbeam.sbeam.util.RedisLuaExecutor;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -35,9 +35,13 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
     @Autowired
     private GameMapper gameMapper;
     @Autowired
+    private SalesMapper salesMapper;
+    @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private RedisLuaExecutor redisLuaExecutor;
     @Override
     public List<Myorder> getOrdersByUserId(Integer userId) {
         QueryWrapper<Myorder> queryWrapper = new QueryWrapper<>();
@@ -78,39 +82,34 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
     }
 
     @Override
-    public Result createOrder(Integer userId,BigDecimal finalPrice) {
-        //防止重复提交订单
-        String lockKey = "order_lock"+userId;
-        String orderKey = "processing_order:" + userId;
-        if(redisTemplate.hasKey(orderKey)){
-            return Result.getFail("您的订单已存在");
-        }
-
-        //获取分布式锁
-        Boolean lockAcquired = redisTemplate.opsForValue().setIfAbsent(lockKey, "lock", 30, TimeUnit.SECONDS);
-        if(!lockAcquired){
-            return Result.getFail("操作过于频繁,请稍后重试");
-        }
-
-        //try
+    public Result createOrder(Integer userId) {
 
         List<Cart> cartList = cartMapper.selectList(new QueryWrapper<Cart>().eq("user_id", userId)
                                                                             .eq("status",0));// 只查询正常状态的购物车项
         if(cartList.isEmpty()){
             return Result.getFail("购物车中没有游戏");
         }
-
-// 核心：用 Optional 把 null 转为 BigDecimal.ZERO（0值，不影响累加结果）
+        //2.扣减库存(Lua原子)
+        for(Cart cart:cartList){
+            String stockKey = "game:stock:" + cart.getGameId();
+            Long res = redisLuaExecutor.execute("script\\decr_stock.lua", Long.class, stockKey, 1);
+            if(res ==null||res<=0){
+                return Result.getFail("游戏【" + cart.getGameId() + "】库存不足");
+            }
+        }
+        // 核心：用 Optional 把 null 转为 BigDecimal.ZERO（0值，不影响累加结果）
         BigDecimal originalPrice = cartList.stream()
                 .map(cart -> Optional.ofNullable(cart.getGamePrice()).orElse(BigDecimal.ZERO))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-// 创建订单
 
+
+        // 创建订单
         Myorder myorder = new Myorder();
         myorder.setUserId(userId);
+        //myorder.setCartId();
         myorder.setOrderNumber("ORDER" + UUID.randomUUID().toString());
         myorder.setOriginalPrice(originalPrice);// 计算原价
-        myorder.setFinalPrice(finalPrice); // 最终支付价格
+        myorder.setFinalPrice(compute_finalPrice(cartList)); // 最终支付价格
         myorder.setOrderDate(LocalDateTime.now());
         myorder.setOrderStatus("unpaid");// 初始订单状态为未支付
         myorder.setVersion(1);
@@ -119,7 +118,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
 
         //保存订单
         myorderMapper.insert(myorder);
-        System.out.println("生成我的订单:"+myorder);
+        System.out.println("生成我的订单号为:"+myorder.getOrderId());
         //创建订单详情
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         for(Cart cart : cartList){
@@ -141,16 +140,10 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
                 return Result.saveFail(myorder);
             }
         }
-            // 标记购物车项为已下单状态（可选）  没有支付成功就先不改
-             //cartMapper.updateCartStatus(cartItems.stream().map(Cart::getCartId).collect(Collectors.toList()), 1);
-
             for(Cart cart:cartList){
                 cart.setStatus(1);
                 cartMapper.updateById(cart);
             }
-            //设置处理中订单标记(15分钟过期)
-            redisTemplate.opsForValue().set(orderKey,myorder.getOrderId(),15,TimeUnit.MINUTES);
-
             //发送延迟消息到RabbitMQ进行超时取消
             sendOrderTimeoutMessage(myorder.getOrderId());
             System.out.println("订单创建成功,订单号:"+myorder.getOrderNumber());
@@ -194,11 +187,7 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         myorder.setUpdatedAt(LocalDateTime.now());
         myorderMapper.updateById(myorder);
 
-        //移除处理中订单标记
-        //String orderKey = "processing_order:" + myorder.getUserId();
-        //redisTemplate.delete(orderKey);
-
-        //可以添加其他业务处理,如库存扣减,发放游戏
+        //可以添加其他业务处理,如库存扣减,绑定激活码,发放激活码
         return Result.updateSuccess(myorder);
     }
 
@@ -212,12 +201,32 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
             order.setUpdatedAt(LocalDateTime.now());
             myorderMapper.updateById(order);
 
-            //移除处理中订单标记
-            //String orderKey = "processing_order:" + order.getUserId();
-            //redisTemplate.delete(orderKey);
-
-            System.out.println("订单超时自动取消，订单ID: " + orderId);
+            //回滚库存
+            List<OrderDetails> details = orderDetailsMapper.selectList(
+                    new QueryWrapper<OrderDetails>().eq("order_id", orderId)
+            );
+            for(OrderDetails od:details){
+                String stockKey = "game:stock:"+od.getGameId();
+                redisLuaExecutor.execute("script/rollback_stock.lua", Long.class,stockKey,1);
+            }
+            System.out.println("订单超时自动取消，库存已回滚：订单ID: " + orderId);
         }
     }
-
+    //计算订单价格
+    private BigDecimal compute_finalPrice(List<Cart> cartList){
+        BigDecimal finalPrice = BigDecimal.ZERO;
+        for(Cart cart:cartList){
+            BigDecimal gamePrice = cart.getGamePrice();
+            BigDecimal discount = selectdiscount(cart.getSalesId());
+            BigDecimal itemPrice = gamePrice.multiply(discount);
+            // 4. 累加至总价（保留2位小数，四舍五入，避免精度问题）
+            finalPrice = finalPrice.add(itemPrice).setScale(2, RoundingMode.HALF_UP);
+        }
+        return finalPrice;
+    }
+    //查询salesid的discount
+    private BigDecimal selectdiscount(Integer salesId){
+        Sales sales = salesMapper.selectById(salesId);
+        return BigDecimal.ONE.subtract(sales.getDiscountRate());
+    }
 }

@@ -17,7 +17,8 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(autoIdempotentInterceptor)
-                .addPathPatterns("/testorder/**");
+                .addPathPatterns("/myorder/create/**");
+        System.out.println("注入拦截器成功");
     }
 
 }

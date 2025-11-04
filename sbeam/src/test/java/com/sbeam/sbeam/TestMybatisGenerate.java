@@ -20,7 +20,7 @@ public class TestMybatisGenerate {
                             .pathInfo(Collections.singletonMap(OutputFile.xml, "D:\\sbeam\\sbeam\\sbeam\\src\\main\\resources\\com/sbeam/sbeam/mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("cdkey_stock")
+                    builder.addInclude("order_history")
 
 
 

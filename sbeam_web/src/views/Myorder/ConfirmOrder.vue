@@ -1,212 +1,219 @@
 <script setup>
-import { ref, onMounted, reactive } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref, reactive, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import axios from 'axios'
 
-const router = useRouter()
 const route = useRoute()
-
-// 用户ID
 const userId = route.query.userId || 1
 const token = localStorage.getItem('sbeam_token')
 
-// 倒计时
+// ==================== 数据区 ====================
+const loading = ref(false)
+const order = reactive({
+  orderId: '',
+  orderNumber: '',
+  finalPrice: '',
+  orderStatus: ''
+})
+const cartItems = ref([])
 const countdown = ref(900)
-const countdownTimer = ref(null)
-const isPaymentDisabled = ref(false)
+let timer = null
 const isExpired = ref(false)
 
-// 订单信息
-const order = reactive({
-  orderNumber: '',
-  originalPrice: 0,
-  finalPrice: 0,
-  orderStatus: 'unpaid'
-})
+// ==================== 幂等Token ====================
+let formtoken = ''
+let formvalue = ''
 
-// 购物车商品
-const items = ref([])
-
-// === 获取购物车和订单信息 ===
-const getOrderData = async () => {
-  try {
-    // 获取购物车
-    const cartRes = await axios.get('http://localhost:8080/cart', {
-      headers: { Authorization: token },
-    })
-    items.value = cartRes.data || []
-
-    // 获取未支付订单
-    const orderRes = await axios.get(`http://localhost:8080/myorder/user/${userId}/status/unpaid`)
-    if (orderRes.data && orderRes.data.length > 0) {
-      const o = orderRes.data[0]
-      order.orderNumber = o.orderNumber
-      order.originalPrice = o.originalPrice
-      order.finalPrice = o.finalPrice
-      order.orderStatus = o.orderStatus
-    } else {
-      console.log('当前无未支付订单')
-    }
-  } catch (error) {
-    console.error('获取订单数据失败:', error)
+async function getIdempotentToken() {
+  const res = await axios.get(`http://localhost:8080/idempotent/createToken?userId=${userId}`)
+  if (res.data.code === 200) {
+    formtoken = res.data.data.formtoken
+    formvalue = res.data.data.formvalue
+    console.log('✅ 获取幂等token成功:', formtoken, formvalue)
+  } else {
+    alert('❌ 获取幂等token失败')
   }
 }
 
-// === 倒计时逻辑 ===
-const startCountdown = () => {
-  countdownTimer.value = setInterval(() => {
+// ==================== 创建订单 ====================
+async function createOrder() {
+  try {
+    loading.value = true
+
+    const res = await axios.post(
+      `http://localhost:8080/myorder/create`,
+      {},
+      {
+        headers: {
+          formtoken,
+          formvalue,
+          Authorization: token,
+        },
+      }
+    )
+    console.log('创建订单响应:', res)
+
+    if (res.data.code === 200) {
+      const data = res.data.data
+      order.orderId = data.orderId
+      order.orderNumber = data.orderNumber
+      order.finalPrice = data.finalPrice
+      order.orderStatus = data.orderStatus
+      console.log('✅ 创建订单成功:', order)
+
+      // 获取购物车内容用于展示
+      const cartRes = await axios.get(`http://localhost:8080/cart`, {
+        headers: { Authorization: token },
+      })
+      cartItems.value = cartRes.data || []
+
+
+      // 开启倒计时
+      startCountdown()
+    } else if (res.data.code === 201) {
+      // 201 表示库存不足等业务逻辑错误
+      const errorMsg = res.data.data || '创建订单失败'
+      console.error('❌ 创建订单失败:', errorMsg)
+      alert('❌ ' + errorMsg)
+      throw new Error(errorMsg)
+    } else {
+      const errorMsg = res.data.message || '创建订单失败'
+      console.error('❌ 创建订单失败:', errorMsg)
+      alert('❌ ' + errorMsg)
+      throw new Error(errorMsg)
+    }
+  } catch (err) {
+    console.error('❌ 创建订单出错:', err)
+    if (!err.message.includes('创建订单失败')) {
+      alert(err.message || '订单创建失败，请重试')
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+// ==================== 倒计时 ====================
+function startCountdown() {
+  timer = setInterval(() => {
     if (countdown.value > 0) countdown.value--
     else {
-      clearInterval(countdownTimer.value)
+      clearInterval(timer)
       isExpired.value = true
-      isPaymentDisabled.value = true
     }
   }, 1000)
 }
-
-// 格式化倒计时
-const formatCountdown = (seconds) => {
-  const min = Math.floor(seconds / 60)
-  const sec = seconds % 60
-  return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
+function formatTime(sec) {
+  const m = Math.floor(sec / 60)
+  const s = sec % 60
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
-// === 发起支付（调用后端 /alipay 接口） ===
-const handlePayment = async () => {
-  if (isExpired.value) return alert('订单已过期，请重新下单')
+// ==================== 调用支付宝支付 ====================
+async function goPay() {
+  if (isExpired.value) {
+    alert('订单已超时，请重新下单')
+    return
+  }
+
+  const myorder = {
+    orderId: order.orderId,
+    userId: userId,
+    orderNumber: order.orderNumber,
+    finalPrice: order.finalPrice,
+    orderStatus: order.orderStatus,
+  }
 
   try {
-    // 构造 Myorder 对象
-    const myorder = {
-      orderId: order.orderId,
-      userId: userId,
-      orderNumber: order.orderNumber,
-      originalPrice: order.originalPrice,
-      finalPrice: order.finalPrice,
-      orderStatus: order.orderStatus
-    }
-
-    // 向后端发送请求，获取支付宝支付表单
     const res = await axios.post('http://localhost:8080/paymentRecords', myorder, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     })
-
-    // res.data 是 HTML 表单字符串，将其插入 DOM 并自动提交
+    // 返回HTML表单
     const div = document.createElement('div')
     div.innerHTML = res.data
     document.body.appendChild(div)
     document.forms[0].submit() // 自动跳转支付宝
-
   } catch (err) {
-    console.error('发起支付失败:', err)
+    console.error('❌ 发起支付失败:', err)
   }
 }
 
-// === 页面初始化 ===
-onMounted(() => {
-  getOrderData()
-  startCountdown()
+// ==================== 初始化 ====================
+onMounted(async () => {
+  await getIdempotentToken()
+  await createOrder()
 })
 </script>
 
 <template>
-  <div class="order-confirm">
-    <h1 class="title">确认订单</h1>
+  <div class="confirm-order">
+    <h2>确认订单</h2>
 
-    <div class="order-details">
-      <p><strong>订单号:</strong> {{ order.orderNumber || '未生成' }}</p>
-      <p><strong>原价:</strong> {{ order.originalPrice }} 元</p>
-      <p><strong>应付总价:</strong> <span class="price">{{ order.finalPrice }} 元</span></p>
+    <div v-if="order.orderNumber" class="order-box">
+      <p><strong>订单号：</strong> {{ order.orderNumber }}</p>
+      <p><strong>应付金额：</strong> <span class="price">{{ order.finalPrice }} 元</span></p>
+      <p><strong>订单状态：</strong> {{ order.orderStatus }}</p>
+      <p>请在 <b>{{ formatTime(countdown) }}</b> 内完成支付，否则订单将自动取消。</p>
+    </div>
 
-      <p><strong>商品列表:</strong></p>
-      <ul class="items-list">
-        <li v-for="item in items" :key="item.gameId" class="item">
-          <span class="game-name">{{ item.gameName }}</span>
-          <span class="game-price">{{ item.gamePrice }} 元</span>
+    <div class="cart-preview" v-if="cartItems.length > 0">
+      <h3>商品列表：</h3>
+      <ul>
+        <li v-for="item in cartItems" :key="item.cartId">
+          {{ item.gameName }} - {{ item.gamePrice }} 元
         </li>
       </ul>
     </div>
 
-    <div class="payment-info">
-      <p>请在 <span class="countdown">{{ formatCountdown(countdown) }}</span> 内完成支付</p>
-      <button @click="handlePayment" :disabled="isPaymentDisabled" class="payment-button">
-        去 支 付
-      </button>
-    </div>
-
-    <div v-if="isExpired" class="expired-message">
-      <p>订单已过期，请重新下单。</p>
-    </div>
+    <button
+      @click="goPay"
+      class="pay-btn"
+      :disabled="isExpired || loading"
+    >
+      {{ loading ? '处理中...' : isExpired ? '已超时' : '去支付' }}
+    </button>
   </div>
 </template>
 
 <style scoped>
-.order-confirm {
-  width: 800px;
-  margin: 50px auto;
+.confirm-order {
+  width: 700px;
+  margin: 40px auto;
   padding: 30px;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  font-family: "Microsoft YaHei";
 }
-.title {
+h2 {
   text-align: center;
-  font-size: 1.8rem;
   color: #333;
-  margin-bottom: 20px;
 }
-.order-details {
+.order-box {
   background: #fafafa;
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid #eaeaea;
+  border: 1px solid #eee;
   margin-bottom: 20px;
 }
-.items-list {
-  list-style: none;
-  padding: 0;
-}
-.item {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #eaeaea;
-  padding: 10px 0;
-}
 .price {
-  color: #f39c12;
+  color: #e67e22;
   font-weight: bold;
 }
-.payment-info {
-  text-align: center;
-  margin-top: 20px;
+.cart-preview ul {
+  padding-left: 20px;
 }
-.countdown {
-  color: #e74c3c;
-  font-weight: bold;
-  background-color: rgba(231, 76, 60, 0.1);
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-.payment-button {
+.pay-btn {
   width: 100%;
   padding: 12px;
   background-color: #4CAF50;
-  color: white;
   border: none;
-  border-radius: 5px;
-  margin-top: 15px;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
 }
-.payment-button:hover {
-  background-color: #45a049;
-}
-.payment-button:disabled {
+.pay-btn:disabled {
   background-color: #ccc;
-}
-.expired-message {
-  margin-top: 20px;
-  text-align: center;
-  color: #e74c3c;
-  font-weight: bold;
+  cursor: not-allowed;
 }
 </style>

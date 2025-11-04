@@ -5,14 +5,14 @@ import GameDetail from '@/views/GameDetail.vue'
 import TestAutoIdempotent from './views/Myorder/TestAutoIdempotent.vue'
 import testhome from './views/testview/testhome.vue'
 import post from './views/testview/forum/post.vue'
-import cart from './views/User/cart.vue'
+
+import TestCartIdempotent from './views/Myorder/TestCartIdempotent.vue'
 </script>
 
 <template>
-  <navigaton></navigaton>
+   <navigaton></navigaton>
   <RouterView></RouterView>
-  <!-- <testhome/> -->
-  <!-- <post/> -->
+  <!-- <TestCartIdempotent></TestCartIdempotent> -->
 
 </template>
 
