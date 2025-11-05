@@ -20,9 +20,11 @@ import Recommd from './views/recommd.vue'
 
 import testtingView from './viNews/test/testtingView.vue'
 import navigaton from './viNews/componews/navigaton.vue';
+import mouz from './viNews/componews/mouz.vue'
 </script>
 
 <template>
+  <mouz/>
   <navigaton />
   <RouterView />
 >>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe

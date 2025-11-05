@@ -19,7 +19,7 @@ import lombok.ToString;
 public class MogoPost {
     @Id
     private String postId = UUID.randomUUID().toString();
-    private String communityId;
+    private String communityName;
     private String userId;
     private String author;
     private String content;

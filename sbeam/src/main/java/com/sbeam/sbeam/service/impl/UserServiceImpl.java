@@ -6,7 +6,10 @@ import com.sbeam.sbeam.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sbeam.sbeam.utils.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +17,7 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author yourname
@@ -24,9 +27,12 @@ import java.util.regex.Pattern;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Value("${steam.api.key}")
+    private String steamApiKey;
+
     // 存储手机号和验证码的临时Map
     Map<String, String> codeMap = new HashMap<>();
-
 
     @Override
     public User createUser(User user) {
@@ -68,8 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<User>()
                         .eq("email", email)
                         .or()
-                        .eq("user_name", userName)
-        );
+                        .eq("user_name", userName));
         if (existUser != null) {
             throw new Exception("用户已存在");
         }
@@ -82,20 +87,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userMapper.insert(user);
     }
 
-    @Override
-    public boolean hasAdminPermission(Integer userId) {
-        User user = getById(userId);
-        return user != null && "admin".equals(user.getRole());
-    }
-    @Override
-    public String getUserRole(Integer userId) {
-        User user = getById(userId);
-        return user != null ? user.getRole() : null;
-    }
+    // @Override
+    // public boolean hasAdminPermission(Integer userId) {
+    //     User user = getById(userId);
+    //     return user != null && "admin".equals(user.getRole());
+    // }
+
+    // @Override
+    // public String getUserRole(Integer userId) {
+    //     User user = getById(userId);
+    //     return user != null ? user.getRole() : null;
+    // }
 
     // 工具方法：验证邮箱格式
     private boolean isValidEmail(String email) {
         String emailRegex = "^[\\w.-]+@[\\w.-]+\\.\\w+$";
         return Pattern.matches(emailRegex, email);
+    }
+
+    @Override
+    @Transactional
+    public User bindSteamAccount(Integer userId, String steamId) {
+        // 查找现有用户
+        User user = userMapper.selectById(userId);
+        
+        if (user != null) {
+            // 更新 Steam 账号相关信息
+            user.setSteamId(steamId);
+
+            // 更新用户信息
+            userMapper.updateById(user);
+            return user;
+        }
+        
+        return null;  // 如果没有找到用户
     }
 }

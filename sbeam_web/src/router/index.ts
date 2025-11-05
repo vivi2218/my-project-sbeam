@@ -39,6 +39,7 @@ import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
 import homeView from '@/viNews/homeView.vue'
 import testtingView from '@/viNews/test/testtingView.vue'
 import userspace from '@/viNews/user/userHome.vue'
+import userInfo from '@/viNews/user/userInfo.vue'
 
 <<<<<<< HEAD
 =======
@@ -81,6 +82,7 @@ const router = createRouter({
 =======
     //个人中心
     { path: '/userspace', name: 'userspace', component: userspace },
+    { path: '/userinfo', name: 'userinfo', component: userInfo },
 
     //测试
     { path: '/test', name: 'test', component: testtingView },
