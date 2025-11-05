@@ -45,7 +45,7 @@ public class JWTUtils {
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + expiration * 1000));
         claims.put("username", user.getUserName());
-        claims.put("role",user.getRole());//添加角色信息到token
+       // claims.put("role",user.getRole());//添加角色信息到token
 
         String token = Jwts.builder()
                 .setClaims(claims)
@@ -96,17 +96,17 @@ public class JWTUtils {
     public Jws<Claims> parseToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
     }
-    //获取用户角色
-    public String getUserRoleFromToken(String token){
+    // //获取用户角色
+    // public String getUserRoleFromToken(String token){
 
-        try {
-            Claims c = parseToken(token).getBody();
-            return c.get("role", String.class);
-        }catch (Exception e){
-            return null;
+    //     try {
+    //         Claims c = parseToken(token).getBody();
+    //         return c.get("role", String.class);
+    //     }catch (Exception e){
+    //         return null;
 
-        }
-    }
+    //     }
+    // }
     public boolean validateToken(String token) {
         try {
             Jws<Claims> jws = parseToken(token);

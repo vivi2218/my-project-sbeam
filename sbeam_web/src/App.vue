@@ -2,9 +2,11 @@
 
 import testtingView from './viNews/test/testtingView.vue'
 import navigaton from './viNews/componews/navigaton.vue';
+import mouz from './viNews/componews/mouz.vue'
 </script>
 
 <template>
+  <mouz/>
   <navigaton />
   <RouterView />
 </template>

@@ -35,7 +35,13 @@ onMounted(async () => {
 const bindSteam = async () => {
   try {
     // 发起绑定请求，后端会提供绑定 Steam 的 URL
-    const response = await axios.get('/auth/steam-login')
+    const response = await axios.get('http://localhost:8080/auth/steam-login', {
+      headers: {
+        'Origin': 'http://localhost:5173',  // 设置 Origin
+        'Referer': 'http://localhost:5173'  // 设置 Referer
+      }
+    });
+
     console.log("Redirect URL:", response.data.redirectUrl);  // 调试打印返回的 URL
 
     if (response.data.redirectUrl) {

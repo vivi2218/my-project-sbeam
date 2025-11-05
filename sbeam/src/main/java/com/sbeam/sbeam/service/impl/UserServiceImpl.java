@@ -87,17 +87,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userMapper.insert(user);
     }
 
-    @Override
-    public boolean hasAdminPermission(Integer userId) {
-        User user = getById(userId);
-        return user != null && "admin".equals(user.getRole());
-    }
+    // @Override
+    // public boolean hasAdminPermission(Integer userId) {
+    //     User user = getById(userId);
+    //     return user != null && "admin".equals(user.getRole());
+    // }
 
-    @Override
-    public String getUserRole(Integer userId) {
-        User user = getById(userId);
-        return user != null ? user.getRole() : null;
-    }
+    // @Override
+    // public String getUserRole(Integer userId) {
+    //     User user = getById(userId);
+    //     return user != null ? user.getRole() : null;
+    // }
 
     // 工具方法：验证邮箱格式
     private boolean isValidEmail(String email) {

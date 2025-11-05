@@ -78,23 +78,25 @@ public class AuthController {
         return Map.of("code", 200, "msg", "已登出");
     }
 
-    @GetMapping("/userInfo")
-    public Map<String, Object> getUserInfo(@RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.substring(7);
-        String userId = jwtUtils.getUserIdFromToken(token);
-        String username = jwtUtils.getUserNameFromToken(token);
-        String role = jwtUtils.getUserRoleFromToken(token);
-        return Map.of(
-                "code", 200,
-                "data", Map.of(
-                        "userId", userId,
-                        "username", username,
-                        "role", role));
-    }
+    // @GetMapping("/userInfo")
+    // public Map<String, Object> getUserInfo(@RequestHeader("Authorization") String authHeader) {
+    //     String token = authHeader.substring(7);
+    //     String userId = jwtUtils.getUserIdFromToken(token);
+    //     String username = jwtUtils.getUserNameFromToken(token);
+    //     String role = jwtUtils.getUserRoleFromToken(token);
+    //     return Map.of(
+    //             "code", 200,
+    //             "data", Map.of(
+    //                     "userId", userId,
+    //                     "username", username,
+    //                     "role", role));
+    // }
 
     // 生成 Steam 登录 URL
     @GetMapping("/steam-login")
     public ResponseEntity<Map<String, String>> steamLogin() {
+        System.out.println("到達後端");
+
         String steamLoginUrl = "https://steamcommunity.com/openid/login?openid.ns=http://specs.openid.net/auth/2.0&openid.mode=checkid_setup&openid.return_to=http://localhost:8080/auth/steam-callback&openid.realm=http://localhost&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select";
 
         Map<String, String> response = new HashMap<>();
@@ -115,10 +117,8 @@ public class AuthController {
             // 获取当前用户的 userId（通过 JWT 获取）
             String token = authHeader.substring(7); // 从 Authorization 头中获取 token
             Integer userId = Integer.valueOf(jwtUtils.getUserIdFromToken(token));
-
             // 在此通过 steamId 绑定到用户
             userService.bindSteamAccount(userId, steamId);
-
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("steamId", steamId);
@@ -127,5 +127,4 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Steam 登录失败"));
         }
     }
-
 }
