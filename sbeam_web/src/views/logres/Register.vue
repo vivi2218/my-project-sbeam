@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-const username = ref('')
+const userName = ref('')
 const password = ref('')
 const email = ref('') // 改为邮箱
 const code = ref('')
@@ -52,7 +52,7 @@ const sendCode = async () => {
 
 //注册
 const register = () => {
-  console.log('注册信息:', username.value, password.value, email.value, code.value)
+  console.log('注册信息:', userName.value, password.value, email.value, code.value)
 
   //localhost:8080/user
   fetch('http://localhost:8080/user', {
@@ -61,7 +61,7 @@ const register = () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      user_name: username.value,
+      user_name: userName.value,
       password: password.value,
       email: email.value,
       code: code.value, // 前端输入的验证码
@@ -71,7 +71,7 @@ const register = () => {
     .then((data) => {
       console.log('注册成功:', data)
 
-      if (!username.value || !password.value || !email.value || !code.value) {
+      if (!userName.value || !password.value || !email.value || !code.value) {
         alert('请输入完整信息')
         return
       }
@@ -100,7 +100,7 @@ const register = () => {
     </div>
 
     <div class="form">
-      <input v-model="username" type="text" placeholder="账号" />
+      <input v-model="userName" type="text" placeholder="账号" />
       <input v-model="password" type="password" placeholder="密码" />
 
       <div class="phone">

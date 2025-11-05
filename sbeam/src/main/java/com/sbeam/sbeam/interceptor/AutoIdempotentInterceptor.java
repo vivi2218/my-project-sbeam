@@ -19,14 +19,19 @@ public class AutoIdempotentInterceptor implements HandlerInterceptor{
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        System.out.println("正在执行拦截器AutoIdempotentInterceptor 。。。。。。。 ");
         String token=request.getHeader("formtoken");
+        String value = request.getHeader("formvalue");
+        System.out.println("拦截器中获得的formToken：" + token);
+        System.out.println("拦截器中获得的formvalue：" + value);
+
         if(!(handler instanceof HandlerMethod)) return true;
         HandlerMethod handlerMethod=(HandlerMethod) handler;
         AutoIdempotent annotation = handlerMethod.getMethod().getAnnotation(AutoIdempotent.class);
         if (annotation != null) {
-            return idempotentTokenService.checkToken(token);
+            return idempotentTokenService.checkToken(token,value);
         }
-        return true;
+        return true;//放行
     }
     
 }

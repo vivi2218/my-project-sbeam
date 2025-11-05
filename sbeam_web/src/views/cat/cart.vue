@@ -39,28 +39,39 @@ const checkout = async () => {
     return
   }
   isLoading.value = true
-  try{
-    const res = await axios.post(
-      'http://localhost:8080/myorder/create/1',
-       totalPrice.value,
+  try {
+    // 👉 跳转到确认订单页，不在这里创建订单
+    // 只传递 userId（在确认页里再调用 createOrder + 幂等验证）
+    router.push({
+      path: '/confirmorder',
 
-      {
-        headers: { Authorization: token ,
-          'Content-Type': 'application/json'
-        },
-      },
-    )
-      console.log(res);
-      if(res.data.code===200){
-        const { order } = res.data.data
-        //跳转到确认订单页面
-        router.push({path:'/confirmorder',
-        query: { userId: order.userId, orderNumber: order.orderNumber }
-        })
-      }
-    }finally{
+    })
+  } finally {
     isLoading.value = false
   }
+  // isLoading.value = true
+  // try{
+  //   const res = await axios.post(
+  //     'http://localhost:8080/myorder/create/1',
+  //      totalPrice.value,
+
+  //     {
+  //       headers: { Authorization: token ,
+  //         'Content-Type': 'application/json'
+  //       },
+  //     },
+  //   )
+  //     console.log(res);
+  //     if(res.data.code===200){
+  //       const { order } = res.data.data
+  //       //跳转到确认订单页面
+  //       router.push({path:'/confirmorder',
+  //       query: { userId: order.userId, orderNumber: order.orderNumber }
+  //       })
+  //     }
+  //   }finally{
+  //   isLoading.value = false
+  // }
 
 }
 </script>
@@ -84,7 +95,7 @@ const checkout = async () => {
       <div class="checkout">
         <p>总价：{{ totalPrice }} 元</p>
         <button @click="checkout" :disabled="isLoading">
-            {{ isLoading ? '创建订单中...' : '去结算' }}</button>
+            {{ isLoading ? '跳转中...' : '去结算' }}</button>
       </div>
     </div>
   </div>

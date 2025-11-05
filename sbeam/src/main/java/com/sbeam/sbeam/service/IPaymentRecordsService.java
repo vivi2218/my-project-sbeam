@@ -14,4 +14,5 @@ import com.sbeam.sbeam.util.Result;
  */
 public interface IPaymentRecordsService extends IService<PaymentRecords> {
     public Result saveAndReturn(PaymentRecords paymentRecords);
+    public void handlePaymentSuccess(String orderNum, String tradeNo, String payPrice);
 }

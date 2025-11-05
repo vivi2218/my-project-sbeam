@@ -23,7 +23,7 @@
 //                         .requestMatchers("/auth/**", "/login", "/register", "/css/**", "/js/**").permitAll()
 //                         .anyRequest().authenticated()
 //                 )
-//                 .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+//                 .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.userNamePasswordAuthenticationFilter.class);
 //         return http.build();
 //     }
 // }

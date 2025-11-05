@@ -29,7 +29,7 @@ public interface IMyorderService extends IService<Myorder> {
     boolean deleteOrder(Integer orderId);
 
     //创建订单
-    public Result createOrder(Integer userId, BigDecimal finalPrice);
+    public Result createOrder(Integer userId);
     //订单编号查询订单
     public Result getByOrderNumber(String orderNum);
     //处理订单超时取消

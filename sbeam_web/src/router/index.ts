@@ -27,12 +27,25 @@ import Cart from '@/views/cat/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
 import forumHome from '@/views/forum/forumHome.vue'
+<<<<<<< HEAD
 
 import postMain from '@/views/forum/postMain.vue'
 
+=======
+import postMain from '@/views/forum/postMain.vue'
+>>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe
 import PaySuccess from '@/views/Myorder/PaySuccess.vue'
 import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
+import homeView from '@/viNews/homeView.vue'
+import testtingView from '@/viNews/test/testtingView.vue'
+import userspace from '@/viNews/user/userHome.vue'
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe
 // 游戏商城相关（如果有对应文件）
 
 const router = createRouter({
@@ -56,14 +69,24 @@ const router = createRouter({
     { path: '/home', name: 'home2', component: Home },
     { path: '/library', name: 'library', component: Library },
 
-    { path: '/', name: 'home', component: HomeView },
+    { path: '/', name: 'home', component: homeView },
     { path: '/User/cart', name: 'usercart', component: Cart },
     { path: '/User/myorder', name: 'usermyorder', component: Myorder },
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
 
+<<<<<<< HEAD
     // { path: '/store/:id', name: 'game-detail', component: GameDetail },
 
+=======
+    //个人中心
+    { path: '/userspace', name: 'userspace', component: userspace },
+
+    //测试
+    { path: '/test', name: 'test', component: testtingView },
+
+    // { path: '/store/:id', name: 'game-detail', component: GameDetail },
+>>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe
     { path: '/store/:id', name: 'game-detail', component: GameDetail },
 
     {

@@ -13,11 +13,21 @@ import com.sbeam.sbeam.interceptor.AutoIdempotentInterceptor;
 public class WebConfiguration implements WebMvcConfigurer {
     @Autowired
     private AutoIdempotentInterceptor autoIdempotentInterceptor;
+    // @Autowired
+    // private AuthInterceptor authInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(autoIdempotentInterceptor)
-                .addPathPatterns("/testorder/**");
+                .addPathPatterns("/myorder/create/**");
+        System.out.println("注入拦截器成功");
+        //权限控制拦截器配置
+        //      registry.addInterceptor(authInterceptor).addPathPatterns("/**")
+        //             //排除登录注册等公开接口
+        //             .excludePathPatterns("/auth/**","/test/**");
     }
 
+
 }
+
+

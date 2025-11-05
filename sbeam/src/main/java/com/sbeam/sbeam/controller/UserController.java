@@ -3,7 +3,10 @@ package com.sbeam.sbeam.controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.sbeam.sbeam.entity.User;
+import com.sbeam.sbeam.entity.UserProfile;
+import com.sbeam.sbeam.service.IUserProfileService;
 import com.sbeam.sbeam.service.IUserService;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -35,11 +40,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IUserProfileService userProService;
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public User getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
+
+    @GetMapping("/pro/{id}")
+    public UserProfile getProById(@PathVariable Integer id) {
+        return userProService.getByUseProrId(id);
+    }
+    
 
     // 发送验证码
     @PostMapping("/sendCode")
@@ -77,12 +90,12 @@ public class UserController {
     public Map<String, Object> register(@RequestBody Map<String, String> body) {
         Map<String, Object> result = new HashMap<>();
 
-        String username = body.get("user_name");
+        String userName = body.get("user_name");
         String password = body.get("password");
         String email = body.get("email");
         String code = body.get("code");
 
-        if (username == null || username.isEmpty() ||
+        if (userName == null || userName.isEmpty() ||
                 password == null || password.isEmpty() ||
                 email == null || email.isEmpty() ||
                 code == null || code.isEmpty()) {
@@ -106,7 +119,7 @@ public class UserController {
         }
 
         try {
-            userService.registerUser(username, password, email);
+            userService.registerUser(userName, password, email);
             result.put("success", true);
         } catch (Exception e) {
             result.put("success", false);
@@ -122,7 +135,7 @@ public class UserController {
         return Pattern.matches(emailRegex, email);
     }
 
-
+   
 
 
 

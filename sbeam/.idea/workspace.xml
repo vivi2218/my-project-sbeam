@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="剩余我的订单vue,支付成功后取消超时监听" />
+=======
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="只是延迟队列消费者 消息确认">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/PaymentRecordsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/PaymentRecordsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/GameMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/GameMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IPaymentRecordsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IPaymentRecordsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/PaymentRecordsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/PaymentRecordsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GameMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/sbeam/sbeam/mapper/GameMapper.xml" afterDir="false" />
+    </list>
+>>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,8 +25,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="package-info" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -28,16 +41,10 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
   </component>
   <component name="ProjectId" id="33hSeHBUXloV4EfwtmASk1PXFJu" />
   <component name="ProjectViewState">
@@ -53,6 +60,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.SbeamApplication.executor&quot;: &quot;Run&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/aaachi/YU3/breezy_project&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -71,6 +79,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\sbeam\sbeam\sbeam\src" />
       <recent name="D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -89,6 +98,19 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.SbeamApplication">
+    <configuration name="ConcurrentOrderTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sbeam.sbeam.ConcurrentOrderTest" />
+      <module name="sbeam" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sbeam.sbeam.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestMybatisGenerate" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sbeam.sbeam.TestMybatisGenerate" />
       <module name="sbeam" />
@@ -111,6 +133,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ConcurrentOrderTest" />
         <item itemvalue="Application.TestMybatisGenerate" />
         <item itemvalue="Application.TestMybatisGenerate" />
         <item itemvalue="Application.TestMybatisGenerate" />
@@ -171,6 +194,7 @@
       <workItem from="1761786063326" duration="599000" />
       <workItem from="1761809414254" duration="1249000" />
       <workItem from="1761483864477" duration="8755000" />
+<<<<<<< HEAD
       <workItem from="1761959959520" duration="1468000" />
       <workItem from="1762131373152" duration="61000" />
       <workItem from="1762131456253" duration="3510000" />
@@ -183,6 +207,16 @@
       <workItem from="1762224937699" duration="2487000" />
       <workItem from="1762268739237" duration="1832000" />
       <workItem from="1762322663619" duration="1032000" />
+=======
+      <workItem from="1761806110099" duration="1071000" />
+      <workItem from="1761808433458" duration="58592000" />
+      <workItem from="1762056866140" duration="7125000" />
+      <workItem from="1762131789300" duration="24946000" />
+      <workItem from="1762165417610" duration="5339000" />
+      <workItem from="1762218244340" duration="15167000" />
+      <workItem from="1762244477051" duration="409000" />
+      <workItem from="1762304549796" duration="6837000" />
+>>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe
     </task>
     <task id="LOCAL-00001" summary="要登录验证合并">
       <option name="closed" value="true" />
@@ -200,7 +234,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761498310342</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="增加庫存表">
+      <option name="closed" value="true" />
+      <created>1761891969973</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1761891969973</updated>
+    </task>
+    <task id="LOCAL-00004" summary="只是延迟队列消费者 消息确认">
+      <option name="closed" value="true" />
+      <created>1762253007881</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1762253007881</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,6 +271,8 @@
     <MESSAGE value="要登录验证合并" />
     <MESSAGE value="完成支付" />
     <MESSAGE value="剩余我的订单vue,支付成功后取消超时监听" />
-    <option name="LAST_COMMIT_MESSAGE" value="剩余我的订单vue,支付成功后取消超时监听" />
+    <MESSAGE value="增加庫存表" />
+    <MESSAGE value="只是延迟队列消费者 消息确认" />
+    <option name="LAST_COMMIT_MESSAGE" value="只是延迟队列消费者 消息确认" />
   </component>
 </project>

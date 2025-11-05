@@ -35,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public User getUserById(Long id) {
+    public User getUserById(Integer id) {
         return userMapper.selectById(id);
 
     }
@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public void registerUser(String username, String password, String email) throws Exception {
+    public void registerUser(String userName, String password, String email) throws Exception {
         // 验证邮箱格式
         if (!isValidEmail(email)) {
             throw new Exception("邮箱格式不正确");
@@ -68,7 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<User>()
                         .eq("email", email)
                         .or()
-                        .eq("user_name", username)
+                        .eq("user_name", userName)
         );
         if (existUser != null) {
             throw new Exception("用户已存在");
@@ -76,14 +76,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         // 创建新用户
         User user = new User();
-        user.setUserName(username);
+        user.setUserName(userName);
         user.setPassword(password); // 建议加密存储
         user.setEmail(email);
-
         userMapper.insert(user);
     }
 
-
+    @Override
+    public boolean hasAdminPermission(Integer userId) {
+        User user = getById(userId);
+        return user != null && "admin".equals(user.getRole());
+    }
+    @Override
+    public String getUserRole(Integer userId) {
+        User user = getById(userId);
+        return user != null ? user.getRole() : null;
+    }
 
     // 工具方法：验证邮箱格式
     private boolean isValidEmail(String email) {

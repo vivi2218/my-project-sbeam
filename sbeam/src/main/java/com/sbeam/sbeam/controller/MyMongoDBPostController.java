@@ -8,6 +8,8 @@ import com.sbeam.sbeam.entity.testEntity;
 import com.sbeam.sbeam.repository.PostRepository;
 import com.sbeam.sbeam.repository.testRepository;
 import com.sbeam.sbeam.service.IPostService;
+import com.sbeam.sbeam.util.Result;
+import com.sbeam.sbeam.webSocket.MessagePushService;
 
 import java.util.List;
 
@@ -28,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MyMongoDBPostController {
     @Autowired
     private IPostService service;
+    @Autowired
+    private MessagePushService pushService;
 
     @GetMapping
     public List<MogoPost> getAllPost() {
@@ -37,16 +41,15 @@ public class MyMongoDBPostController {
 
     //新建帖子
     @PostMapping
-    public boolean addpost(@RequestBody MogoPost entity) {
-        System.out.println("Received Entity: " + entity);
+    public Result addpost(@RequestBody MogoPost entity) {
         service.save(entity);
-        return true;
+        return Result.saveSuccess(entity);
     }
 
 
     //根据帖子ID获取帖子
     @GetMapping("/{id}")
-    public MogoPost getMethodName(@PathVariable String id) {
+    public MogoPost getById(@PathVariable String id) {
         return service.getById(id);
     }
 
@@ -54,11 +57,11 @@ public class MyMongoDBPostController {
 
     //获得所有回复
     @GetMapping("/reply")
-    public List<MogoPost> getRepliesByPostId(@RequestParam String postId) {
-        System.out.println("Getting replies for postId: " + postId);
-        return service.getReply(postId);
+    public Result getRepliesByPostId(@RequestParam String postId) {
+        return Result.getSuccess(service.getReply(postId));
     }
 
+<<<<<<< HEAD
 
     //发评论
     @PostMapping("/reply")
@@ -66,6 +69,15 @@ public class MyMongoDBPostController {
         System.out.println("Received Entity: " + entity);
         service.save(entity);
         return true;
+=======
+    @PostMapping("/{parentid}/reply")
+    public Result addreply(@PathVariable String parentid, @RequestBody MogoPost reply) {
+        System.out.println(reply);
+        service.addReply(parentid, reply);
+        String parentUserId = service.getById(parentid).getUserId();
+        pushService.notifyUser(parentUserId, reply.getAuthor() + "回复了你的帖子");
+        return Result.saveSuccess(reply);
+>>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe
     }
 
 }
