@@ -6,19 +6,37 @@ import CommentItem from '../../views/forum/CommentItem.vue'
 
 const comments = ref([])
 const newComment = ref('')
-
+// 存储社区名称
+const communityName = ref('')  // 声明为响应式变量
 //  获取当前路由
 const route = useRoute()
 // 从 URL 获取 ?id=1 或 /:id 的参数
 const communityId = Number(route.query.id || route.params.id)
 console.log('当前社区 ID:', communityId)
-
-// 加载评论
+// 加载评论和社区名称
 const loadComments = async () => {
-  const res = await axios.get('http://localhost:8080/mygo', {
-    params: { communityId } //  向后端传社区ID
-  })
-  comments.value = res.data
+  try {
+    // 获取社区信息
+    const communityRes = await axios.get(`http://localhost:8080/community/id`, {
+      params: { id: communityId }  // 传递社区ID到后端
+    })
+
+    // 获取社区名称
+    const communityName = communityRes.data.CommName
+    console.log('社区名称:', communityName)
+
+    // 加载评论
+    const commentRes = await axios.get('http://localhost:8080/mygo', {
+      params: { communityId }  // 传社区ID
+    })
+    comments.value = commentRes.data
+
+    // 将社区名称存储在 ref 中，方便后续使用
+    communityName.value = communityName
+
+  } catch (error) {
+    console.error('加载评论或社区信息时发生错误:', error)
+  }
 }
 
 // 用户信息
@@ -35,7 +53,7 @@ const postComment = async () => {
     userId,
     author: userName,
     content: newComment.value,
-    communityId, //  添加 communityId
+    communityName: communityName.value //  添加 communityname
   })
 
   newComment.value = ''
@@ -69,7 +87,5 @@ button {
   margin: 5px;
 }
 
-{
-
-}
+  {}
 </style>
