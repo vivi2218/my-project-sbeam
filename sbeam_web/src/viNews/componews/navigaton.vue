@@ -37,6 +37,9 @@ const logout = () => {
       <router-link to="/" class="rout">社区</router-link>
     </div>
     <div class="nav-right">
+      <input></input>
+      <button class="btn">搜索</button>
+
       <router-link to="/test" class="rout">测试用</router-link>
       <router-link to="/" class="rout">消息</router-link>
 
@@ -48,7 +51,7 @@ const logout = () => {
       <!-- 下拉菜单，只有在用户已登录并悬停时才显示-->
       <transition name="fade">
         <div v-if="isLoggedIn && isHovered" class="dropdown">
-          <span @click="logout" class="rout" @mouseenter="isHovered = true"  @mouseleave="isHovered = false">登出</span>
+          <span @click="logout" class="rout" @mouseenter="isHovered = true" @mouseleave="isHovered = false">登出</span>
         </div>
       </transition>
     </div>
@@ -121,7 +124,6 @@ const logout = () => {
 .dropdown .rout:hover {
   color: #adaafe;
   cursor: pointer
-
 }
 
 /* 为下拉菜单添加过渡动画 */
@@ -136,5 +138,62 @@ const logout = () => {
 /* .fade-leave-active in <2.1.8 */
   {
   opacity: 0;
+}
+
+
+input {
+  width: 250px;
+  margin-top: 10px;
+  margin-right: 0;
+  padding: auto;
+  height: 40px;
+  margin-bottom: 10px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border: none;
+  background-color: #343342;
+  color: #fff;
+  transition: all 0.25s;
+  text-align: center;
+  outline: none;
+}
+
+input::placeholder {
+  color: #b4b0b0;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+input:hover {
+  background-color: #6f6c8b;
+}
+
+input:focus {
+  background-color: aliceblue;
+  width: 300px;
+  color: #adaafe;
+}
+
+.btn {
+  margin-left: 0;
+  height: 40px;
+  outline: none;
+  background-color: #7a79a0;
+  color: aliceblue;
+  border: none;
+  width: 60px;
+  padding: 10px 15px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+}
+
+.btn:hover {
+  background-color: aliceblue;
+  color: #adaafe;
 }
 </style>
