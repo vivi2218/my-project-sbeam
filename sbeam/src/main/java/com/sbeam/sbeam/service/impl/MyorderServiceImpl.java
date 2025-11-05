@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sbeam.sbeam.entity.Cart;
 import com.sbeam.sbeam.entity.Myorder;
 import com.sbeam.sbeam.entity.OrderDetails;
-import com.sbeam.sbeam.mapper.CartMapper;
-import com.sbeam.sbeam.mapper.GameMapper;
-import com.sbeam.sbeam.mapper.MyorderMapper;
-import com.sbeam.sbeam.mapper.OrderDetailsMapper;
+import com.sbeam.sbeam.entity.Sales;
+import com.sbeam.sbeam.mapper.*;
 import com.sbeam.sbeam.service.IMyorderService;
+import com.sbeam.sbeam.util.RedisLuaExecutor;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -35,9 +35,13 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
     @Autowired
     private GameMapper gameMapper;
     @Autowired
+    private SalesMapper salesMapper;
+    @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private RedisLuaExecutor redisLuaExecutor;
     @Override
     public List<Myorder> getOrdersByUserId(Integer userId) {
         QueryWrapper<Myorder> queryWrapper = new QueryWrapper<>();
@@ -78,41 +82,34 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
     }
 
     @Override
-    public Result createOrder(Integer userId,BigDecimal finalPrice) {
-        //防止重复提交订单
-        String lockKey = "order_lock"+userId;
-        String orderKey = "processing_order:" + userId;
-        if(redisTemplate.hasKey(orderKey)){
-            return Result.getFail("您有订单正在处理中，请稍后");
-        }
-
-        //获取分布式锁
-        Boolean lockAcquired = redisTemplate.opsForValue().setIfAbsent(lockKey, "lock", 30, TimeUnit.SECONDS);
-        if(!lockAcquired){
-            return Result.getFail("操作过于频繁,请稍后重试");
-        }
-
-        //try
+    public Result createOrder(Integer userId) {
 
         List<Cart> cartList = cartMapper.selectList(new QueryWrapper<Cart>().eq("user_id", userId)
                                                                             .eq("status",0));// 只查询正常状态的购物车项
         if(cartList.isEmpty()){
             return Result.getFail("购物车中没有游戏");
         }
-        //计算订单original_Price
-        //计算订单final_Price
-        //计算订单总价
-// 核心：用 Optional 把 null 转为 BigDecimal.ZERO（0值，不影响累加结果）
+        //2.扣减库存(Lua原子)
+        for(Cart cart:cartList){
+            String stockKey = "game:stock:" + cart.getGameId();
+            Long res = redisLuaExecutor.execute("script\\decr_stock.lua", Long.class, stockKey, 1);
+            if(res ==null||res<=0){
+                return Result.getFail("游戏【" + cart.getGameId() + "】库存不足");
+            }
+        }
+        // 核心：用 Optional 把 null 转为 BigDecimal.ZERO（0值，不影响累加结果）
         BigDecimal originalPrice = cartList.stream()
                 .map(cart -> Optional.ofNullable(cart.getGamePrice()).orElse(BigDecimal.ZERO))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-// 创建订单
 
+
+        // 创建订单
         Myorder myorder = new Myorder();
         myorder.setUserId(userId);
-        myorder.setOrderNumber("ORDER-" + UUID.randomUUID().toString());
+        //myorder.setCartId();
+        myorder.setOrderNumber("ORDER" + UUID.randomUUID().toString());
         myorder.setOriginalPrice(originalPrice);// 计算原价
-        myorder.setFinalPrice(finalPrice); // 最终支付价格
+        myorder.setFinalPrice(compute_finalPrice(cartList)); // 最终支付价格
         myorder.setOrderDate(LocalDateTime.now());
         myorder.setOrderStatus("unpaid");// 初始订单状态为未支付
         myorder.setVersion(1);
@@ -121,9 +118,9 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
 
         //保存订单
         myorderMapper.insert(myorder);
-        System.out.println("生成我的订单:"+myorder);
+        System.out.println("生成我的订单号为:"+myorder.getOrderId());
         //创建订单详情
-        ArrayList<OrderDetails> orderDetailsList = new ArrayList<>();
+        List<OrderDetails> orderDetailsList = new ArrayList<>();
         for(Cart cart : cartList){
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setOrderId(myorder.getOrderId());
@@ -136,31 +133,23 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
             //保存订单详情
             int rows = orderDetailsMapper.insert(orderDetails);
             boolean add = orderDetailsList.add(orderDetails);
-//            if(rows>0){
-//                //订单创建成功后发送消息到队列
-//                sendOrderToQueue(myorder.getOrderId());
-//
-//            }
-            if(add)
+            if(rows>0 && add)
                 System.out.println("Order保存添加订单详情成功!!!!");
+            else {
+                System.out.println("Order保存订单失败....");
+                return Result.saveFail(myorder);
+            }
         }
-            // 标记购物车项为已下单状态（可选）  没有支付成功就先不改
-             //cartMapper.updateCartStatus(cartItems.stream().map(Cart::getCartId).collect(Collectors.toList()), 1);
-
-            //设置处理中订单标记(15分钟过期)
-            redisTemplate.opsForValue().set(orderKey,myorder.getOrderId(),15,TimeUnit.MINUTES);
+            for(Cart cart:cartList){
+                cart.setStatus(1);
+                cartMapper.updateById(cart);
+            }
             //发送延迟消息到RabbitMQ进行超时取消
             sendOrderTimeoutMessage(myorder.getOrderId());
             System.out.println("订单创建成功,订单号:"+myorder.getOrderNumber());
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("order",myorder);
-            result.put("orderDetails",orderDetailsList);
-            if(result!=null){
-                return Result.saveSuccess(result);
-            }
-        return Result.saveFail(null);
-            //可以finally 释放分布式锁 主动释放资源
-        //redisTemplate.delete(lockKey);
+
+        return Result.saveSuccess(myorder);
+
     }
 
     @Override
@@ -173,41 +162,33 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         return Result.getFail(orderNum);
     }
 
-    //发送订单超时消息
-
+    //发送订单到延时队列
     private void sendOrderTimeoutMessage(Integer orderId){
         HashMap<String, Object> message = new HashMap<>();
         message.put("orderId",orderId);
         message.put("timestamp",System.currentTimeMillis());
 
-        //设置15分钟过期时间
-        rabbitTemplate.convertAndSend("orderTimeoutExchange", "order.timeout", message, messagePostProcessor -> {
-            messagePostProcessor.getMessageProperties().setExpiration("900000"); // 15分钟
+        //设置15分钟延迟时间
+        rabbitTemplate.convertAndSend("sbeam-delayed-exchange", "key3", message, messagePostProcessor -> {
+            messagePostProcessor.getMessageProperties().setDelayLong(900000L); // 15分钟
             return messagePostProcessor;
         });
-        System.out.println("订单超时消息已发送，订单ID: " + orderId);
+        System.out.println("订单延时消息已发送，订单ID: " + orderId);
     }
     //处理订单支付成功
     @Override
     public Result confirmPayment(Integer orderId){
         Myorder myorder = myorderMapper.selectById(orderId);
-        if(myorder == null){
-            return Result.getFail("dingdan 不存在");
-        }
-        if(!"unpaid".equals(myorder.getOrderStatus())){
-            return Result.getFail("dingdan 状态异常");
+        if(myorder == null || !"unpaid".equals(myorder.getOrderStatus())){
+            return Result.getFail("订单 状态异常");
         }
         //更新订单状态为已支付
         myorder.setOrderStatus("paid");
         myorder.setUpdatedAt(LocalDateTime.now());
         myorderMapper.updateById(myorder);
 
-        //移除处理中订单标记
-        //String orderKey = "processing_order:" + myorder.getUserId();
-        //redisTemplate.delete(orderKey);
-
-        //可以添加其他业务处理,如库存扣减,发放游戏
-        return Result.updateSuccess("支付成功");
+        //可以添加其他业务处理,如库存扣减,绑定激活码,发放激活码
+        return Result.updateSuccess(myorder);
     }
 
     //处理订单超时取消
@@ -220,24 +201,32 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
             order.setUpdatedAt(LocalDateTime.now());
             myorderMapper.updateById(order);
 
-            //移除处理中订单标记
-            //String orderKey = "processing_order:" + order.getUserId();
-            //redisTemplate.delete(orderKey);
-
-            System.out.println("订单超时自动取消，订单ID: " + orderId);
+            //回滚库存
+            List<OrderDetails> details = orderDetailsMapper.selectList(
+                    new QueryWrapper<OrderDetails>().eq("order_id", orderId)
+            );
+            for(OrderDetails od:details){
+                String stockKey = "game:stock:"+od.getGameId();
+                redisLuaExecutor.execute("script/rollback_stock.lua", Long.class,stockKey,1);
+            }
+            System.out.println("订单超时自动取消，库存已回滚：订单ID: " + orderId);
         }
     }
-
-    //发送订单ID到RabbitMQ队列
-    private void sendOrderToQueue(Integer orderId){
-        // 设置消息的过期时间为7天（TTL）
-        rabbitTemplate.convertAndSend("orderExchange", "orderkey", message, messagePostProcessor -> {
-            messagePostProcessor.getMessageProperties().setExpiration("604800000");  // 7天的TTL（毫秒）
-            return messagePostProcessor;
-        });
-
-        System.out.println("Order " + orderId + " sent to queue for migration");
+    //计算订单价格
+    private BigDecimal compute_finalPrice(List<Cart> cartList){
+        BigDecimal finalPrice = BigDecimal.ZERO;
+        for(Cart cart:cartList){
+            BigDecimal gamePrice = cart.getGamePrice();
+            BigDecimal discount = selectdiscount(cart.getSalesId());
+            BigDecimal itemPrice = gamePrice.multiply(discount);
+            // 4. 累加至总价（保留2位小数，四舍五入，避免精度问题）
+            finalPrice = finalPrice.add(itemPrice).setScale(2, RoundingMode.HALF_UP);
+        }
+        return finalPrice;
     }
-
-
+    //查询salesid的discount
+    private BigDecimal selectdiscount(Integer salesId){
+        Sales sales = salesMapper.selectById(salesId);
+        return BigDecimal.ONE.subtract(sales.getDiscountRate());
+    }
 }

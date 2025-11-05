@@ -2,6 +2,7 @@ package com.sbeam.sbeam.controller;
 
 
 
+import com.sbeam.sbeam.interceptor.AutoIdempotent;
 import com.sbeam.sbeam.util.JWTUtils;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +34,11 @@ public class MyorderController {
 
     @Autowired
     private IMyorderService myorderService;
+
+    // 普通用户只能查看自己的订单，管理员可以查看所有订单
     @Autowired
     private JWTUtils jwtUtils;
-    // 普通用户只能查看自己的订单，管理员可以查看所有订单
+
     @GetMapping("/user/{userId}")
     public List<Myorder> getUserAllOrders(@PathVariable Integer userId,
                                           @RequestHeader("Authorization") String authHeader) {
@@ -82,16 +85,16 @@ public class MyorderController {
 
     /**
      * 创建订单
-     * @param userId
-     * @param finalPrice
+     * @param
      * @return
      */
     //localhost:8080/myorder/create/20     URL 示例为 POST /create/123，请求体（Body）中传递 99.99
     // （需符合 JSON 格式，如 99.99 或 "99.99"）。
-    @PostMapping("/create/{userId}")
-    public Result createOrder(@PathVariable Integer userId,
-                              @RequestBody BigDecimal finalPrice){
-        return myorderService.createOrder(userId,finalPrice);
+    @PostMapping("/create")
+    @AutoIdempotent
+    public Result createOrder(@RequestHeader("Authorization") String token){
+        Integer userId = jwtUtils.getUserId(token).intValue();
+        return myorderService.createOrder(userId);
     }
 }
 
