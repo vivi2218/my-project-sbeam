@@ -6,13 +6,15 @@ import TestAutoIdempotent from './views/Myorder/TestAutoIdempotent.vue'
 import testhome from './views/testview/testhome.vue'
 import post from './views/testview/forum/post.vue'
 import cart from './views/cat/cart.vue'
+import Recommd from './views/recommd.vue'
 </script>
 
 <template>
-  <navigaton></navigaton>
-  <RouterView></RouterView>
+  <!-- <navigaton></navigaton> -->
+  <!-- <RouterView></RouterView> -->
   <!-- <testhome/> -->
   <!-- <post/> -->
+  <Recommd></Recommd>
 </template>
 
 <style>

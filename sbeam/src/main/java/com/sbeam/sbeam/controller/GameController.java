@@ -1,22 +1,17 @@
 package com.sbeam.sbeam.controller;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch.core.BulkRequest;
-import co.elastic.clients.elasticsearch.core.UpdateRequest;
-import co.elastic.clients.elasticsearch.core.UpdateResponse;
-import co.elastic.clients.json.JsonData;
 import com.sbeam.sbeam.entity.Game;
 import com.sbeam.sbeam.entity.VO.GameDetailVO;
 import com.sbeam.sbeam.mapper.GameMapper;
 import com.sbeam.sbeam.service.IGameService;
-import com.sbeam.sbeam.service.IUserGameLibraryService;
+import com.sbeam.sbeam.service.impl.FlaskService;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -37,6 +32,9 @@ public class GameController {
 
     @Autowired
     private GameMapper gameMapper;
+
+    @Autowired
+    private FlaskService flaskService;
 
     @Autowired
     private ElasticsearchClient esClient;
@@ -65,6 +63,13 @@ public class GameController {
     }
 
 
+
+    // 接收前端请求，通过 userId 调用 Flask 服务
+    @GetMapping("/get-recommendations")
+    public Map<String, Object> getRecommendations(@RequestParam Long userId) {
+        // 调用 Flask 服务获取推荐结果
+        return flaskService.getRecommendations(userId);
+    }
 
 
 
