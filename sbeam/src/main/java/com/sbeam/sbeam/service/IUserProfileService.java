@@ -1,6 +1,9 @@
 package com.sbeam.sbeam.service;
 
 import com.sbeam.sbeam.entity.UserProfile;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2025-10-09
  */
 public interface IUserProfileService extends IService<UserProfile> {
-
+    UserProfile getByUseProrId(Integer Id);
 }
