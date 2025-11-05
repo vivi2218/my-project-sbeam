@@ -42,7 +42,7 @@ onMounted(async () => {
         <!-- 用户头像 -->
         <img :src="userProfile.avatarUrl || '/user/harusekai.png'" class="userIMG" alt="用户头像" />
         <span class="nickname">{{ userName }}</span>
-        <button class="setting">编辑</button>
+        <router-link to="/userinfo" class="setting" >编辑</router-link>
       </div>
 
       <!-- 显示用户个人简介 -->
@@ -126,6 +126,6 @@ strong {
 }
 
 .down{
-  
+
 }
 </style>
