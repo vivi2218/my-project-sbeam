@@ -6,9 +6,11 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.sbeam.sbeam.config.AlipayConfig;
 import com.sbeam.sbeam.entity.Myorder;
+import com.sbeam.sbeam.entity.OrderDetails;
 import com.sbeam.sbeam.entity.PaymentRecords;
 import com.sbeam.sbeam.service.ICdkeyStockService;
 import com.sbeam.sbeam.service.IMyorderService;
+import com.sbeam.sbeam.service.IOrderDetailsService;
 import com.sbeam.sbeam.service.IPaymentRecordsService;
 import com.sbeam.sbeam.util.Result;
 import jakarta.servlet.ServletException;
@@ -41,6 +43,7 @@ public class PaymentRecordsController {
     private IMyorderService myorderService;
     @Autowired
     private IPaymentRecordsService paymentRecordsService;
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @Autowired
@@ -87,44 +90,49 @@ public class PaymentRecordsController {
         System.out.println("return tradeNo:" + tradeNo);
         System.out.println("return payPrice:" + payPrice);
 
-        try {
-            // 1️⃣ 查订单
-            Myorder orders = (Myorder) myorderService.getByOrderNumber(orderNum).getData();
+        paymentRecordsService.handlePaymentSuccess(orderNum,tradeNo,payPrice);
 
-            if (orders == null) {
-                System.out.println("❌ 未找到订单：" + orderNum);
-            } else {
-                // 2️⃣ 幂等检查
-                if (!"paid".equals(orders.getOrderStatus())) {
-                    // 更新订单状态
-                    orders.setOrderStatus("paid");
-                    orders.setUpdatedAt(LocalDateTime.now());
-                    myorderService.updateById(orders);
-                    System.out.println("✅ 订单状态更新为：已支付");
-
-                    // 3️⃣ 创建支付流水
-                    PaymentRecords paymentRecords = new PaymentRecords();
-                    paymentRecords.setOrderId(orders.getOrderId());
-                    paymentRecords.setPayerId(orders.getUserId());
-                    paymentRecords.setTransactionNumber("TNX" + UUID.randomUUID().toString().replace("-", ""));
-                    paymentRecords.setTransactionAmount(orders.getFinalPrice());
-                    paymentRecords.setPaymentTime(LocalDateTime.now());
-                    paymentRecordsService.saveAndReturn(paymentRecords);
-
-                    System.out.println("✅ 支付流水记录创建成功：" + paymentRecords.getTransactionAmount());
-
-                    // 4️⃣ 发放CDKey
-                    cdkeyStockService.bindCdKeysToUser(orders);
-                    System.out.println("✅ CDKey 绑定成功，发货完成");
-                } else {
-                    System.out.println("⚠️ 订单已支付，跳过重复处理。");
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("❌ 同步回调执行异常：" + e.getMessage());
-        }
+//        try {
+//            // 1️⃣ 查订单
+//            Myorder orders = (Myorder) myorderService.getByOrderNumber(orderNum).getData();
+//
+//            if (orders == null) {
+//                System.out.println("❌ 未找到订单：" + orderNum);
+//            } else {
+//                // 2️⃣ 幂等检查
+//                if (!"paid".equals(orders.getOrderStatus())) {
+//                    // 更新订单状态
+//                    orders.setOrderStatus("paid");
+//                    orders.setUpdatedAt(LocalDateTime.now());
+//                    myorderService.updateById(orders);
+//                    System.out.println("✅ 订单状态更新为：已支付");
+//
+//                    //真正扣 MySQL 库存
+//                    cdkeyStockService.decrStock(orders);
+//
+//                    // 3️⃣ 创建支付流水
+//                    PaymentRecords paymentRecords = new PaymentRecords();
+//                    paymentRecords.setOrderId(orders.getOrderId());
+//                    paymentRecords.setPayerId(orders.getUserId());
+//                    paymentRecords.setTransactionNumber("TNX" + UUID.randomUUID().toString().replace("-", ""));
+//                    paymentRecords.setTransactionAmount(orders.getFinalPrice());
+//                    paymentRecords.setPaymentTime(LocalDateTime.now());
+//                    paymentRecordsService.saveAndReturn(paymentRecords);
+//
+//                    System.out.println("✅ 支付流水记录创建成功：" + paymentRecords.getTransactionAmount());
+//
+//                    // 4️⃣ 发放CDKey
+//                    cdkeyStockService.bindCdKeysToUser(orders);
+//                    System.out.println("✅ CDKey 绑定成功，发货完成");
+//                } else {
+//                    System.out.println("⚠️ 订单已支付，跳过重复处理。");
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("❌ 同步回调执行异常：" + e.getMessage());
+//        }
         //页面跳转 **已支付成功**我的订单页面
         String vueUrl = "http://localhost:5173/User/myorder" ;
         response.sendRedirect(vueUrl);

@@ -43,6 +43,12 @@ public class Game implements Serializable {
     @ApiModelProperty("游戏原始价格")
     private BigDecimal gameOriginalPrice;
 
+    @ApiModelProperty("游戏总库存")
+    private Integer totalStock;
+
+    @ApiModelProperty("游戏剩余库存")
+    private Integer remainStock;
+
     @ApiModelProperty("游戏发行日期")
     private LocalDate releaseDate;
 
