@@ -22,6 +22,7 @@ const goToUserSpace = () => {
 
 // 登出功能
 const logout = () => {
+  console.log("点击了登出")
   localStorage.removeItem('sbeam_user')  // 清除本地存储中的用户信息
   router.push('/login')  // 跳转到登录页
 }
@@ -40,14 +41,16 @@ const logout = () => {
       <router-link to="/" class="rout">消息</router-link>
 
       <!-- 个人中心 -->
-      <span @click="goToUserSpace" @mouseover="isHovered = true" @mouseleave="isHovered = false" class="rout">
+      <span @click="goToUserSpace" @mouseenter="isHovered = true" @mouseleave="isHovered = false" class="rout">
         个人中心
       </span>
 
       <!-- 下拉菜单，只有在用户已登录并悬停时才显示-->
-      <div v-if="isLoggedIn && isHovered" class="dropdown">
-        <span @click="logout" class="rout">登出</span>
-      </div>
+      <transition name="fade">
+        <div v-if="isLoggedIn && isHovered" class="dropdown">
+          <span @click="logout" class="rout" @mouseenter="isHovered = true"  @mouseleave="isHovered = false">登出</span>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -58,7 +61,7 @@ const logout = () => {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 70px;
+  min-height: 70px;
   background-color: rgba(0, 0, 0, 0.626);
   color: #fff;
 }
@@ -79,6 +82,7 @@ const logout = () => {
   /* 使得下拉菜单相对导航栏右侧定位 */
 }
 
+/* 避免下拉菜单区域消失，留出空间 */
 .rout {
   padding: 0 15px;
   text-decoration: none;
@@ -88,6 +92,7 @@ const logout = () => {
 
 .rout:hover {
   color: #adaafe;
+  cursor: pointer
 }
 
 /* 下拉菜单样式 */
@@ -104,6 +109,8 @@ const logout = () => {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   box-shadow: 2px 5px 15px rgb(0, 0, 0);
+  z-index: 10;
+  /* 确保下拉菜单在其他元素上层显示 */
 }
 
 .dropdown .rout {
@@ -113,5 +120,21 @@ const logout = () => {
 
 .dropdown .rout:hover {
   color: #adaafe;
+  cursor: pointer
+
+}
+
+/* 为下拉菜单添加过渡动画 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+  {
+  opacity: 0;
 }
 </style>
