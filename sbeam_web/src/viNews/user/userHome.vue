@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, normalizeClass } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 // 从 localStorage 获取用户信息
@@ -32,6 +32,23 @@ onMounted(async () => {
     await fetchUserProfile(userId)
   }
 })
+const bindSteam = async () => {
+  try {
+    // 发起绑定请求，后端会提供绑定 Steam 的 URL
+    const response = await axios.get('/auth/steam-login')
+    console.log("Redirect URL:", response.data.redirectUrl);  // 调试打印返回的 URL
+
+    if (response.data.redirectUrl) {
+      // 获取 Steam 登录链接，并跳转到 Steam 登录
+      window.location.href = response.data.redirectUrl;
+    } else {
+      console.error("没有返回有效的 redirectUrl");
+    }
+  } catch (error) {
+    console.error('Steam 绑定失败:', error);
+  }
+}
+
 </script>
 
 <template>
@@ -42,7 +59,8 @@ onMounted(async () => {
         <!-- 用户头像 -->
         <img :src="userProfile.avatarUrl || '/user/harusekai.png'" class="userIMG" alt="用户头像" />
         <span class="nickname">{{ userName }}</span>
-        <router-link to="/userinfo" class="setting" >编辑</router-link>
+        <!-- 绑定 Steam 按钮 -->
+        <button class="setting" @click="bindSteam">绑定 Steam</button>
       </div>
 
       <!-- 显示用户个人简介 -->
@@ -55,8 +73,6 @@ onMounted(async () => {
           社区
           库存
         </div>
-
-
       </div>
     </div>
   </div>
@@ -68,7 +84,6 @@ onMounted(async () => {
   height: 100%;
   width: 70%;
   position: relative;
-  /* 使得按钮能相对于此定位 */
 }
 
 .user-profile {
@@ -83,7 +98,6 @@ onMounted(async () => {
   align-items: center;
   flex-direction: column;
   position: relative;
-  /* 让按钮相对于用户信息定位 */
 }
 
 .userIMG {
@@ -106,13 +120,11 @@ strong {
   font-weight: bold;
 }
 
-/* 设置按钮的位置 */
 .setting {
   position: absolute;
   right: 0;
   top: 0;
   background-color: #576f75;
-  /* 设置按钮背景色 */
   color: #adaafe;
   border: none;
   padding: 8px 15px;
@@ -122,10 +134,10 @@ strong {
 
 .setting:hover {
   background-color: powderblue;
-  /* 鼠标悬停时变色 */
 }
 
-.down{
-
+.down {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

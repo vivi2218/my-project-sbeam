@@ -41,7 +41,7 @@ public class UserController {
     }
 
     // 绑定steam
-    @GetMapping("/bind/{id}")
+    @PostMapping("/bind/{id}")
     public User BindSteam(@PathVariable Integer id, @RequestBody String steamId) {
         return userService.bindSteamAccount(id, steamId);
     }
