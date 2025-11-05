@@ -69,7 +69,5 @@ button {
   margin: 5px;
 }
 
-{
 
-}
 </style>

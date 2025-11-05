@@ -32,6 +32,7 @@ import PaySuccess from '@/views/Myorder/PaySuccess.vue'
 import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
 import homeView from '@/viNews/homeView.vue'
 import testtingView from '@/viNews/test/testtingView.vue'
+import userspace from '@/viNews/user/userHome.vue'
 
 
 
@@ -64,6 +65,9 @@ const router = createRouter({
     { path: '/User/myorder', name: 'usermyorder', component: Myorder },
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
+
+    //个人中心
+    { path: '/userspace', name: 'userspace', component: userspace },
 
     //测试
     { path: '/test', name: 'test', component: testtingView },
