@@ -27,6 +27,6 @@ public interface IUserService extends IService<User> {
 
     void registerUser(String username, String password, String email) throws Exception;   //注册
 
-    User bindSteamAccount(Integer userId, String steamId);
 
+    void updateAvatar(Long userId, String avatarUrl);
 }

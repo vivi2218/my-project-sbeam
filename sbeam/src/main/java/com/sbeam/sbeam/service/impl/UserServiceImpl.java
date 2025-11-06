@@ -1,12 +1,15 @@
 package com.sbeam.sbeam.service.impl;
 
 import com.sbeam.sbeam.entity.User;
+import com.sbeam.sbeam.entity.UserFollow;
+import com.sbeam.sbeam.entity.UserProfile;
 import com.sbeam.sbeam.mapper.UserMapper;
 import com.sbeam.sbeam.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sbeam.sbeam.utils.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +30,8 @@ import java.util.regex.Pattern;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     @Autowired
     private UserMapper userMapper;
-
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     // 存储手机号和验证码的临时Map
     Map<String, String> codeMap = new HashMap<>();
@@ -103,21 +107,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return Pattern.matches(emailRegex, email);
     }
 
-    @Override
-    @Transactional
-    public User bindSteamAccount(Integer userId, String steamId) {
-        // 查找现有用户
-        User user = userMapper.selectById(userId);
-        
-        if (user != null) {
-            // 更新 Steam 账号相关信息
-            user.setSteamId(steamId);
 
-            // 更新用户信息
-            userMapper.updateById(user);
-            return user;
+
+    /**
+     * 更新用户头像 URL
+     * @param userId 用户ID
+     * @param avatarUrl 新的头像 URL
+     * @return 更新后的用户资料信息
+     */
+    public void updateAvatar(Long userId, String avatarUrl) {
+        // 使用 JdbcTemplate 执行 SQL 更新用户头像 URL
+        String sql = "UPDATE user_profile SET avatar_url = ? WHERE user_id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, avatarUrl, userId);
+
+        if (rowsAffected > 0) {
+            // 如果更新成功，返回更新后的用户资料信息（假设 UserProfile 类有 userId 和 avatarUrl 字段）
+            UserProfile userProfile = new UserProfile();
+            userProfile.setUserId(Math.toIntExact(userId));  // 将 userId 转换为 Integer 类型
+            userProfile.setAvatarUrl(avatarUrl);  // 更新头像 URL
+
+        } else {
+            // 如果没有更新任何行，说明用户不存在
+            throw new RuntimeException("用户不存在");
         }
-        
-        return null;  // 如果没有找到用户
     }
+
 }
