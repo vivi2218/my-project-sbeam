@@ -3,14 +3,17 @@ package com.sbeam.sbeam.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sbeam.sbeam.entity.Cart;
+import com.sbeam.sbeam.entity.Game;
 import com.sbeam.sbeam.entity.Myorder;
 import com.sbeam.sbeam.entity.OrderDetails;
 import com.sbeam.sbeam.entity.Sales;
+import com.sbeam.sbeam.entity.VO.OrderGameVO;
 import com.sbeam.sbeam.mapper.*;
 import com.sbeam.sbeam.service.IMyorderService;
 import com.sbeam.sbeam.util.RedisLuaExecutor;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -37,26 +40,95 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
     @Autowired
     private SalesMapper salesMapper;
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @Autowired
     private RedisLuaExecutor redisLuaExecutor;
     @Override
-    public List<Myorder> getOrdersByUserId(Integer userId) {
+    public List<OrderGameVO> getOrdersByUserId(Integer userId) {
+        // 创建查询条件
         QueryWrapper<Myorder> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("status", 0);
+        // 根据订单日期降序排序，最近的订单排在前面
         queryWrapper.orderByDesc("order_date");
-        return baseMapper.selectList(queryWrapper);
+        
+        // 查询用户的订单列表
+        List<Myorder> orders = myorderMapper.selectList(queryWrapper);
+        
+        // 返回包含游戏信息的封装类
+        List<OrderGameVO> orderGameList = new ArrayList<>();
+        for (Myorder order : orders) {
+            OrderGameVO orderGameVO = new OrderGameVO();
+            // 复制订单基本信息
+            BeanUtils.copyProperties(order, orderGameVO);
+            
+            // 查询订单详情获取所有关联的游戏ID（一个订单可能包含多个游戏）
+            QueryWrapper<OrderDetails> detailsWrapper = new QueryWrapper<>();
+            detailsWrapper.eq("order_id", order.getOrderId());
+            List<OrderDetails> orderDetailsList = orderDetailsMapper.selectList(detailsWrapper);
+            
+            if (!orderDetailsList.isEmpty()) {
+                // 对于包含多个游戏的订单，我们可以处理第一个游戏信息，或者在VO中添加游戏列表
+                // 这里我们处理第一个游戏信息作为示例
+                OrderDetails firstOrderDetail = orderDetailsList.get(0);
+                if (firstOrderDetail.getGameId() != null) {
+                    // 查询游戏信息
+                    Game game = gameMapper.selectById(firstOrderDetail.getGameId());
+                    if (game != null) {
+                        orderGameVO.setGameId(game.getGameId());
+                        orderGameVO.setGameName(game.getGameName());
+                        orderGameVO.setGameImageUrl(game.getMainImageUrl());
+                        // 计算游戏单价（这里简化处理，实际可能需要根据订单详情中的数量等信息计算）
+                        orderGameVO.setGamePrice(order.getFinalPrice());
+                    }
+                }
+            }
+            
+            orderGameList.add(orderGameVO);
+        }
+        return orderGameList;
     }
 
     @Override
-    public List<Myorder> getOrdersByUserIdAndStatus(Integer userId, String status) {
+    public List<OrderGameVO> getOrdersByUserIdAndStatus(Integer userId, String status) {
         QueryWrapper<Myorder> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         queryWrapper.eq("order_status", status);
         queryWrapper.orderByDesc("order_date");
-        return baseMapper.selectList(queryWrapper);
+        
+        // 获取符合状态的订单列表
+        List<Myorder> orders = baseMapper.selectList(queryWrapper);
+        List<OrderGameVO> orderGameVOList = new ArrayList<>();
+        
+        // 处理每个订单，添加游戏信息
+        for (Myorder order : orders) {
+            OrderGameVO orderGameVO = new OrderGameVO();
+            // 复制订单基本信息
+            BeanUtils.copyProperties(order, orderGameVO);
+            
+            // 查询订单详情列表
+            List<OrderDetails> orderDetailsList = orderDetailsMapper.selectList(
+                    new QueryWrapper<OrderDetails>().eq("order_id", order.getOrderId()));
+            
+            // 如果订单详情存在，获取第一个游戏的信息
+            if (orderDetailsList != null && !orderDetailsList.isEmpty()) {
+                OrderDetails orderDetails = orderDetailsList.get(0);
+                // 查询游戏信息
+                Game game = gameMapper.selectById(orderDetails.getGameId());
+                if (game != null) {
+                    orderGameVO.setGameId(game.getGameId());
+                    orderGameVO.setGameName(game.getGameName());
+                    orderGameVO.setGameImageUrl(game.getMainImageUrl());
+                    orderGameVO.setGamePrice(game.getGameOriginalPrice());
+                }
+            }
+            
+            orderGameVOList.add(orderGameVO);
+        }
+        
+        return orderGameVOList;
     }
 
     @Override
@@ -67,8 +139,8 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         }
 
         // 只有待支付状态可以取消
-        if ("待支付".equals(order.getOrderStatus())) {
-            order.setOrderStatus("已取消");
+        if ("unpaid".equals(order.getOrderStatus())) {
+            order.setOrderStatus("cancelled");
             order.setUpdatedAt(LocalDateTime.now());
             return baseMapper.updateById(order) > 0;
         }
@@ -92,8 +164,29 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         //2.扣减库存(Lua原子)
         for(Cart cart:cartList){
             String stockKey = "game:stock:" + cart.getGameId();
+            
+            // 检查Redis中是否存在库存键，如果不存在则从数据库查询并设置
+            String stockValue = redisTemplate.opsForValue().get(stockKey);
+            if (stockValue == null) {
+                // 从数据库查询库存
+                Game game = gameMapper.selectById(cart.getGameId());
+                if (game != null && game.getRemainStock() != null) {
+                    // 设置到Redis中
+                    redisTemplate.opsForValue().set(stockKey, game.getRemainStock().toString());
+                    System.out.println("✅ 从数据库获取并设置Redis库存: " + stockKey + " = " + game.getRemainStock());
+                } else {
+                    System.out.println("❌ 游戏不存在或库存信息无效: gameId = " + cart.getGameId());
+                    return Result.getFail("游戏信息异常");
+                }
+            }
+            
+            // 扣减库存
             Long res = redisLuaExecutor.execute("script\\decr_stock.lua", Long.class, stockKey, 1);
-            if(res ==null||res<=0){
+            if(res == null || res <= 0){
+                if(res == null || res == -1) {
+                    // key不存在，但理论上我们上面已经检查并设置了，这里作为双重保险
+                    return Result.getFail("游戏【" + cart.getGameId() + "】库存信息未初始化");
+                }
                 return Result.getFail("游戏【" + cart.getGameId() + "】库存不足");
             }
         }

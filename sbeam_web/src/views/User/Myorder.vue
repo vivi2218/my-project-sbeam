@@ -1,6 +1,37 @@
 <template>
   <div class="order-page">
     <div class="orderStyle">
+      <!-- 订单筛选按钮 -->
+      <div class="order-filter">
+        <button 
+          class="filter-btn" 
+          :class="{ active: currentFilter === 'all' }"
+          @click="changeFilter('all')"
+        >
+          全部订单
+        </button>
+        <button 
+          class="filter-btn" 
+          :class="{ active: currentFilter === 'paid' }"
+          @click="changeFilter('paid')"
+        >
+          已支付
+        </button>
+        <button 
+          class="filter-btn" 
+          :class="{ active: currentFilter === 'unpaid' }"
+          @click="changeFilter('unpaid')"
+        >
+          未支付
+        </button>
+        <button 
+          class="filter-btn" 
+          :class="{ active: currentFilter === 'cancelled' }"
+          @click="changeFilter('cancelled')"
+        >
+          已取消
+        </button>
+      </div>
 
       <!-- 订单列表 -->
       <div class="order-list">
@@ -25,10 +56,9 @@
           </div>
 
           <div class="order-body">
-            <!-- 暂无游戏封面数据，可后期关联订单详情 -->
-            <img class="game-cover" src="https://via.placeholder.com/80x100" alt="Game Cover" />
             <div class="game-info">
-              <h3 class="game-title">订单金额：￥{{ order.finalPrice }}</h3>
+              <h3 class="game-title">{{ order.gameName || '游戏名称' }}</h3>
+              <p class="game-price">订单金额：￥{{ order.finalPrice }}</p>
               <p class="game-time">下单时间：{{ formatDate(order.createdAt) }}</p>
             </div>
           </div>
@@ -42,7 +72,7 @@
             </template>
 
             <template v-else-if="order.orderStatus === 'paid'">
-              <button class="btn btn-download">下载游戏</button>
+              <!-- 下载游戏功能已移除 -->
             </template>
           </div>
         </div>
@@ -57,13 +87,24 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const userId = 1 // 暂时写死，后期可从 token 或路由传参
 const orders = ref([])
+const currentFilter = ref('all') // 默认显示全部订单
+const token=localStorage.getItem('sbeam_token') || ''
+const sbeam_user = localStorage.getItem('sbeam_user')
+const userId= sbeam_user ? JSON.parse(sbeam_user).userId : ''
 
 // ===== 获取订单数据 =====
 const getOrders = async () => {
   try {
-    const res = await axios.get(`http://localhost:8080/myorder/user/${userId}`)
+    let url = `http://localhost:8080/myorder/user/${userId}`
+    // 如果不是全部订单，则添加状态筛选参数
+    if (currentFilter.value !== 'all') {
+      url += `/status/${currentFilter.value}`
+    }
+    
+    const res = await axios.get(url, {
+      headers: { Authorization: token || '' },
+    })
     if (Array.isArray(res.data)) {
       orders.value = res.data
     } else {
@@ -72,6 +113,12 @@ const getOrders = async () => {
   } catch (error) {
     console.error('获取订单失败:', error)
   }
+}
+
+// ===== 切换筛选条件 =====
+const changeFilter = (filter) => {
+  currentFilter.value = filter
+  getOrders() // 切换筛选后重新获取订单数据
 }
 
 // ===== 支付功能 =====
@@ -126,62 +173,99 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 你原来的样式完全保留 */
 body {
-  overflow-x: hidden;
   background-color: rgb(14, 16, 14);
+}
+.order-page {
+  width: 90%;
+  max-width:2500px;
+  margin: 0 auto;/*水平居中 */
+  padding: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(to top left, #013354, #444, #5a005a);
+  background-attachment: fixed;
+}
+
+/* 筛选按钮样式 */
+.order-filter {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1.5rem;
+  border: 2px solid #555;
+  background-color: #2a2a2a;
+  color: #f5f5f5;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: #3a3a3a;
+  border-color: #076f1d;
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background-color: #076f1d;
+  border-color: #076f1d;
+  color: white;
+  box-shadow: 0 4px 12px rgba(7, 111, 29, 0.3);
 }
 
 .orderStyle {
-  width: 100vw;
-  max-width: 1600px;
-  margin: 0 auto;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  max-width: 4500px;
+  margin: 2rem auto;
   background-color: #212121;
   box-sizing: border-box;
-  overflow-y: auto;
+  padding: 2rem;
   font-family: 'Microsoft Yahei', sans-serif;
   color: #f5f5f5;
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .order-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  flex: 1;
 }
 
 .order-card {
+  min-height: 60px;
   background: #2a2a2a;
   border-radius: 12px;
-  padding: 15px;
+  padding: 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
+
 .order-card:hover {
-  border: 6px solid #076f1d;
+  border: 2px solid #076f1d;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
 }
 
 .order-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
   font-size: 14px;
 }
 
 .order-status {
   font-weight: bold;
-  padding: 2px 8px;
-  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
 }
 
 .status-unpaid {
@@ -200,49 +284,61 @@ body {
 .order-body {
   display: flex;
   align-items: center;
-  gap: 15px;
-}
-
-.game-cover {
-  width: 80px;
-  height: 100px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.game-info {
   flex: 1;
 }
 
+
+
+.game-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.game-price {
+  font-size: 16px;
+  color: #076f1d;
+  margin: 0.2rem 0 0.3rem 0;
+  font-weight: 500;
+}
+
 .game-title {
-  margin: 0;
-  font-size: 18px;
+  margin: 0 0 0.3rem 0;
+  font-size: 16px;
   font-weight: bold;
 }
 
 .game-time {
   font-size: 13px;
   color: #aaa;
+  margin: 0;
 }
 
 .order-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .btn {
-  padding: 6px 12px;
+  padding: 0.3rem 0.8rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn-detail {
-  background-color: #ffffff;
-  color: #363636;
+  background-color: #fff;
+  color: #1e1e1e;
 }
 
 .btn-pay {

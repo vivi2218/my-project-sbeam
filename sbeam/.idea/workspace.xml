@@ -4,21 +4,54 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="合并提交">
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="合并提交22">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/VO/CdkeyVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/CartController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/MyorderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/MyorderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/CdkeyStockMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/mapper/CdkeyStockMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/ICdkeyStockService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/ICdkeyStockService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IMyorderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IMyorderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/CdkeyStockServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/CdkeyStockServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/MyorderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/AppConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/AppConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/consumer/OrderTimeoutConsumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/consumer/OrderTimeoutConsumer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/CartController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyMongoDBPostController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyMongoDBPostController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyorderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyorderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PostController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PostController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/SalesController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/SalesController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/SearchController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/UserProfileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/MogoPost.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/MogoPost.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/mapper/CdkeyStockMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/mapper/CdkeyStockMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/mapper/UserMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/mapper/UserMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/repository/PostRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/repository/PostRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/FlaskService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/FlaskService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/ICdkeyStockService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/ICdkeyStockService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IGameService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IGameService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IMyorderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IMyorderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IPostService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IPostService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserProfileService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserProfileService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/IUserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/CartServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/CartServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/CdkeyStockServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/CdkeyStockServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/FlaskService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/FlaskService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/FlaskServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/FlaskServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GameServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/GameServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/MyorderServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/PaymentRecordsServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/PaymentRecordsServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/PostServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/PostServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserProfileServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserProfileServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/service/impl/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/viNews/componews/navigaton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/viNews/componews/navigaton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/util/JWTUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/util/JWTUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/ConfirmOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/Myorder/ConfirmOrder.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/User/Myorder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/User/Myorder.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,6 +251,8 @@
       <workItem from="1762244477051" duration="409000" />
       <workItem from="1762304549796" duration="6837000" />
       <workItem from="1762390480795" duration="1721000" />
+      <workItem from="1762422649527" duration="7656000" />
+      <workItem from="1762434420987" duration="6820000" />
     </task>
     <task id="LOCAL-00001" summary="要登录验证合并">
       <option name="closed" value="true" />
@@ -267,7 +302,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762393084810</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="合并提交22">
+      <option name="closed" value="true" />
+      <created>1762401349814</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1762401349814</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,6 +335,7 @@
     <MESSAGE value="只是延迟队列消费者 消息确认" />
     <MESSAGE value="unknow" />
     <MESSAGE value="合并提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="合并提交" />
+    <MESSAGE value="合并提交22" />
+    <option name="LAST_COMMIT_MESSAGE" value="合并提交22" />
   </component>
 </project>

@@ -1,6 +1,7 @@
 package com.sbeam.sbeam.service;
 
 import com.sbeam.sbeam.entity.Myorder;
+import com.sbeam.sbeam.entity.VO.OrderGameVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sbeam.sbeam.util.Result;
 
@@ -18,9 +19,9 @@ import java.util.List;
  */
 public interface IMyorderService extends IService<Myorder> {
     //根据用户ID查询所有订单
-    List<Myorder> getOrdersByUserId(Integer userId);
+    List<OrderGameVO> getOrdersByUserId(Integer userId);
     // 根据用户ID和订单状态查询订单
-    List<Myorder> getOrdersByUserIdAndStatus(Integer userId, String status);
+    List<OrderGameVO> getOrdersByUserIdAndStatus(Integer userId, String status);
 
     // 取消订单
     boolean cancelOrder(Integer orderId);

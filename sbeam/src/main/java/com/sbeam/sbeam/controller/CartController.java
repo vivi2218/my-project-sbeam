@@ -41,7 +41,11 @@ public class CartController {
         if (userId == null) {
             return List.of(); // 或者返回 401
         }
-        return cartService.lambdaQuery().eq(Cart::getUserId, userId).list();
+        // 只查询状态为0（正常）的购物车项
+        return cartService.query()
+                .eq("user_Id", userId)
+                .eq("status", 0)
+                .list();
     }
 
 
@@ -73,6 +77,24 @@ public class CartController {
         return cartService.addGameToCart(userId.intValue(), gameId, gamePrice);
     }
 
+    /**
+     * 删除购物车商品（逻辑删除，将status改为1）
+     */
+    @DeleteMapping("/{cartId}")
+    public boolean deleteCartItem(@PathVariable Integer cartId, @RequestHeader("Authorization") String token) {
+        // 验证用户身份
+        Long userId = jwtUtils.getUserId(token);
+        if (userId == null) {
+            return false;
+        }
+        
+        // 执行逻辑删除
+        return cartService.update()
+                .set("status", 1)
+                .eq("cart_id", cartId)
+                .eq("user_id", userId)
+                .update();
+    }
 
 
 }

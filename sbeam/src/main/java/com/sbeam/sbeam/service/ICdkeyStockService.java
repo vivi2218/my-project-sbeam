@@ -4,7 +4,10 @@ import com.sbeam.sbeam.entity.CdkeyStock;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sbeam.sbeam.entity.Myorder;
 import com.sbeam.sbeam.entity.OrderDetails;
+import com.sbeam.sbeam.entity.VO.CdkeyVO;
 import com.sbeam.sbeam.util.Result;
+
+import java.util.List;
 
 /**
  * <p>
@@ -26,4 +29,9 @@ public interface ICdkeyStockService extends IService<CdkeyStock> {
     Result bindCdKeysToUser(Myorder order);
 
     void decrStock(Myorder order);
+    // 获取当前用户的CDKey列表
+    public List<CdkeyVO> getUserCdkeys(Integer userId);
+    
+    // 根据订单ID获取CDKey列表
+    public List<CdkeyVO> getOrderCdkeys(Integer orderId);
 }

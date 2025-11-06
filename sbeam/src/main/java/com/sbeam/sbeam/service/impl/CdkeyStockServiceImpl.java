@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sbeam.sbeam.entity.CdkeyStock;
 import com.sbeam.sbeam.entity.Myorder;
 import com.sbeam.sbeam.entity.OrderDetails;
+import com.sbeam.sbeam.entity.VO.CdkeyVO;
 import com.sbeam.sbeam.mapper.CdkeyStockMapper;
 import com.sbeam.sbeam.mapper.GameMapper;
 import com.sbeam.sbeam.mapper.OrderDetailsMapper;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -113,6 +115,43 @@ public class CdkeyStockServiceImpl extends ServiceImpl<CdkeyStockMapper, CdkeySt
 //            System.out.println("🧹 删除 Redis 缓存 key=" + stockKey + "，等待 Canal 更新最新库存");
         }
     }
+
+
+    //查看用户订单的游戏cdkey
+    @Override
+    public List<CdkeyVO> getUserCdkeys(Integer userId) {
+        if (userId == null || userId <= 0) {
+            return null; // 参数验证
+        }
+        List<CdkeyVO> cdkeyList = cdkeyStockMapper.selectUserCdkeys(userId);
+        // 对返回的数据进行格式化处理
+        if (cdkeyList != null) {
+            for (CdkeyVO cdkey : cdkeyList) {
+                // 这里不需要额外格式化，因为SQL中已经使用了正确的别名
+                System.out.println("获取到用户CDKey: " + cdkey.getGameName() + " - " + cdkey.getCdkey());
+            }
+        }
+        return cdkeyList;
+    }
+
+    // 根据订单ID获取CDKey列表
+    @Override
+    public List<CdkeyVO> getOrderCdkeys(Integer orderId) {
+        if (orderId == null || orderId <= 0) {
+            return null; // 参数验证
+        }
+        List<CdkeyVO> cdkeyList = cdkeyStockMapper.selectOrderCdkeys(orderId);
+        // 对返回的数据进行格式化处理
+        if (cdkeyList != null) {
+            for (CdkeyVO cdkey : cdkeyList) {
+                // 这里不需要额外格式化，因为SQL中已经使用了正确的别名
+                System.out.println("获取到订单CDKey: " + cdkey.getGameName() + " - " + cdkey.getCdkey());
+            }
+        }
+        return cdkeyList;
+    }
+    //查看用户订单的游戏cdkey
+
 
 
 
