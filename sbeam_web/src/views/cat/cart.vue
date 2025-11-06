@@ -24,13 +24,28 @@ const totalPrice = computed(() =>
 
 // 删除购物车商品
 const removeItem = async (cartId) => {
+  // 添加确认对话框
+  if (!confirm('确定要删除这个商品吗？')) {
+    return
+  }
+  
   try {
-    await axios.delete(`http://localhost:8080/cart/${cartId}`, {
+    const res = await axios.delete(`http://localhost:8080/cart/${cartId}`, {
       headers: { Authorization: token },
     })
-    cartItems.value = cartItems.value.filter((item) => item.cartId !== cartId)
+    
+    if (res.data) {
+      // 删除成功，更新本地购物车列表
+      cartItems.value = cartItems.value.filter((item) => item.cartId !== cartId)
+      console.log('删除成功')
+    } else {
+      // 删除失败
+      alert('删除失败，请稍后重试')
+      console.error('删除失败，后端返回false')
+    }
   } catch (e) {
-    console.error('删除失败', e)
+    console.error('删除请求异常', e)
+    alert('删除失败，网络错误，请稍后重试')
   }
 }
 const checkout = async () => {
