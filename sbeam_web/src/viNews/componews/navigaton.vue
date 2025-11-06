@@ -187,9 +187,6 @@ input:focus {
   border-bottom-right-radius: 3px;
   font-size: 15px;
   cursor: pointer;
-  transition:
-    background-color 0.25s,
-    color 0.25s;
 }
 
 .btn:hover {
