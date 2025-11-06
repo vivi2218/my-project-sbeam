@@ -40,11 +40,6 @@ public class UserController {
         return userProService.getByUseProrId(id);
     }
 
-    // 绑定steam
-    @PostMapping("/bind/{id}")
-    public User BindSteam(@PathVariable Integer id, @RequestBody String steamId) {
-        return userService.bindSteamAccount(id, steamId);
-    }
 
     // 发送验证码
     @PostMapping("/sendCode")

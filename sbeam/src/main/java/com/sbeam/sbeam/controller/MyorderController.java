@@ -62,8 +62,9 @@ public class MyorderController {
      */
     @GetMapping("/user/{userId}/status/{status}")
     public List<Myorder> getUserOrdersByStatus(
-            @PathVariable Integer userId,
+            @RequestHeader("Authorization") String token,
             @PathVariable String status) {
+        Integer userId = jwtUtils.getUserId(token).intValue();
         return myorderService.getOrdersByUserIdAndStatus(userId, status);
     }
 

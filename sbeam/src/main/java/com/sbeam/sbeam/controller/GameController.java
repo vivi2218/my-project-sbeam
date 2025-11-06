@@ -6,7 +6,6 @@ import com.sbeam.sbeam.entity.VO.GameDetailVO;
 import com.sbeam.sbeam.mapper.GameMapper;
 import com.sbeam.sbeam.service.FlaskService;
 import com.sbeam.sbeam.service.IGameService;
-import com.sbeam.sbeam.service.impl.FlaskService;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +34,6 @@ public class GameController {
 
     @Autowired
     private GameMapper gameMapper;
-
-    @Autowired
-    private FlaskService flaskService;
 
     @Autowired
     private ElasticsearchClient esClient;

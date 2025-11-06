@@ -108,23 +108,5 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/steam-callback")
-    public ResponseEntity<Map<String, Object>> steamCallback(@RequestParam Map<String, String> params,
-            @RequestHeader(name = "Authorization", required = false) String authHeader) {
-        String steamId = params.get("openid.identity");
 
-        if (steamId != null) {
-            // 获取当前用户的 userId（通过 JWT 获取）
-            String token = authHeader.substring(7); // 从 Authorization 头中获取 token
-            Integer userId = Integer.valueOf(jwtUtils.getUserIdFromToken(token));
-            // 在此通过 steamId 绑定到用户
-            userService.bindSteamAccount(userId, steamId);
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("steamId", steamId);
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Steam 登录失败"));
-        }
-    }
 }

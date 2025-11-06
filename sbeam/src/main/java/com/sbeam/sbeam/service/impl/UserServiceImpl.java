@@ -28,8 +28,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private UserMapper userMapper;
 
-    @Value("${steam.api.key}")
-    private String steamApiKey;
 
     // 存储手机号和验证码的临时Map
     Map<String, String> codeMap = new HashMap<>();
@@ -105,21 +103,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return Pattern.matches(emailRegex, email);
     }
 
-    @Override
-    @Transactional
-    public User bindSteamAccount(Integer userId, String steamId) {
-        // 查找现有用户
-        User user = userMapper.selectById(userId);
-        
-        if (user != null) {
-            // 更新 Steam 账号相关信息
-            user.setSteamId(steamId);
 
-            // 更新用户信息
-            userMapper.updateById(user);
-            return user;
-        }
-        
-        return null;  // 如果没有找到用户
-    }
 }
