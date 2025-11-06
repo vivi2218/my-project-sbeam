@@ -8,6 +8,7 @@ const user = JSON.parse(localStorage.getItem('sbeam_user') || '{}')
 // 提取用户ID和用户名
 const userId = user.userId
 const userName = user.userName
+const isSetting = ref(false)
 
 // 用来存储用户详细信息
 const userProfile = ref({
@@ -32,27 +33,10 @@ onMounted(async () => {
     await fetchUserProfile(userId)
   }
 })
-const bindSteam = async () => {
-  try {
-    // 发起绑定请求，后端会提供绑定 Steam 的 URL
-    const response = await axios.get('http://localhost:8080/auth/steam-login', {
-      headers: {
-        'Origin': 'http://localhost:5173',  // 设置 Origin
-        'Referer': 'http://localhost:5173'  // 设置 Referer
-      }
-    });
 
-    console.log("Redirect URL:", response.data.redirectUrl);  // 调试打印返回的 URL
-
-    if (response.data.redirectUrl) {
-      // 获取 Steam 登录链接，并跳转到 Steam 登录
-      window.location.href = response.data.redirectUrl;
-    } else {
-      console.error("没有返回有效的 redirectUrl");
-    }
-  } catch (error) {
-    console.error('Steam 绑定失败:', error);
-  }
+const setting = () => {
+  console.log("点击了编辑")
+  isSetting.value = true
 }
 
 </script>
@@ -65,8 +49,9 @@ const bindSteam = async () => {
         <!-- 用户头像 -->
         <img :src="userProfile.avatarUrl || '/user/harusekai.png'" class="userIMG" alt="用户头像" />
         <span class="nickname">{{ userName }}</span>
+
         <!-- 绑定 Steam 按钮 -->
-        <button class="setting" @click="bindSteam">绑定 Steam</button>
+        <button class="setting" @click="setting">编辑 Steam</button>
       </div>
 
       <!-- 显示用户个人简介 -->

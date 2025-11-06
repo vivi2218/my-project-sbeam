@@ -28,8 +28,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private UserMapper userMapper;
 
-    @Value("${steam.api.key}")
-    private String steamApiKey;
 
     // 存储手机号和验证码的临时Map
     Map<String, String> codeMap = new HashMap<>();
