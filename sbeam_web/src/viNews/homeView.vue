@@ -102,8 +102,9 @@ const handleImageError = (event) => {
 </script>
 <template>
   <div class="home-view">
-    <span>今日势头最猛</span>
-
+    <span>我们跳票了</span>
+    <br>
+    <img src="/cyber.png" alt="Cyber" />
     <div>
       <span>根据您的喜好推荐：</span>
       <div class="like">
@@ -130,6 +131,12 @@ const handleImageError = (event) => {
 </template>
 
 <style>
+
+span{
+
+}
+
+
 .sol {
   width: 1200px;
   height: 400px;
@@ -157,7 +164,7 @@ const handleImageError = (event) => {
 .home-view {
   padding-top: 40px;
   width: 1350px;
-  height: 100%;
+  height: auto;
   text-align: center;
   color: #fff;
   background-color: rgba(43, 43, 43, 0.745);
