@@ -134,7 +134,7 @@ public class PaymentRecordsController {
 //            System.out.println("❌ 同步回调执行异常：" + e.getMessage());
 //        }
         //页面跳转 **已支付成功**我的订单页面
-        String vueUrl = "http://localhost:5173/User/myorder" ;
+        String vueUrl = "http://localhost:5173/User/myorder";
         response.sendRedirect(vueUrl);
     }
 
