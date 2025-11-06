@@ -61,15 +61,6 @@ public class MyMongoDBPostController {
         return Result.getSuccess(service.getReply(postId));
     }
 
-<<<<<<< HEAD
-
-    //发评论
-    @PostMapping("/reply")
-    public boolean addreply(@RequestBody MogoPost entity) {
-        System.out.println("Received Entity: " + entity);
-        service.save(entity);
-        return true;
-=======
     @PostMapping("/{parentid}/reply")
     public Result addreply(@PathVariable String parentid, @RequestBody MogoPost reply) {
         System.out.println(reply);
@@ -77,7 +68,6 @@ public class MyMongoDBPostController {
         String parentUserId = service.getById(parentid).getUserId();
         pushService.notifyUser(parentUserId, reply.getAuthor() + "回复了你的帖子");
         return Result.saveSuccess(reply);
->>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe
     }
 
 }

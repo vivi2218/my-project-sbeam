@@ -1,22 +1,4 @@
 <script setup lang="ts">
-<<<<<<< HEAD
-import navigaton from './components/share/navigaton.vue'
-import library from '@/views/library.vue'
-import GameDetail from '@/views/GameDetail.vue'
-import TestAutoIdempotent from './views/Myorder/TestAutoIdempotent.vue'
-import testhome from './views/testview/testhome.vue'
-import post from './views/testview/forum/post.vue'
-import cart from './views/cat/cart.vue'
-import Recommd from './views/recommd.vue'
-</script>
-
-<template>
-  <!-- <navigaton></navigaton> -->
-  <!-- <RouterView></RouterView> -->
-  <!-- <testhome/> -->
-  <!-- <post/> -->
-  <Recommd></Recommd>
-=======
 
 import testtingView from './viNews/test/testtingView.vue'
 import navigaton from './viNews/componews/navigaton.vue';
@@ -27,7 +9,6 @@ import mouz from './viNews/componews/mouz.vue'
   <mouz/>
   <navigaton />
   <RouterView />
->>>>>>> 55d98e0b50d9d1fabad299aadcec0eacff287cfe
 </template>
 
 <style>
