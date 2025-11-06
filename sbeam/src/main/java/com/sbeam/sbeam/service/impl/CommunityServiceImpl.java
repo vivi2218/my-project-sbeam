@@ -30,5 +30,10 @@ public class CommunityServiceImpl extends ServiceImpl<CommunityMapper, Community
         return communityMapper.selectList(null);
     }
 
+    @Override
+    public Community getByName(String name) {
+        return communityMapper.getByName(name);
+    }
+
 
 }
