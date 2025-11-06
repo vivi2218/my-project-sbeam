@@ -28,10 +28,6 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // 新增 Steam 账号相关字段
-    @ApiModelProperty("Steam ID")
-    private String steamId;
-
 
     @ApiModelProperty("用户ID")
     @TableId(value = "user_id", type = IdType.AUTO)

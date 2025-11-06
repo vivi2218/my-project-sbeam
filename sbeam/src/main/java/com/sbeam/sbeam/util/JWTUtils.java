@@ -45,7 +45,7 @@ public class JWTUtils {
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + expiration * 1000));
         claims.put("username", user.getUserName());
-       // claims.put("role",user.getRole());//添加角色信息到token
+        // claims.put("role",user.getRole());//添加角色信息到token
 
         String token = Jwts.builder()
                 .setClaims(claims)

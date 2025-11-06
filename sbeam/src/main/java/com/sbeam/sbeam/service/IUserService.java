@@ -28,4 +28,5 @@ public interface IUserService extends IService<User> {
     void registerUser(String username, String password, String email) throws Exception;   //注册
 
 
+    void updateAvatar(Long userId, String avatarUrl);
 }
