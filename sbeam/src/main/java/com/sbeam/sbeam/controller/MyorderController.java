@@ -35,9 +35,9 @@ public class MyorderController {
     @Autowired
     private IMyorderService myorderService;
 
-    // // 普通用户只能查看自己的订单，管理员可以查看所有订单
-     @Autowired
-     private JWTUtils jwtUtils;
+    // 普通用户只能查看自己的订单，管理员可以查看所有订单
+    @Autowired
+    private JWTUtils jwtUtils;
 
     // @GetMapping("/user/{userId}")
     // public List<Myorder> getUserAllOrders(@PathVariable Integer userId,
