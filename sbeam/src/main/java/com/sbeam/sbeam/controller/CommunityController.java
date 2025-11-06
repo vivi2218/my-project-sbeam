@@ -45,5 +45,9 @@ public class CommunityController {
     public boolean createCommunity(@RequestBody Community entity) {
         return communityService.save(entity);
     }
+    @GetMapping("name/{name}")
+    public Community getCommunityByName(@PathVariable String name) {
+        return communityService.getByName(name);
+    }
 
 }

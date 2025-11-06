@@ -20,5 +20,7 @@ public interface ICommunityService extends IService<Community> {
 
     List<Community> getAllCommunity();
 
+    Community getByName(String name);
+
 
 }

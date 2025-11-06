@@ -18,4 +18,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CommunityMapper extends BaseMapper<Community> {
 
+    Community getByName(String name);
+
 }
