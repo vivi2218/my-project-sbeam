@@ -49,5 +49,10 @@ public class CommunityController {
     public Community getCommunityByName(@PathVariable String name) {
         return communityService.getByName(name);
     }
+    @PostMapping("/syncEs")
+    public void syncAllCommunitiesToEs() {
+        communityService.syncAllCommunitiesToEs();
+    }
+    
 
 }
