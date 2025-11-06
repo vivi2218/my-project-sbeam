@@ -25,24 +25,29 @@ const toggleReply = () => {
 const user = JSON.parse(localStorage.getItem('sbeam_user') || '{}')
 const userId = user.userId
 const userName = user.userName
-// console.log('当前用户ID:', userId)
 
+// 获取当前社区名称 (假设是从父组件或者其他地方传递过来的)
+const communityName = ref('')
 
 // 发送回复
 const sendReply = async () => {
   console.log(props.comment)
   if (!replyText.value) return
-  if (!props.comment.postId) return  // 
-  console.log("post")
+  if (!props.comment.postId) return  //
+
+  // 获取当前社区名称, 如果没有，提供默认值
+  const community = communityName.value || '默认社区'
+
   await axios.post(`http://localhost:8080/mygo/${props.comment.postId}/reply`, {
     author: userName,
     content: replyText.value,
     userId: userId,
-    parentPostId: props.comment.postId  // 优先使用评论id，否则用帖子id
+    communityName: community,  // 这里传递 communityName
   })
+
   replyText.value = ''
   showReply.value = false
-  props.reload()
+  props.reload()  // 调用父组件的 reload 方法，刷新评论
 }
 </script>
 

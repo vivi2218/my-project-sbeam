@@ -33,6 +33,7 @@ import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
 import homeView from '@/viNews/homeView.vue'
 import testtingView from '@/viNews/test/testtingView.vue'
 import userspace from '@/viNews/user/userHome.vue'
+import userInfo from '@/viNews/user/userInfo.vue'
 
 
 
@@ -68,6 +69,7 @@ const router = createRouter({
 
     //个人中心
     { path: '/userspace', name: 'userspace', component: userspace },
+    { path: '/userinfo', name: 'userinfo', component: userInfo },
 
     //测试
     { path: '/test', name: 'test', component: testtingView },
@@ -78,16 +80,10 @@ const router = createRouter({
     {
       path: '/store',
       name: 'store',
-      component: Store
+      component: Store,
     },
-    {path:'/paysuccess',
-      name:"paysuccess",
-      component:PaySuccess
-    },
-    {path:'/confirmorder',
-      name:"confirmorder",
-      component:ConfirmOrder
-    },
+    { path: '/paysuccess', name: 'paysuccess', component: PaySuccess },
+    { path: '/confirmorder', name: 'confirmorder', component: ConfirmOrder },
 
     // { path: '/game/details/:id', name: 'GameDetail', component: GameDetail },
 

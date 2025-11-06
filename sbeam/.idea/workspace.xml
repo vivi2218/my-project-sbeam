@@ -4,6 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="剩余我的订单vue,支付成功后取消超时监听" />
+
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="只是延迟队列消费者 消息确认"/>
     <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="unknow">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -52,7 +56,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Spring Boot.SbeamApplication.executor&quot;: &quot;Run&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/aaachi/YU/breezy_project(1)&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/aaachi/YU3/breezy_project&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -184,6 +188,20 @@
       <workItem from="1761786063326" duration="599000" />
       <workItem from="1761809414254" duration="1249000" />
       <workItem from="1761483864477" duration="8755000" />
+
+      <workItem from="1761959959520" duration="1468000" />
+      <workItem from="1762131373152" duration="61000" />
+      <workItem from="1762131456253" duration="3510000" />
+      <workItem from="1762135966035" duration="2372000" />
+      <workItem from="1762180687038" duration="413000" />
+      <workItem from="1762181314152" duration="73000" />
+      <workItem from="1762217764554" duration="600000" />
+      <workItem from="1762221099192" duration="116000" />
+      <workItem from="1762221329199" duration="2052000" />
+      <workItem from="1762224937699" duration="2487000" />
+      <workItem from="1762268739237" duration="1832000" />
+      <workItem from="1762322663619" duration="1032000" />
+
       <workItem from="1761806110099" duration="1071000" />
       <workItem from="1761808433458" duration="58592000" />
       <workItem from="1762056866140" duration="7125000" />
@@ -192,6 +210,7 @@
       <workItem from="1762218244340" duration="15167000" />
       <workItem from="1762244477051" duration="409000" />
       <workItem from="1762304549796" duration="6837000" />
+
       <workItem from="1762390480795" duration="1721000" />
     </task>
     <task id="LOCAL-00001" summary="要登录验证合并">

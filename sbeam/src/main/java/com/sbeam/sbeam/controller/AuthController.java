@@ -6,8 +6,11 @@ import com.sbeam.sbeam.util.JWTUtils;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -42,23 +45,23 @@ public class AuthController {
         // 生成 token
         String accessToken = jwtUtils.generateToken(user);
 
-
-//        String refreshToken = jwtUtils.generateToken(user, 7 * 24 * 60 * 60 * 1000); // 7天
-//        return ResponseEntity.ok(Map.of(
-//                "accessToken", accessToken,
-//                "refreshToken", refreshToken
-//        ));
-//
-//        String redis
+        // String refreshToken = jwtUtils.generateToken(user, 7 * 24 * 60 * 60 * 1000);
+        // // 7天
+        // return ResponseEntity.ok(Map.of(
+        // "accessToken", accessToken,
+        // "refreshToken", refreshToken
+        // ));
+        //
+        // String redis
 
         // 存入 Redis，设置过期时间与 JWT 一致（假设 1 小时）
         String redisKey = "login:accessToken:" + user.getUserId();
         redisTemplate.opsForValue().set(redisKey, accessToken, 1, TimeUnit.HOURS);
-//        redisTemplate.opsForValue().set();
+        // redisTemplate.opsForValue().set();
 
         return Map.of(
-            "code", 200, "token", accessToken, "userId", user.getUserId(),
-            "userName", user.getUserName() );
+                "code", 200, "token", accessToken, "userId", user.getUserId(),
+                "userName", user.getUserName());
     }
 
     // 登出
@@ -74,20 +77,54 @@ public class AuthController {
         }
         return Map.of("code", 200, "msg", "已登出");
     }
-    @GetMapping("/userInfo")
-    public Map<String,Object>
-    getUserInfo(@RequestHeader("Authorization")String authHeader){
-        String token = authHeader.substring(7);
-        String userId = jwtUtils.getUserIdFromToken(token);
-        String username = jwtUtils.getUserNameFromToken(token);
-        String role = jwtUtils.getUserRoleFromToken(token);
-        return Map.of(
-                "code", 200,
-                "data", Map.of(
-                        "userId", userId,
-                        "username", username,
-                        "role", role
-                )
-        );
+
+    // @GetMapping("/userInfo")
+    // public Map<String, Object> getUserInfo(@RequestHeader("Authorization") String authHeader) {
+    //     String token = authHeader.substring(7);
+    //     String userId = jwtUtils.getUserIdFromToken(token);
+    //     String username = jwtUtils.getUserNameFromToken(token);
+    //     String role = jwtUtils.getUserRoleFromToken(token);
+    //     return Map.of(
+    //             "code", 200,
+    //             "data", Map.of(
+    //                     "userId", userId,
+    //                     "username", username,
+    //                     "role", role));
+    // }
+
+    // 生成 Steam 登录 URL
+    @GetMapping("/steam-login")
+    public ResponseEntity<Map<String, String>> steamLogin() {
+        System.out.println("到達後端");
+
+        String steamLoginUrl = "https://steamcommunity.com/openid/login?openid.ns=http://specs.openid.net/auth/2.0&openid.mode=checkid_setup&openid.return_to=http://localhost:8080/auth/steam-callback&openid.realm=http://localhost&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select";
+
+        Map<String, String> response = new HashMap<>();
+        response.put("redirectUrl", steamLoginUrl);
+
+        // 打印日志检查响应数据
+        System.out.println("Returning steam login URL: " + steamLoginUrl);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/steam-callback")
+    public ResponseEntity<Map<String, Object>> steamCallback(@RequestParam Map<String, String> params,
+            @RequestHeader(name = "Authorization", required = false) String authHeader) {
+        String steamId = params.get("openid.identity");
+
+        if (steamId != null) {
+            // 获取当前用户的 userId（通过 JWT 获取）
+            String token = authHeader.substring(7); // 从 Authorization 头中获取 token
+            Integer userId = Integer.valueOf(jwtUtils.getUserIdFromToken(token));
+            // 在此通过 steamId 绑定到用户
+            userService.bindSteamAccount(userId, steamId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("steamId", steamId);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Steam 登录失败"));
+        }
     }
 }

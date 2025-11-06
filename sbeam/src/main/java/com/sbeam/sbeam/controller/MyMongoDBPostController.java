@@ -38,17 +38,24 @@ public class MyMongoDBPostController {
         return service.getAllPosts();
     }
 
+
+    //新建帖子
     @PostMapping
     public Result addpost(@RequestBody MogoPost entity) {
         service.save(entity);
         return Result.saveSuccess(entity);
     }
 
+
+    //根据帖子ID获取帖子
     @GetMapping("/{id}")
     public MogoPost getById(@PathVariable String id) {
         return service.getById(id);
     }
 
+
+
+    //获得所有回复
     @GetMapping("/reply")
     public Result getRepliesByPostId(@RequestParam String postId) {
         return Result.getSuccess(service.getReply(postId));

@@ -22,6 +22,7 @@ const goToUserSpace = () => {
 
 // 登出功能
 const logout = () => {
+  console.log("点击了登出")
   localStorage.removeItem('sbeam_user')  // 清除本地存储中的用户信息
   router.push('/login')  // 跳转到登录页
 }
@@ -36,18 +37,23 @@ const logout = () => {
       <router-link to="/" class="rout">社区</router-link>
     </div>
     <div class="nav-right">
+      <input></input>
+      <button class="btn">搜索</button>
+
       <router-link to="/test" class="rout">测试用</router-link>
       <router-link to="/" class="rout">消息</router-link>
 
       <!-- 个人中心 -->
-      <span @click="goToUserSpace" @mouseover="isHovered = true" @mouseleave="isHovered = false" class="rout">
+      <span @click="goToUserSpace" @mouseenter="isHovered = true" @mouseleave="isHovered = false" class="rout">
         个人中心
       </span>
 
       <!-- 下拉菜单，只有在用户已登录并悬停时才显示-->
-      <div v-if="isLoggedIn && isHovered" class="dropdown">
-        <span @click="logout" class="rout">登出</span>
-      </div>
+      <transition name="fade">
+        <div v-if="isLoggedIn && isHovered" class="dropdown">
+          <span @click="logout" class="rout" @mouseenter="isHovered = true" @mouseleave="isHovered = false">登出</span>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -58,7 +64,7 @@ const logout = () => {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 70px;
+  min-height: 70px;
   background-color: rgba(0, 0, 0, 0.626);
   color: #fff;
 }
@@ -79,6 +85,7 @@ const logout = () => {
   /* 使得下拉菜单相对导航栏右侧定位 */
 }
 
+/* 避免下拉菜单区域消失，留出空间 */
 .rout {
   padding: 0 15px;
   text-decoration: none;
@@ -88,6 +95,7 @@ const logout = () => {
 
 .rout:hover {
   color: #adaafe;
+  cursor: pointer
 }
 
 /* 下拉菜单样式 */
@@ -104,6 +112,8 @@ const logout = () => {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   box-shadow: 2px 5px 15px rgb(0, 0, 0);
+  z-index: 10;
+  /* 确保下拉菜单在其他元素上层显示 */
 }
 
 .dropdown .rout {
@@ -112,6 +122,78 @@ const logout = () => {
 }
 
 .dropdown .rout:hover {
+  color: #adaafe;
+  cursor: pointer
+}
+
+/* 为下拉菜单添加过渡动画 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+  {
+  opacity: 0;
+}
+
+
+input {
+  width: 250px;
+  margin-top: 10px;
+  margin-right: 0;
+  padding: auto;
+  height: 40px;
+  margin-bottom: 10px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border: none;
+  background-color: #343342;
+  color: #fff;
+  transition: all 0.25s;
+  text-align: center;
+  outline: none;
+}
+
+input::placeholder {
+  color: #b4b0b0;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+input:hover {
+  background-color: #6f6c8b;
+}
+
+input:focus {
+  background-color: aliceblue;
+  width: 300px;
+  color: #adaafe;
+}
+
+.btn {
+  margin-left: 0;
+  height: 40px;
+  outline: none;
+  background-color: #7a79a0;
+  color: aliceblue;
+  border: none;
+  width: 60px;
+  padding: 10px 15px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+}
+
+.btn:hover {
+  background-color: aliceblue;
   color: #adaafe;
 }
 </style>
