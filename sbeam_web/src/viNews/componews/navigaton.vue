@@ -25,6 +25,8 @@ const getField = (obj: Record<string, unknown> | null, keys: string[]) => {
 const userId = getField(parsedUser, ['id', 'userId']) ?? rawUser ?? ''
 const isLoggedIn = ref(!!userId)
 
+
+
 // 个人中心下拉
 const isHovered = ref(false)
 
@@ -36,6 +38,14 @@ let ws: WebSocket | null = null
 
 // 后端 WebSocket 端口（如需改动请修改此处或改为从 env 获取）
 const backendPort = 8080
+
+//搜索关键字
+const searchKeyword = ref('')
+function goSearch() {
+  if (!searchKeyword.value.trim()) return
+  // 跳转到 searchResult 页面，同时传递 query 参数
+  router.push({ name: 'searchResult', query: { keyword: searchKeyword.value.trim() } })
+}
 
 const connectWebSocket = () => {
   if (!isLoggedIn.value || !userId) return
@@ -117,8 +127,8 @@ const toggleMessages = () => {
       <router-link to="/User/Myorder" class="rout">我的订单</router-link>
     </div>
     <div class="nav-right">
-  <input />
-      <button class="btn">搜索</button>
+  <input v-model="searchKeyword" placeholder="请输入搜索内容" />
+      <button class="btn" @click="goSearch">搜索</button>
 
       <router-link to="/test" class="rout">测试用</router-link>
 

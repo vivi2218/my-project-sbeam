@@ -1,154 +1,82 @@
-<template>
-  <div class="search-result">
-    <div class="search-box">
-      <input
-        v-model="keyword"
-        type="text"
-        placeholder="搜索游戏或社区..."
-        @keyup.enter="handleSearch"
-      >
-      <button @click="handleSearch">搜索</button>
-    </div>
-
-    <div class="results" v-if="searchResults.length > 0">
-      <div
-        v-for="item in searchResults"
-        :key="item.type + (item.gameId || item.communityId)"
-        class="result-item"
-        @click="handleItemClick(item)"
-      >
-        <div class="item-type">{{ item.type === 'game' ? '游戏' : '社区' }}</div>
-        <div class="item-content">
-          <template v-if="item.type === 'game'">
-            <h3>{{ item.gameName }}</h3>
-            <p class="price">￥{{ item.gameOriginalPrice }}</p>
-          </template>
-          <template v-else>
-            <h3>{{ item.communityName }}</h3>
-            <p class="description">{{ item.communityDescription }}</p>
-          </template>
-        </div>
-      </div>
-    </div>
-    <div v-else-if="hasSearched" class="no-results">
-      未找到相关结果
-    </div>
-  </div>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+<script setup lang="ts">
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
+const route = useRoute()
 const router = useRouter()
-const keyword = ref('')
-const searchResults = ref([])
-const hasSearched = ref(false)
 
-const handleSearch = async () => {
-  if (!keyword.value.trim()) return
+const keyword = ref(route.query.keyword as string || '')
+const results = ref<Array<any>>([])
 
+// 搜索接口
+const fetchResults = async () => {
+  if (!keyword.value) return
   try {
-    const response = await axios.get(`/api/search?keyword=${encodeURIComponent(keyword.value)}`)
-    searchResults.value = response.data
-    hasSearched.value = true
-  } catch (error) {
-    console.error('搜索失败:', error)
+    const res = await axios.get(`http://localhost:8080/search/search`, {
+      params: { keyword: keyword.value }
+    })
+    console.log('搜索结果：', res.data)
+
+    // 处理游戏图片路径
+    results.value = res.data.map((item: any) => {
+      if (item.type === 'game' && item.gameId) {
+        return {
+          ...item,
+          imageUrl: `/gameimg/${item.gameId}.jpg`
+        }
+      }
+      // 其他类型保持原样
+      return { ...item, imageUrl: item.imageUrl || null }
+    })
+  } catch (err) {
+    console.error('搜索失败', err)
+    results.value = []
   }
 }
 
-const handleItemClick = (item) => {
+onMounted(fetchResults)
+
+// query.keyword 改变时重新搜索
+watch(() => route.query.keyword, (newKeyword) => {
+  keyword.value = newKeyword as string
+  fetchResults()
+})
+
+// 点击搜索结果跳转
+const goToDetail = (item: any) => {
   if (item.type === 'game') {
-    router.push(`/game/${item.gameId}`)
-  } else {
-    router.push(`/community/${item.communityId}`)
+    router.push({ name: 'game-detail', params: { id: item.gameId } })
+  } else if (item.type === 'community') {
+    router.push({ name: 'community-detail', params: { id: item.communityId } })
   }
+  // 可以继续添加其他类型
 }
-</script>
+</script> 
 
-<style scoped>
-.search-result {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.search-box {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.search-box input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.search-box button {
-  padding: 10px 20px;
-  background-color: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.search-box button:hover {
-  background-color: #357abd;
-}
-
-.result-item {
-  display: flex;
-  padding: 15px;
-  border: 1px solid #eee;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.result-item:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-color: #4a90e2;
-}
-
-.item-type {
-  background-color: #f0f0f0;
-  padding: 4px 8px;
-  border-radius: 4px;
-  margin-right: 15px;
-  height: fit-content;
-  font-size: 14px;
-}
-
-.item-content {
-  flex: 1;
-}
-
-.item-content h3 {
-  margin: 0 0 8px 0;
-  color: #333;
-}
-
-.price {
-  color: #e53935;
-  font-weight: bold;
-  margin: 0;
-}
-
-.description {
-  color: #666;
-  margin: 0;
-  font-size: 14px;
-}
-
-.no-results {
-  text-align: center;
-  color: #666;
-  padding: 20px;
-}
-</style>
+<template>
+  <div>
+    <h2>搜索结果：{{ keyword }}</h2>
+    <div v-if="results.length === 0">暂无结果</div>
+    <ul v-else>
+      <li
+        v-for="item in results"
+        :key="item.type + '-' + (item.gameId || item.id)"
+        @click="goToDetail(item)"
+        style="cursor:pointer; margin-bottom: 15px;"
+      >
+        <h3>{{ item.gameName || item.name }}</h3>
+        <img
+          v-if="item.imageUrl"
+          :src="item.imageUrl"
+          :alt="item.gameName || item.name"
+          width="200"
+          style="display:block; margin-bottom:5px;"
+        />
+        <p v-else style="color:#888;">暂无图片</p>
+        <p style="font-size: 14px; color:#555;">类型: {{ item.type }}</p>
+        <p v-if="item.gameOriginalPrice">原价: {{ item.gameOriginalPrice }}</p>
+      </li>
+    </ul>
+  </div>
+</template>

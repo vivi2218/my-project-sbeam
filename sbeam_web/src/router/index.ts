@@ -41,6 +41,7 @@ import userInfo from '@/viNews/user/userInfo.vue'
 
 
 
+
 // 游戏商城相关（如果有对应文件）
 
 const router = createRouter({
@@ -89,6 +90,11 @@ const router = createRouter({
       name: 'store',
       component: Store,
     },
+    {
+  path: '/searchResult',
+  name: 'searchResult',
+  component: () => import('../components/SearchResult.vue'),
+},
     { path: '/paysuccess', name: 'paysuccess', component: PaySuccess },
     { path: '/confirmorder', name: 'confirmorder', component: ConfirmOrder },
 
