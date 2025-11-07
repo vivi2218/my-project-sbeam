@@ -26,7 +26,7 @@
 
           <div class="order-body">
             <!-- 暂无游戏封面数据，可后期关联订单详情 -->
-            <img class="game-cover" src="https://via.placeholder.com/80x100" alt="Game Cover" />
+            <img class="game-cover" src="/gameimg/6.jpg" alt="Game Cover" />
             <div class="game-info">
               <h3 class="game-title">订单金额：￥{{ order.finalPrice }}</h3>
               <p class="game-time">下单时间：{{ formatDate(order.createdAt) }}</p>

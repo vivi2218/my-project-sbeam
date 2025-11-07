@@ -34,7 +34,10 @@ public class MyMongoDBPostController {
     private MessagePushService pushService;
 
     @GetMapping
-    public List<MogoPost> getAllPost() {
+    public List<MogoPost> getAllPost(@RequestParam(required = false) Integer communityId) {
+        if (communityId != null) {
+            return service.getPostsByCommunityId(communityId);
+        }
         return service.getAllPosts();
     }
 
@@ -68,6 +71,21 @@ public class MyMongoDBPostController {
         String parentUserId = service.getById(parentid).getUserId();
         pushService.notifyUser(parentUserId, reply.getAuthor() + "回复了你的帖子");
         return Result.saveSuccess(reply);
+    }
+    
+    /**
+     * 点赞帖子接口
+     * @param id 帖子ID
+     * @return 点赞结果
+     */
+    @PostMapping("/{id}/like")
+    public Result likePost(@PathVariable String id) {
+        MogoPost post = service.likePost(id);
+        if (post != null) {
+            return Result.saveSuccess(post);
+        } else {
+            return Result.getFail("帖子不存在");
+        }
     }
 
 }

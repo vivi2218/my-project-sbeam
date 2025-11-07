@@ -109,11 +109,11 @@ const toggleMessages = () => {
 <template>
   <div class="navigation">
     <div class="nav-left">
-      <router-link to="/" class="rout">logo</router-link>
-      <router-link to="/" class="rout">商城</router-link>
-      <router-link to="/" class="rout">仓库</router-link>
-      <router-link to="/" class="rout">社区</router-link>
-    </div>
+        <router-link to="/" class="rout">logo</router-link>
+        <router-link to="/store" class="rout">商城</router-link>
+        <router-link to="/library" class="rout">仓库</router-link>
+        <router-link to="/forum" class="rout">社区</router-link>
+      </div>
     <div class="nav-right">
   <input />
       <button class="btn">搜索</button>

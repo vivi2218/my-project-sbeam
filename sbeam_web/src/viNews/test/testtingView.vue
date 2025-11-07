@@ -1,15 +1,12 @@
 <script lang="ts" setup>
-import Navigation from '../componews/navigaton.vue'
-import Shiriusu from '../componews/shiriusu.vue';
-import Mygotest from '../forum/mygotest.vue';
-import HomeView from '../homeView.vue'
+import forum from '../forum/forum.vue';
 </script>
 
 <template>
 
-  <!-- <HomeView /> -->
-  <Mygotest />
-  <!-- <Shiriusu/> -->
+
+    <forum />
+
 </template>
 
 <style>
