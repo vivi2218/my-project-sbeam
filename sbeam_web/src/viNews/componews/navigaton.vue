@@ -130,7 +130,7 @@ const toggleMessages = () => {
   <input v-model="searchKeyword" placeholder="请输入搜索内容" />
       <button class="btn" @click="goSearch">搜索</button>
 
-      <router-link to="/test" class="rout">测试用</router-link>
+      <!-- <router-link to="/test" class="rout">测试用</router-link> -->
 
       <!-- 消息（有未读时显示角标），点击展开下拉 -->
       <span class="rout message-link" @click="toggleMessages">
