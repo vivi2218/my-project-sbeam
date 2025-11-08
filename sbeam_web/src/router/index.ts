@@ -5,6 +5,8 @@ import HomeView from '../views/HomeView.vue'
 // 论坛
 import ForumHome from '@/views/forum/community-list.vue'
 import ForumMain from '@/views/forum/community-detail.vue'
+// 搜索
+import SearchResult from '@/components/SearchResult.vue'
 // 登录注册
 import Login from '@/views/logres/Login.vue'
 import Register from '@/views/logres/Register.vue'
@@ -26,7 +28,7 @@ import Library from '@/views/library.vue'
 import Cart from '@/views/cat/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
-import OrderDetails from '@/views/User/OrderDetails.vue'
+// import OrderDetails from '@/views/User/OrderDetails.vue'
 import forumHome from '@/views/forum/forumHome.vue'
 import postMain from '@/views/forum/postMain.vue'
 import PaySuccess from '@/views/Myorder/PaySuccess.vue'
@@ -35,6 +37,8 @@ import homeView from '@/viNews/homeView.vue'
 import testtingView from '@/viNews/test/testtingView.vue'
 import userspace from '@/viNews/user/userHome.vue'
 import userInfo from '@/viNews/user/userInfo.vue'
+import communityDetail from '@/views/forum/community-detail.vue'
+import  from ''
 
 
 
@@ -46,9 +50,12 @@ const router = createRouter({
   routes: [
     //{ path: '/about', name: 'about', component: () => import('../views/AboutView.vue') },
 
+    // 搜索
+    { path: '/search', name: 'search', component: SearchResult },
+
     // 论坛
     { path: '/forum', name: 'forum-home', component: ForumHome },
-    { path: '/community-detail', name: 'community-detail', component: ForumMain },
+    { path: '/community/:id', name: 'community-detail', component: communityDetail },
     { path: '/post-detail', name: 'post-detail', component: postMain },
 
     // 登录注册
@@ -65,7 +72,7 @@ const router = createRouter({
     { path: '/', name: 'home', component: homeView },
     { path: '/User/cart', name: 'usercart', component: Cart },
     { path: '/User/myorder', name: 'usermyorder', component: Myorder },
-    { path: '/order/details/:id', name: 'order-details', component: OrderDetails },
+    { path: '/order/details/:id', name: 'order-details', component: orderDetail },
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
 
@@ -84,6 +91,11 @@ const router = createRouter({
       name: 'store',
       component: Store,
     },
+    {
+  path: '/searchResult',
+  name: 'searchResult',
+  component: () => import('../components/SearchResult.vue'),
+},
     { path: '/paysuccess', name: 'paysuccess', component: PaySuccess },
     { path: '/confirmorder', name: 'confirmorder', component: ConfirmOrder },
 

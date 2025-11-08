@@ -26,4 +26,6 @@ public interface IGameService extends IService<Game> {
     public void syncAllGames();
     public void syncAllGamesToEs();
 
+    public void incrementCdkeyStock(Integer gameId);
+
 }

@@ -255,4 +255,9 @@ public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements IG
             }
         }
     }
+
+    @Override
+    public void incrementCdkeyStock(Integer gameId) {
+        gameMapper.incrementCdkeyStock(gameId);
+    }
 }
