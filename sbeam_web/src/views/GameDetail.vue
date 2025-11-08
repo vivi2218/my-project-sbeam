@@ -184,7 +184,6 @@ async function addToCart() {
     }
 
     const res = await axios.post(
-
       'http://localhost:8080/cart/add',
       null, // POST body
       {
@@ -193,7 +192,6 @@ async function addToCart() {
         },
         params: { gameId, gamePrice },
       },
-
     )
 
     console.log(res.data.code)
