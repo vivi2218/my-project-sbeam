@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import navigaton from '@/components/share/navigaton.vue';
 import kobeImg from '@/assets/img/kobe.png';
 
 const BACKEND = 'http://localhost:8080';
@@ -20,7 +19,7 @@ const isSubmitting = ref(false);
 const loadPost = async () => {
     isLoading.value = true;
     errorMessage.value = '';
-    
+
     try {
         // 使用路径参数调用后端 MongoDB 接口：GET /mygo/{id}
         const idRaw = route.query.id || route.params.id || '1';
@@ -32,7 +31,7 @@ const loadPost = async () => {
         const rres = await axios.get(`${BACKEND}/mygo/reply`, {
             params: { postId: post.value.postId }
         });
-        
+
         // 处理回复数据，后端返回Result对象，数据在data字段中
         const replyData = Array.isArray(rres.data?.data) ? rres.data.data : [];
         replies.value = replyData.map((reply: any, index: number) => ({
@@ -58,7 +57,7 @@ onMounted(loadPost);
 
 const toggleLike = async () => {
     if (!post.value) return;
-    
+
     try {
         // 调用后端点赞接口（暂时使用模拟方式，因为后端没有提供like接口）
         // 实际环境中需要后端实现此接口
@@ -67,7 +66,7 @@ const toggleLike = async () => {
         //     liked: !liking.value
         // });
         // 暂时只在前端更新状态","},{"old_str":
-        
+
         liking.value = !liking.value;
         post.value.likeCount = (post.value.likeCount || 0) + (liking.value ? 1 : -1);
     } catch (e) {
@@ -80,7 +79,7 @@ const submitReply = async () => {
     if (!newReply.value.trim() || !post.value || isSubmitting.value) return;
 
     isSubmitting.value = true;
-    
+
     // 从 localStorage 获取已登录用户
     let userId: any = null;
     let userName: string = '游客';
@@ -124,7 +123,7 @@ const submitReply = async () => {
             likes: created?.likeCount ?? 0,
             floor: replies.value.length + 1
         });
-        
+
         newReply.value = '';
     } catch (e) {
         console.error('提交回复失败', e);
@@ -137,9 +136,9 @@ const submitReply = async () => {
 // 返回社区详情页
 const goBackToCommunity = () => {
     if (post.value && post.value.communityId) {
-        router.push({ 
-            path: '/community-detail', 
-            query: { id: post.value.communityId } 
+        router.push({
+            path: '/community-detail',
+            query: { id: post.value.communityId }
         });
     } else {
         router.push('/forum');
@@ -155,19 +154,19 @@ const goBackToCommunity = () => {
         <div v-if="isLoading" class="loading">
             <p>加载中...</p>
         </div>
-        
+
         <!-- 错误提示 -->
         <div v-else-if="errorMessage" class="error-message">
             {{ errorMessage }}
             <button @click="loadPost">重试</button>
         </div>
-        
+
         <!-- 帖子内容 -->
         <div v-else>
             <section class="left-col">
                 <!-- 返回按钮 -->
                 <button class="back-button" @click="goBackToCommunity">← 返回社区</button>
-                
+
                 <div class="post-card">
                     <header class="post-head">
                         <h1 class="title">{{ post?.postTitle || '加载中...' }}</h1>
@@ -178,7 +177,7 @@ const goBackToCommunity = () => {
                                 <span class="sep">•</span>
                                 <span class="community">社区：{{ post?.communityName || (post?.communityId ? `社区#${post.communityId}` : '-') }}</span>
                                 <span class="sep">•</span>
-                                <span class="time">{{ post?.createdAt ? new Date(post.createdAt).toLocaleString() : '-' 
+                                <span class="time">{{ post?.createdAt ? new Date(post.createdAt).toLocaleString() : '-'
                                     }}</span>
                             </div>
                             <div class="actions">
@@ -230,9 +229,9 @@ const goBackToCommunity = () => {
                 <div class="reply-box">
                     <textarea v-model="newReply" placeholder="写下你的回复..." rows="4"></textarea>
                     <div class="reply-controls">
-                        <button 
-                            class="btn-submit" 
-                            @click="submitReply" 
+                        <button
+                            class="btn-submit"
+                            @click="submitReply"
                             :disabled="isSubmitting || !newReply.trim()"
                         >
                             {{ isSubmitting ? '发表中...' : '发表' }}
@@ -316,6 +315,7 @@ const goBackToCommunity = () => {
     padding: 20px;
     border: 1px solid #333;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .post-head .title {
@@ -323,6 +323,8 @@ const goBackToCommunity = () => {
     margin: 0 0 16px;
     color: #e0e0e0;
     font-weight: 600;
+        width: 100%;
+
 }
 
 .meta {
