@@ -25,4 +25,6 @@ public interface GameMapper extends BaseMapper<Game> {
      * @return 影响行数（>0 表示成功）
      */
     int decreaseStock(@Param("gameId") Integer gameId, @Param("count") Integer count);
+
+    void incrementCdkeyStock(Integer gameId);
 }

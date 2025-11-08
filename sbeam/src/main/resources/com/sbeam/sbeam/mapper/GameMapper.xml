@@ -5,6 +5,14 @@
         UPDATE game
         SET remain_stock = remain_stock - #{count}
         WHERE game_id = #{gameId}
-          AND remain_stock >= #{count}
+        AND remain_stock >= #{count}
     </update>
+
+    <update id="incrementCdkeyStock">
+        UPDATE game
+        SET remain_stock = remain_stock + 1,
+            total_stock = total_stock + 1
+        WHERE game_id = #{gameId}
+    </update>
+
 </mapper>

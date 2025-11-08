@@ -37,7 +37,8 @@ import homeView from '@/viNews/homeView.vue'
 import testtingView from '@/viNews/test/testtingView.vue'
 import userspace from '@/viNews/user/userHome.vue'
 import userInfo from '@/viNews/user/userInfo.vue'
-
+import communityDetail from '@/views/forum/community-detail.vue'
+import  from ''
 
 
 
@@ -54,7 +55,7 @@ const router = createRouter({
 
     // 论坛
     { path: '/forum', name: 'forum-home', component: ForumHome },
-    { path: '/community/:id', name: 'community-detail', component: ForumMain },
+    { path: '/community/:id', name: 'community-detail', component: communityDetail },
     { path: '/post-detail', name: 'post-detail', component: postMain },
 
     // 登录注册
@@ -71,7 +72,7 @@ const router = createRouter({
     { path: '/', name: 'home', component: homeView },
     { path: '/User/cart', name: 'usercart', component: Cart },
     { path: '/User/myorder', name: 'usermyorder', component: Myorder },
-    { path: '/order/details/:id', name: 'order-details', component: Home },
+    { path: '/order/details/:id', name: 'order-details', component: orderDetail },
     { path: '/homeuser', name: 'userhome', component: UserHome },
     { path: '/store', name: 'store', component: Store },
 
