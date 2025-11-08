@@ -298,6 +298,7 @@ const goBackToCommunity = () => {
 /* 左列：帖子和楼层 */
 .left-col {
     flex: 1 1 720px;
+    width:1100px
 }
 
 /* 右列：侧边栏 */
@@ -374,6 +375,7 @@ const goBackToCommunity = () => {
     cursor: pointer;
     color: #e0e0e0;
     transition: all 0.3s ease;
+    width: 80px;
 }
 
 .actions .like:hover:not(:disabled) {
@@ -687,6 +689,7 @@ const goBackToCommunity = () => {
     .tieba-wrap {
         flex-direction: column;
         padding: 16px;
+        height:1200vh;
     }
 
     .right-col {

@@ -62,6 +62,23 @@ const loadCommunityData = async () => {
   }
 }
 
+// 加入社区
+const joinCommunity = async () => {
+  try {
+    const user = JSON.parse(localStorage.getItem('sbeam_user') || '{}')
+    const userId = user.userId
+
+    // 加入社区
+    await axios.post(`http://localhost:8080/community/join/${communityId}?userId=${userId}`)
+
+
+    alert('成功加入社区')
+  } catch (error) {
+    console.error('加入社区时发生错误:', error)
+    alert('加入社区失败，请稍后重试')
+  }
+}
+
 // 用户信息
 const user = JSON.parse(localStorage.getItem('sbeam_user') || '{}')
 const userId = user.userId
@@ -158,6 +175,7 @@ onMounted(loadCommunityData)
           <img :src="kobeImg" alt="社区头像" class="community-avatar" />
           <div class="community-info">
             <h1 class="community-title">{{ communityName }}</h1>
+            <button class="join-button" @click="joinCommunity">加入社区</button>
             <p class="community-desc">{{ communityDescription }}</p>
             <div class="community-meta">
               <span :class="['status-badge', communityStatus === '正常' ? 'status-normal' : 'status-abnormal']">
@@ -180,60 +198,64 @@ onMounted(loadCommunityData)
       <section v-if="showPostForm" class="post-form-section">
         <h2 class="section-title">发表新帖</h2>
         <div class="post-form">
-          <input
-            v-model="newPostTitle"
-            type="text"
-            placeholder="请输入帖子标题..."
-            class="post-title-input"
-          />
-          <textarea
-            v-model="newPostContent"
-            placeholder="分享你的想法..."
-            class="post-content-input"
-          ></textarea>
-          <button
-            @click="createPost"
-            class="submit-post-btn"
-            :disabled="isPosting"
-          >
+          <input v-model="newPostTitle" type="text" placeholder="请输入帖子标题..." class="post-title-input" />
+          <textarea v-model="newPostContent" placeholder="分享你的想法..." class="post-content-input"></textarea>
+          <button @click="createPost" class="submit-post-btn" :disabled="isPosting">
             {{ isPosting ? '发布中...' : '发布帖子' }}
           </button>
         </div>
       </section>
 
-        <!-- 帖子列表 -->
-        <section class="posts-section">
-          <h2 class="section-title">社区讨论 ({{ posts.length }})</h2>
+      <!-- 帖子列表 -->
+      <section class="posts-section">
+        <h2 class="section-title">社区讨论 ({{ posts.length }})</h2>
 
-          <div v-if="posts.length === 0" class="no-posts">
-            <p>暂无讨论内容</p>
-          </div>
+        <div v-if="posts.length === 0" class="no-posts">
+          <p>暂无讨论内容</p>
+        </div>
 
-          <div v-else class="posts-list">
-            <div
-              v-for="post in posts"
-              :key="post.id"
-              class="post-item"
-              @click="goToPostDetail(post.id)"
-            >
-              <h3 class="post-title">{{ post.title }}</h3>
-              <p class="post-content">{{ post.content }}</p>
-              <div class="post-meta">
-                <span class="post-author">{{ post.author }}</span>
-                <span class="post-date">{{ post.createdAt }}</span>
-                <div class="post-stats">
-                  <span class="post-stat">{{ post.likeCount }} 赞</span>
-                  <span class="post-stat">{{ post.commentCount }} 评论</span>
-                </div>
+        <div v-else class="posts-list">
+          <div v-for="post in posts" :key="post.id" class="post-item" @click="goToPostDetail(post.id)">
+            <h3 class="post-title">{{ post.title }}</h3>
+            <p class="post-content">{{ post.content }}</p>
+            <div class="post-meta">
+              <span class="post-author">{{ post.author }}</span>
+              <span class="post-date">{{ post.createdAt }}</span>
+              <div class="post-stats">
+                <span class="post-stat">{{ post.likeCount }} 赞</span>
+                <span class="post-stat">{{ post.commentCount }} 评论</span>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
     </div>
   </main>
 </template>
 
 <style scoped>
+.join-button {
+  padding: 8px 16px;
+  background: #009688;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.join-button:hover {
+  background: #00796b;
+  transform: translateY(-1px);
+}
+
+.join-button:active {
+  transform: translateY(1px);
+  background-color: rgb(74, 148, 0);
+}
+
 /* 页面整体布局 */
 .community-detail {
   position: relative;
@@ -249,7 +271,8 @@ onMounted(loadCommunityData)
 }
 
 /* 加载和错误状态 */
-.loading, .error-message {
+.loading,
+.error-message {
   text-align: center;
   padding: 40px;
   color: #999;

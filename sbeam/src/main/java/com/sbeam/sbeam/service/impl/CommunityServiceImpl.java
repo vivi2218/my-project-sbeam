@@ -1,7 +1,9 @@
 package com.sbeam.sbeam.service.impl;
 
 import com.sbeam.sbeam.entity.Community;
+import com.sbeam.sbeam.entity.UserCommunity;
 import com.sbeam.sbeam.mapper.CommunityMapper;
+import com.sbeam.sbeam.repository.UserCommunityRepository;
 import com.sbeam.sbeam.service.ICommunityService;
 import com.sbeam.sbeam.util.Result;
 
@@ -11,6 +13,7 @@ import io.jsonwebtoken.io.IOException;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,8 @@ public class CommunityServiceImpl extends ServiceImpl<CommunityMapper, Community
     private CommunityMapper communityMapper;
     @Autowired
     private ElasticsearchClient esClient;
+    @Autowired
+    private UserCommunityRepository userCommunityRepository;
 
     @Override
     public List<Community> getAllCommunity() {
@@ -40,7 +45,7 @@ public class CommunityServiceImpl extends ServiceImpl<CommunityMapper, Community
     }
 
     @Override
-    public Community getByName(String name) {
+    public List<Community> getByName(String name) {
         return communityMapper.getByName(name);
     }
 
@@ -70,6 +75,32 @@ public class CommunityServiceImpl extends ServiceImpl<CommunityMapper, Community
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void addUserToCommunity(String userId, String communityId) {
+        UserCommunity userCommunity = new UserCommunity();
+        userCommunity.setUserId(userId);
+        userCommunity.setCommunityId(communityId);
+
+
+        userCommunityRepository.save(userCommunity);
+    }
+
+    @Override
+    public List<Community> getCommunitiesByUserId(String userId) {
+        List<String> communityIds = userCommunityRepository.findAll().stream()
+                .filter(uc -> uc.getUserId().equals(userId))
+                .map(UserCommunity::getCommunityId)
+                .toList();
+        List<Community> communities = new ArrayList<>();
+        for (String communityId : communityIds) {
+            Community community = communityMapper.selectById(communityId);
+            if (community != null) {
+                communities.add(community);
+            }
+        }
+        return communities;
     }
 
 }

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sbeam.sbeam.mapper.CommunityMapper">
+    <!-- getByName -->
+    <select id="getByName" resultType="com.sbeam.sbeam.entity.Community" parameterType="String">
+    SELECT * FROM community WHERE community_name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
 
 </mapper>

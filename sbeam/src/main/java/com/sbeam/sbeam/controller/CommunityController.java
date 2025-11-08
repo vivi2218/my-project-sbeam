@@ -52,7 +52,7 @@ public class CommunityController {
     }
 
     @GetMapping("name/{name}")
-    public Community getCommunityByName(@PathVariable String name) {
+    public List<Community> getCommunityByName(@PathVariable String name) {
         return communityService.getByName(name);
     }
 
@@ -70,6 +70,16 @@ public class CommunityController {
             community.setCommunityDescription("这是" + game.getGameName() + "的讨论组!");
             communityService.save(community);
         }
+    }
+
+    @PostMapping("/join/{communityId}")
+    public void join(@PathVariable String communityId, @RequestParam String userId) {
+        communityService.addUserToCommunity(userId, communityId);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Community> getCommunitiesByUserId(@PathVariable String userId) {
+        return communityService.getCommunitiesByUserId(userId);
     }
 
 }

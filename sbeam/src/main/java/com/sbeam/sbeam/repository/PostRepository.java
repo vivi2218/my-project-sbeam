@@ -16,4 +16,6 @@ public interface PostRepository extends MongoRepository<MogoPost, String> {
     
     List<MogoPost> findByCommunityName(String communityName);
 
+    List<MogoPost> findByUserId(String userId);
+
 }
