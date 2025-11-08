@@ -93,15 +93,15 @@ const goToPost = (id: number) => {
 /* 页面整体 - 与Store页面风格一致 */
 .community-main {
   position: relative;
-  top: 38px;
+  height: 12000px;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   padding: 20px;
   font-family: 'Microsoft YaHei', sans-serif;
-  background-color: #121212;
+  background-color: #00000056;
   color: #e0e0e0;
-  min-height: 100vh;
+  min-height: 1600vh;
 }
 
 h1 {
