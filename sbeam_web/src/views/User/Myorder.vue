@@ -56,6 +56,11 @@
           </div>
 
           <div class="order-body">
+<<<<<<< HEAD
+=======
+            <!-- 暂无游戏封面数据，可后期关联订单详情 -->
+            <img class="game-cover" src="/gameimg/6.jpg" alt="Game Cover" />
+>>>>>>> origin/new
             <div class="game-info">
               <h3 class="game-title">{{ order.gameName || '游戏名称' }}</h3>
               <p class="game-price">订单金额：￥{{ order.finalPrice }}</p>

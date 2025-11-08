@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="基本完成">
       <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/CdkeyController.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/entity/VO/OrderGameVO.java" afterDir="false" />
@@ -12,6 +13,17 @@
       <change afterPath="$PROJECT_DIR$/../sbeam_web/src/views/User/OrderDetails.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/SearchController.java" afterDir="false" />
+=======
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="剩余我的订单vue,支付成功后取消超时监听">
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/MyMongoDBPostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/controller/MyMongoDBPostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/repository/PostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IPostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/IPostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sbeam/sbeam/service/impl/PostServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+>>>>>>> origin/new
       <change beforePath="$PROJECT_DIR$/target/classes/com/mbt.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/mbt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/SbeamApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/SbeamApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/AlipayConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/config/AlipayConfig.class" afterDir="false" />
@@ -44,7 +56,10 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyorderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/MyorderController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/OrderDetailsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/OrderDetailsController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/OrderHistoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/OrderHistoryController.class" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PaymentRecordsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PaymentRecordsController.class" afterDir="false" />
+=======
+>>>>>>> origin/new
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PostController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/PostController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/SalesController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/SalesController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/controller/SearchController.class" afterDir="false" />
@@ -84,7 +99,10 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/UserFollow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/UserFollow.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/UserGameLibrary.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/UserGameLibrary.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/UserProfile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/UserProfile.class" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/VO/CdkeyVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/VO/CdkeyVO.class" afterDir="false" />
+=======
+>>>>>>> origin/new
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/VO/GameAchievementVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/VO/GameAchievementVO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/VO/GameBundleVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/VO/GameBundleVO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/VO/GameDetailVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/entity/VO/GameDetailVO.class" afterDir="false" />
@@ -184,9 +202,23 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/webSocket/MessageConsumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/webSocket/MessageConsumer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/webSocket/MessagePushService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/webSocket/MessagePushService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/webSocket/WebSocketServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sbeam/sbeam/webSocket/WebSocketServer.class" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/../sbeam_web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sbeam_web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/cat/cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/cat/cart.vue" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/viNews/componews/navigaton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/viNews/componews/navigaton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/viNews/test/testtingView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/viNews/test/testtingView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/viNews/user/userHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/viNews/user/userHome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/User/Myorder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/User/Myorder.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/User/UserHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/User/UserHome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/forum/CommentItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/forum/CommentItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/forum/community-detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/forum/community-detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/forum/community-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/forum/community-list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/src/views/forum/postMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../sbeam_web/src/views/forum/postMain.vue" afterDir="false" />
+>>>>>>> origin/new
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,6 +249,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+<<<<<<< HEAD
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -224,6 +257,12 @@
       </MavenGeneralSettings>
     </option>
   </component>
+=======
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+>>>>>>> origin/new
   <component name="ProjectId" id="33hSeHBUXloV4EfwtmASk1PXFJu" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -240,7 +279,12 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.SbeamApplication.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
+<<<<<<< HEAD
     "last_opened_file_path": "E:/codes/Java/sbeam/sbeam",
+=======
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/sbeam/sbeam/sbeam",
+>>>>>>> origin/new
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -393,8 +437,13 @@
       <workItem from="1762244477051" duration="409000" />
       <workItem from="1762304549796" duration="6837000" />
       <workItem from="1762393287552" duration="7362000" />
+<<<<<<< HEAD
       <workItem from="1762444037872" duration="174000" />
       <workItem from="1762448556025" duration="3222000" />
+=======
+      <workItem from="1762427773359" duration="34000" />
+      <workItem from="1762513282585" duration="638000" />
+>>>>>>> origin/new
     </task>
     <task id="LOCAL-00001" summary="要登录验证合并">
       <option name="closed" value="true" />
