@@ -47,7 +47,7 @@ const fetchUserProfile = async (userId: number) => {
     userProfile.value.avatarUrl = avatarUrl || ''
     userProfile.value.bio = response.data.bio || '' // 保留其他字段不变
 
-    console.log('DDDDDD')// 这是什么
+    console.log('DDDDDD') // 这是什么
 
     console.log(userProfile.value.avatarUrl)
   } catch (error) {
