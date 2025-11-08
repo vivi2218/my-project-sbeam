@@ -44,4 +44,6 @@ public interface IPostService {
      */
     List<MogoPost> getPostsByCommunityId(Integer communityId);
 
+    List<MogoPost> getPostsByUserId(String userId);
+
 }

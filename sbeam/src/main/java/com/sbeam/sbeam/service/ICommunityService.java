@@ -23,5 +23,9 @@ public interface ICommunityService extends IService<Community> {
 
     void syncAllCommunitiesToEs();
 
+    void addUserToCommunity(String userId, String communityId);
+
+    List<Community> getCommunitiesByUserId(String userId);
+
     
 }

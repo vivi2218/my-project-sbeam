@@ -88,4 +88,10 @@ public class MyMongoDBPostController {
         }
     }
 
+    @GetMapping("/user/{userId}")
+    public List<MogoPost> getPostsByUserId(@PathVariable String userId) {
+        return service.getPostsByUserId(userId);
+    }
+
+
 }

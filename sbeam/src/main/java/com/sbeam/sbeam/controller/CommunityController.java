@@ -72,4 +72,14 @@ public class CommunityController {
         }
     }
 
+    @PostMapping("/join/{communityId}")
+    public void join(@PathVariable String communityId, @RequestParam String userId) {
+        communityService.addUserToCommunity(userId, communityId);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Community> getCommunitiesByUserId(@PathVariable String userId) {
+        return communityService.getCommunitiesByUserId(userId);
+    }
+
 }

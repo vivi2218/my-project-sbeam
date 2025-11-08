@@ -123,6 +123,11 @@ public class PostServiceImpl implements IPostService {
         return postRepository.findByCommunityName(community.getCommunityName());
     }
 
+    @Override
+    public List<MogoPost> getPostsByUserId(String userId) {
+        return postRepository.findByUserId(userId);
+    }
+
 
 
 }
