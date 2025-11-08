@@ -34,24 +34,6 @@ const userId = user.userId
 const userName = user.userName
 // console.log('当前用户ID:', userId)
 
-<<<<<<< HEAD
-
-// 发送回复
-const sendReply = async () => {
-  console.log(props.comment)
-  if (!replyText.value) return
-  if (!props.comment.postId) return  //
-  console.log("post")
-  await axios.post(`http://localhost:8080/mygo/${props.comment.postId}/reply`, {
-    author: userName,
-    content: replyText.value,
-    userId: userId,
-    parentPostId: props.comment.postId  // 优先使用评论id，否则用帖子id
-  })
-  replyText.value = ''
-  showReply.value = false
-  props.reload()
-=======
 // 获取当前社区名称
 const communityName = ref('')
 
@@ -61,14 +43,14 @@ const sendReply = async () => {
     alert('请输入回复内容')
     return
   }
-  
+
   if (!props.comment.postId) {
     console.error('评论ID不存在')
     return
   }
 
   isSending.value = true
-  
+
   try {
     // 获取当前社区名称, 如果没有，提供默认值
     const community = communityName.value || '默认社区'
@@ -90,7 +72,6 @@ const sendReply = async () => {
   } finally {
     isSending.value = false
   }
->>>>>>> origin/new
 }
 </script>
 
@@ -101,16 +82,16 @@ const sendReply = async () => {
       <span class="comment-author">{{ comment.author }}</span>
       <span v-if="comment.timestamp" class="comment-time">{{ comment.timestamp }}</span>
     </div>
-    
+
     <!-- 评论内容 -->
     <div class="comment-content">
       {{ comment.content }}
     </div>
-    
+
     <!-- 评论操作 -->
     <div class="comment-actions">
-      <button 
-        class="reply-button" 
+      <button
+        class="reply-button"
         @click="toggleReply"
         :disabled="isSending"
       >
@@ -120,14 +101,14 @@ const sendReply = async () => {
 
     <!-- 回复输入框 -->
     <div v-if="showReply" class="reply-box">
-      <textarea 
-        v-model="replyText" 
+      <textarea
+        v-model="replyText"
         placeholder="写下你的回复..."
         class="reply-input"
       ></textarea>
       <div class="reply-actions">
-        <button 
-          @click="sendReply" 
+        <button
+          @click="sendReply"
           class="send-reply-button"
           :disabled="isSending"
         >
@@ -138,11 +119,11 @@ const sendReply = async () => {
 
     <!-- 递归渲染子回复 -->
     <div class="replies" v-if="comment.replies && comment.replies.length > 0">
-      <CommentItem 
-        v-for="reply in comment.replies" 
+      <CommentItem
+        v-for="reply in comment.replies"
         :key="reply.id || reply.postId"
-        :comment="reply" 
-        :reload="props.reload" 
+        :comment="reply"
+        :reload="props.reload"
       />
     </div>
   </div>

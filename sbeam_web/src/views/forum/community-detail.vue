@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import navigaton from '@/components/share/navigaton.vue'
+
 import kobeImg from '@/assets/img/kobe.png'
 
 // 数据状态
@@ -26,22 +26,22 @@ const communityId = Number(route.query.id || route.params.id)
 const loadCommunityData = async () => {
   isLoading.value = true
   errorMessage.value = ''
-  
+
   try {
     // 获取社区信息
     const communityRes = await axios.get(`http://localhost:8080/community/id/${communityId}`)
     const communityData = communityRes.data
-    
+
     communityName.value = communityData.communityName
     communityDescription.value = communityData.communityDescription
     communityStatus.value = communityData.status === 0 ? '正常' : '异常'
     communityCreatedAt.value = new Date(communityData.createdAt).toLocaleDateString('zh-CN')
-    
+
     // 加载帖子列表
     const postsRes = await axios.get('http://localhost:8080/mygo', {
       params: { communityId }
     })
-    
+
     // 处理帖子数据
     posts.value = (postsRes.data || []).map((post: any) => ({
       id: post.postId || post.id,
@@ -53,7 +53,7 @@ const loadCommunityData = async () => {
       commentCount: post.commentCount || 0,
       userId: post.userId
     }))
-    
+
   } catch (error) {
     console.error('加载社区数据时发生错误:', error)
     errorMessage.value = '加载社区数据失败，请稍后重试'
@@ -87,14 +87,14 @@ const createPost = async () => {
     alert('请输入帖子标题')
     return
   }
-  
+
   if (!newPostContent.value.trim()) {
     alert('请输入帖子内容')
     return
   }
 
   isPosting.value = true
-  
+
   try {
     const response = await axios.post('http://localhost:8080/mygo', {
       userId,
@@ -112,10 +112,10 @@ const createPost = async () => {
     newPostTitle.value = ''
     newPostContent.value = ''
     showPostForm.value = false
-    
+
     // 重新加载数据
     loadCommunityData()
-    
+
   } catch (error) {
     console.error('发布帖子失败:', error)
     alert('发布帖子失败，请稍后重试')
@@ -134,24 +134,24 @@ onMounted(loadCommunityData)
 
 <template>
   <navigaton />
-  
+
   <main class="community-detail">
     <!-- 加载状态 -->
     <div v-if="isLoading" class="loading">
       <p>加载中...</p>
     </div>
-    
+
     <!-- 错误提示 -->
     <div v-else-if="errorMessage" class="error-message">
       {{ errorMessage }}
       <button @click="loadCommunityData">重试</button>
     </div>
-    
+
     <!-- 社区详情内容 -->
     <div v-else class="content">
       <!-- 返回按钮 -->
       <button class="back-button" @click="goBack">← 返回社区列表</button>
-      
+
       <!-- 社区信息卡片 -->
       <div class="community-card">
         <div class="community-header">
@@ -168,31 +168,31 @@ onMounted(loadCommunityData)
           </div>
         </div>
       </div>
-      
 
-      
+
+
       <!-- 发帖按钮 -->
       <button class="create-post-btn" @click="togglePostForm">
         {{ showPostForm ? '取消发帖' : '发表新帖' }}
       </button>
-      
+
       <!-- 发帖表单 -->
       <section v-if="showPostForm" class="post-form-section">
         <h2 class="section-title">发表新帖</h2>
         <div class="post-form">
-          <input 
-            v-model="newPostTitle" 
-            type="text" 
-            placeholder="请输入帖子标题..." 
+          <input
+            v-model="newPostTitle"
+            type="text"
+            placeholder="请输入帖子标题..."
             class="post-title-input"
           />
-          <textarea 
-            v-model="newPostContent" 
-            placeholder="分享你的想法..." 
+          <textarea
+            v-model="newPostContent"
+            placeholder="分享你的想法..."
             class="post-content-input"
           ></textarea>
-          <button 
-            @click="createPost" 
+          <button
+            @click="createPost"
             class="submit-post-btn"
             :disabled="isPosting"
           >
@@ -204,15 +204,15 @@ onMounted(loadCommunityData)
         <!-- 帖子列表 -->
         <section class="posts-section">
           <h2 class="section-title">社区讨论 ({{ posts.length }})</h2>
-          
+
           <div v-if="posts.length === 0" class="no-posts">
             <p>暂无讨论内容</p>
           </div>
-          
+
           <div v-else class="posts-list">
-            <div 
-              v-for="post in posts" 
-              :key="post.id" 
+            <div
+              v-for="post in posts"
+              :key="post.id"
               class="post-item"
               @click="goToPostDetail(post.id)"
             >
@@ -237,7 +237,7 @@ onMounted(loadCommunityData)
 /* 页面整体布局 */
 .community-detail {
   position: relative;
-  top: 38px;
+
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -558,11 +558,11 @@ onMounted(loadCommunityData)
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .post-time {
     align-self: flex-start;
   }
-  
+
   .post-footer {
     flex-direction: column;
     gap: 8px;

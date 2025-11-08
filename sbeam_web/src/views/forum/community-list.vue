@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import navigaton from '@/components/share/navigaton.vue'
 import kobeImg from '@/assets/img/kobe.png'
 
 const BACKEND = 'http://localhost:8080'
@@ -13,11 +12,11 @@ const fetchData = async () => {
   try {
     console.log('开始获取社区数据...')
     const resComm = await fetch(`${BACKEND}/community`)
-    
+
     if (!resComm.ok) {
       throw new Error(`HTTP错误! 状态码: ${resComm.status}`)
     }
-    
+
     const commList = await resComm.json()
     console.log('获取到社区数据:', commList)
 
@@ -42,7 +41,7 @@ onMounted(fetchData)
 
 // 点击跳转到社区详情页
 const goToCommunity = (id: number) => {
-  router.push({ path: '/community-detail', query: { id } })
+  router.push({ path: `/community/${id}` })
 }
 
 // 点击跳转到帖子详情页（可选）
@@ -80,7 +79,7 @@ const goToPost = (id: number) => {
             <span class="value">{{ community.createdAt }}</span>
           </div>
         </div>
-        
+
         <!-- 查看详情按钮 -->
         <div class="community-actions">
           <button class="view-detail-btn">查看详情</button>
