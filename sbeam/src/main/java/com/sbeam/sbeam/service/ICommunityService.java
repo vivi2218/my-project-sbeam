@@ -19,7 +19,7 @@ public interface ICommunityService extends IService<Community> {
 
     List<Community> getAllCommunity();
 
-    Community getByName(String name);
+    List<Community> getByName(String name);
 
     void syncAllCommunitiesToEs();
 

@@ -40,7 +40,7 @@ public class CommunityServiceImpl extends ServiceImpl<CommunityMapper, Community
     }
 
     @Override
-    public Community getByName(String name) {
+    public List<Community> getByName(String name) {
         return communityMapper.getByName(name);
     }
 

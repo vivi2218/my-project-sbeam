@@ -52,7 +52,7 @@ public class CommunityController {
     }
 
     @GetMapping("name/{name}")
-    public Community getCommunityByName(@PathVariable String name) {
+    public List<Community> getCommunityByName(@PathVariable String name) {
         return communityService.getByName(name);
     }
 
