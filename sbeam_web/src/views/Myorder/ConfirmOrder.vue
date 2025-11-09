@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted,onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 
@@ -35,6 +35,20 @@ const getOrderFromStorage = () => {
 const saveOrderToStorage = (orderData) => {
   localStorage.setItem('currentOrder', JSON.stringify(orderData))
 }
+
+// 保存购物车到localStorage
+const saveCartToStorage = (cartData) => {
+  localStorage.setItem('currentCart', JSON.stringify(cartData));
+};
+
+// 从localStorage读取购物车
+const getCartFromStorage = () => {
+  const storedCart = localStorage.getItem('currentCart');
+  if (storedCart) {
+    return JSON.parse(storedCart);
+  }
+  return [];
+};
 
 // 计算剩余支付时间
 const calculateRemainingTime = (createTime) => {
@@ -80,6 +94,14 @@ async function getIdempotentToken() {
 // ==================== 创建订单 ====================
 async function createOrder() {
   try {
+    // 获取购物车内容用于展示
+        const cartRes = await axios.get(`http://localhost:8080/cart`, {
+          headers: { Authorization: token },
+        })
+        console.log('购物车数据:', cartRes)
+        cartItems.value = cartRes.data || []
+    // 保存购物车到localStorage
+    saveCartToStorage(cartItems.value);
     loading.value = true
     // 先清除可能存在的旧订单信息，确保创建新订单
     localStorage.removeItem('currentOrder')
@@ -100,9 +122,10 @@ async function createOrder() {
       const response = await axios.get(
         `http://localhost:8080/myorder/${userId}/latest`
       )
+      console.log('获取最新订单响应:', response)
     if (response.data.code === 200) {
 
-        const data = response.data
+        const data = response.data.data
         order.orderId = data.orderId
         order.orderNumber = data.orderNumber
         order.finalPrice = data.finalPrice
@@ -129,12 +152,6 @@ async function createOrder() {
 
         // 保存订单信息到localStorage
         saveOrderToStorage(order)
-
-        // 获取购物车内容用于展示
-        const cartRes = await axios.get(`http://localhost:8080/cart`, {
-          headers: { Authorization: token },
-        })
-        cartItems.value = cartRes.data || []
 
         // 计算剩余支付时间
         countdown.value = calculateRemainingTime(order.orderCreateTime)
@@ -261,6 +278,7 @@ onMounted(async () => {
       // 订单已过期或无效，清除存储的订单信息
       isExpired.value = true
       localStorage.removeItem('currentOrder')
+      localStorage.removeItem('currentCart')
       // 创建新订单
       await getIdempotentToken()
       await createOrder()
@@ -268,11 +286,7 @@ onMounted(async () => {
       // 恢复有效订单信息
       Object.assign(order, storedOrder)
 
-      // 获取购物车内容用于展示
-      const cartRes = await axios.get(`http://localhost:8080/cart`, {
-        headers: { Authorization: token },
-      })
-      cartItems.value = cartRes.data || []
+      cartItems.value = getCartFromStorage()
 
       // 启动倒计时
       startCountdown()
@@ -283,6 +297,14 @@ onMounted(async () => {
     await createOrder()
   }
 })
+
+// 组件销毁前（离开页面时）清除订单缓存
+onBeforeUnmount(() => {
+  // 只有“未支付”状态的订单才清除（避免误删已支付但未刷新的场景）
+  if (order.orderStatus === 'unpaid') {
+    localStorage.removeItem('currentOrder');
+  }
+});
 </script>
 
 <template>
@@ -293,7 +315,7 @@ onMounted(async () => {
       <div v-if="order.orderNumber" class="order-info">
         <p><strong>订单号：</strong> {{ order.orderNumber }}</p>
         <p><strong>应付金额：</strong> <span class="price">{{ order.finalPrice }} 元</span></p>
-        <p><strong>订单状态：</strong> {{ order.orderStatus }}</p>
+        <p><strong>订单状态：</strong> {{ order.orderStatus === 'unpaid' ? '未支付' : '其他状态' }}</p>
         <p class="countdown">
           请在 <b>{{ formatTime(countdown) }}</b> 内完成支付，否则订单将自动取消。
         </p>

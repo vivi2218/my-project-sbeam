@@ -2,6 +2,7 @@ package com.sbeam.sbeam.mapper;
 
 import com.sbeam.sbeam.entity.Myorder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sbeam.sbeam.util.Result;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

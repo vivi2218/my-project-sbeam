@@ -124,7 +124,7 @@ const changeFilter = (filter) => {
 // ===== 支付功能 =====
 const payOrder = async (order) => {
   try {
-    const res = await axios.post('http://localhost:8080/paymentRecords/alipay', order, {
+    const res = await axios.post('http://localhost:8080/paymentRecords', order, {
       headers: { 'Content-Type': 'application/json' },
     })
     const div = document.createElement('div')

@@ -116,8 +116,9 @@ public class MyorderController {
      * 根据userId获得最新的一条订单信息
      */
     @GetMapping("/{userId}/latest")
-    public Myorder getLatestOrderByUserId(@PathVariable Integer userId){
-        return myorderService.getLasterOrder(userId);
+    public Result getLatestOrderByUserId(@PathVariable Integer userId){
+        Myorder lasterOrder = myorderService.getLasterOrder(userId);
+        return Result.getSuccess(lasterOrder);
     }
 
     /**
