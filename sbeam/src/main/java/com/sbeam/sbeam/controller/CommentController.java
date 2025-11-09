@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.sbeam.sbeam.entity.Comment;
+import com.sbeam.sbeam.entity.Game;
 import com.sbeam.sbeam.service.ICommentService;
+import com.sbeam.sbeam.service.IGameService;
+import com.sbeam.sbeam.util.Result;
 
 import java.util.List;
 
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 
@@ -36,6 +40,7 @@ public class CommentController {
     @Autowired
     private ICommentService commentService;
 
+
     @GetMapping("/getall")
     public List<Comment> getAllComments() {
         return commentService.getAllComments();
@@ -51,6 +56,12 @@ public class CommentController {
     public Comment getByCommentId(@PathVariable Integer id) {
         return commentService.getById(id);
     }
+
+    @PostMapping
+    public Result createComment(@RequestBody Comment comment) {
+        return Result.saveSuccess(commentService.save(comment));
+    }
     
+
     
 }

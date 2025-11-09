@@ -13,5 +13,9 @@ import com.sbeam.sbeam.entity.Post;
 public interface PostRepository extends MongoRepository<MogoPost, String> {
 
     List<MogoPost> findByParentPostId(String id);
+    
+    List<MogoPost> findByCommunityName(String communityName);
+
+    List<MogoPost> findByUserId(String userId);
 
 }

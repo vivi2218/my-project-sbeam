@@ -122,7 +122,7 @@ const toggleMessages = () => {
       <router-link to="/" class="rout">logo</router-link>
       <router-link to="/store" class="rout">商城</router-link>
       <router-link to="/" class="rout">仓库</router-link>
-      <router-link to="/" class="rout">社区</router-link>
+      <router-link to="/Community" class="rout">社区</router-link>
       <router-link to="/User/cart" class="rout">购物车</router-link>
       <router-link to="/User/Myorder" class="rout">我的订单</router-link>
     </div>

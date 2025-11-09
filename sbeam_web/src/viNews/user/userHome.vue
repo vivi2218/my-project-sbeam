@@ -25,6 +25,10 @@ const userProfile = ref({
   // 其他用户详细信息...
 })
 
+// 添加新的响应式变量
+const userPosts = ref([])
+const userCommunities = ref([])
+
 // 获取用户信息
 const fetchUserProfileName = async (userId: number) => {
   try {
@@ -47,7 +51,7 @@ const fetchUserProfile = async (userId: number) => {
     userProfile.value.avatarUrl = avatarUrl || ''
     userProfile.value.bio = response.data.bio || '' // 保留其他字段不变
 
-    console.log('DDDDDD')// 这是什么
+    console.log('DDDDDD') // 这是什么
 
     console.log(userProfile.value.avatarUrl)
   } catch (error) {
@@ -171,11 +175,33 @@ const startEditingAvatar = () => {
   isEditingAvatar.value = true
 }
 
+// 获取用户发布的帖子
+const fetchUserPosts = async (userId: string) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/mygo/user/${userId}`)
+    userPosts.value = response.data
+  } catch (error) {
+    console.error('获取用户帖子失败', error)
+  }
+}
+
+// 获取用户关注的社区
+const fetchUserCommunities = async (userId: string) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/community/user/${userId}`)
+    userCommunities.value = response.data
+  } catch (error) {
+    console.error('获取用户关注社区失败', error)
+  }
+}
+
 // 页面加载时获取用户信息
 onMounted(async () => {
   if (userId) {
     await fetchUserProfile(userId)
     await fetchUserProfileName(userId)
+    await fetchUserPosts(userId)
+    await fetchUserCommunities(userId)
   }
 })
 
@@ -224,7 +250,7 @@ const startEditingName = () => {
           />
 
           <!-- 铅笔图标，只有在 isEditing 为 true 时显示 -->
-          <span v-if="isEditing" @click="startEditingName" class="edit-icon">✏️</span>
+          <span v-if="isEditing" @click="startEditingName" class="edit-icon">修改</span>
         </div>
 
         <!-- 编辑按钮 -->
@@ -240,8 +266,25 @@ const startEditingName = () => {
 
       <!-- 显示用户个人简介 -->
       <div class="down">
-        <div class="left"><strong>个人展柜: </strong>{{ userProfile.bio || '无' }}</div>
-        <div class="right">游戏 社区 库存</div>
+        <div class="left">
+          <strong>最近动态</strong>
+          <div class="posts-list">
+            <div v-for="post in userPosts" :key="post._id" class="post-item">
+              <h3>{{ post.communityName }}</h3>
+              <p>{{ post.content }}</p>
+              <span class="post-info">点赞数: {{ post.likeCount }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <strong>关注的社区</strong>
+          <div class="communities-list">
+            <div v-for="community in userCommunities" :key="community.communityId" class="community-item">
+              <h3>{{ community.communityName }}</h3>
+
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -336,5 +379,49 @@ const startEditingName = () => {
 .down {
   display: flex;
   justify-content: space-between;
+}
+
+.posts-list,
+.communities-list {
+  margin-top: 20px;
+  
+}
+
+.post-item{
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+.community-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  width: 80px;
+}
+
+.post-item h3,
+.community-item h3 {
+  margin: 0 0 10px 0;
+  color: #adaafe;
+}
+
+.post-info {
+  color: #888;
+  font-size: 0.9em;
+}
+
+.left{
+  width: 70%;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+}
+.right {
+  width: 28%;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
 }
 </style>

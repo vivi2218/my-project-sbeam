@@ -21,12 +21,7 @@
         <h3>分类</h3>
 
         <ul>
-          <li
-            v-for="c in categories"
-            :key="c"
-            @click="selectCategory(c)"
-            :class="{ active: c === activeCategory }"
-          >
+          <li v-for="c in categories" :key="c" @click="selectCategory(c)" :class="{ active: c === activeCategory }">
             {{ c }}
           </li>
         </ul>
@@ -35,12 +30,7 @@
       <!-- 右侧游戏展示 -->
 
       <main class="game-list">
-        <div
-          v-for="game in filteredGames"
-          :key="game.gameId"
-          class="game-card"
-          @click="goGameDetail(game.gameId)"
-        >
+        <div v-for="game in filteredGames" :key="game.gameId" class="game-card" @click="goGameDetail(game.gameId)">
           <img :src="`/gameimg/${game.gameId}.jpg`" alt="封面" @error="onImageError" />
 
           <div class="info">
@@ -109,22 +99,32 @@ function goGameDetail(id) {
 </script>
 
 <style scoped>
+html,
+body,
+#app {
+  min-height: 100vh;
+  /* 至少占满一屏 */
+  height: auto;
+  /* 根据内容撑高 */
+  overflow-y: auto;
+  /* 允许滚动 */
+}
+
 .store-page {
   position: relative;
 
-  top: 38px;
 
   max-width: 100vw;
 
   width: 1200px;
 
-  height: 95%;
+  height: auto;
 
   background-color: #121212;
 
   color: #e0e0e0;
 
-  min-height: 100vh;
+  min-height: 1200vh;
 
   padding: 20px;
 

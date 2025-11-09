@@ -28,8 +28,8 @@ import Library from '@/views/library.vue'
 import Cart from '@/views/cat/cart.vue'
 import Store from '@/views/Store.vue'
 import Myorder from '@/views/User/Myorder.vue'
-import OrderDetails from '@/views/User/OrderDetails.vue'
-import forumHome from '@/views/forum/forumHome.vue'
+ import OrderDetails from '@/views/User/OrderDetails.vue'
+import forumHome from '@/views/forum/community-list.vue'
 import postMain from '@/views/forum/postMain.vue'
 import PaySuccess from '@/views/Myorder/PaySuccess.vue'
 import ConfirmOrder from '@/views/Myorder/ConfirmOrder.vue'
@@ -38,6 +38,8 @@ import testtingView from '@/viNews/test/testtingView.vue'
 import userspace from '@/viNews/user/userHome.vue'
 import userInfo from '@/viNews/user/userInfo.vue'
 import communityDetail from '@/views/forum/community-detail.vue'
+import CommunityList from '@/views/forum/community-list.vue'
+
 
 
 
@@ -63,7 +65,7 @@ const router = createRouter({
     { path: '/register', name: 'register', component: Register },
 
     // 其它页面
-    { path: '/community', name: 'community', component: Community },
+    { path: '/community', name: 'community', component: CommunityList },
     { path: '/events', name: 'events', component: Events },
 
     { path: '/home', name: 'home2', component: Home },

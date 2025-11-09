@@ -29,5 +29,21 @@ public interface IPostService {
     List<MogoPost> getReply(String id);
 
     MogoPost addReply(String id, MogoPost reply);
+    
+    /**
+     * 点赞帖子
+     * @param id 帖子ID
+     * @return 点赞后的帖子对象
+     */
+    MogoPost likePost(String id);
+    
+    /**
+     * 根据社区ID获取帖子列表
+     * @param communityId 社区ID
+     * @return 帖子列表
+     */
+    List<MogoPost> getPostsByCommunityId(Integer communityId);
+
+    List<MogoPost> getPostsByUserId(String userId);
 
 }

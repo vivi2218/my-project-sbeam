@@ -1,6 +1,7 @@
 D:\sbeam\sbeam\sbeam\src\main\java\com\mbt.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\AlipayConfig.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\AppConfig.java
+D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\CorsConfig.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\ElasticsearchConfig.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\MinioConfig.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\RabbitMQConfig.java
@@ -9,11 +10,9 @@ D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\SecurityConfig.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\WebConfiguration.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\WebSocketConfig.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\config\XxlJobConfig.java
-D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\consumer\OrderMqConsumer.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\consumer\OrderTimeoutConsumer.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\controller\AuthController.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\controller\CartController.java
-D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\controller\CdkeyController.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\controller\CdkeyStockController.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\controller\CommentController.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\controller\CommunityController.java
@@ -73,15 +72,12 @@ D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\UserAchievement.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\UserFollow.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\UserGameLibrary.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\UserProfile.java
-D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\CdkeyVO.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\GameAchievementVO.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\GameBundleVO.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\GameDetailVO.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\GameLibraryVO.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\GamePriceHistoryVO.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\GameProfileVO.java
-D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\OrderEvent.java
-D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\entity\VO\OrderGameVO.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\interceptor\AutoIdempotent.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\interceptor\AutoIdempotentInterceptor.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\job\OrderToHistoryJob.java
@@ -173,7 +169,6 @@ D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\service\IUserFollowService.ja
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\service\IUserGameLibraryService.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\service\IUserProfileService.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\service\IUserService.java
-D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\service\MqSender.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\util\JWTUtils.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\util\RedisLuaExecutor.java
 D:\sbeam\sbeam\sbeam\src\main\java\com\sbeam\sbeam\util\Result.java
