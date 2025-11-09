@@ -3,29 +3,29 @@
     <div class="orderStyle">
       <!-- 订单筛选按钮 -->
       <div class="order-filter">
-        <button 
-          class="filter-btn" 
+        <button
+          class="filter-btn"
           :class="{ active: currentFilter === 'all' }"
           @click="changeFilter('all')"
         >
           全部订单
         </button>
-        <button 
-          class="filter-btn" 
+        <button
+          class="filter-btn"
           :class="{ active: currentFilter === 'paid' }"
           @click="changeFilter('paid')"
         >
           已支付
         </button>
-        <button 
-          class="filter-btn" 
+        <button
+          class="filter-btn"
           :class="{ active: currentFilter === 'unpaid' }"
           @click="changeFilter('unpaid')"
         >
           未支付
         </button>
-        <button 
-          class="filter-btn" 
+        <button
+          class="filter-btn"
           :class="{ active: currentFilter === 'cancelled' }"
           @click="changeFilter('cancelled')"
         >
@@ -57,7 +57,7 @@
 
           <div class="order-body">
             <div class="game-info">
-              <h3 class="game-title">{{ order.gameName || '游戏名称' }}</h3>
+              <h3 class="game-title">{{ order.gameName || '游戏名称' }}等游戏</h3>
               <p class="game-price">订单金额：￥{{ order.finalPrice }}</p>
               <p class="game-time">下单时间：{{ formatDate(order.createdAt) }}</p>
             </div>
@@ -101,7 +101,7 @@ const getOrders = async () => {
     if (currentFilter.value !== 'all') {
       url += `/status/${currentFilter.value}`
     }
-    
+
     const res = await axios.get(url, {
       headers: { Authorization: token || '' },
     })

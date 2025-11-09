@@ -43,4 +43,11 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="findLatestByuserId" parameterType="Integer" resultMap="OrderResultMapper">
+        SELECT * FROM myorder
+        WHERE user_id = #{userId}  -- 过滤用户ID
+        ORDER BY created_at DESC  -- 按创建时间倒序（最新的在最前）
+            LIMIT 1  -- 只取第一条（即最新的）
+    </select>
 </mapper>

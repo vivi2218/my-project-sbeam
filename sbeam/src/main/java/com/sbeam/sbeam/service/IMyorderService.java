@@ -38,4 +38,6 @@ public interface IMyorderService extends IService<Myorder> {
     //处理订单支付成功
 
     public Result confirmPayment(Integer orderId);
+
+    public Myorder getLasterOrder(Integer userId);
 }

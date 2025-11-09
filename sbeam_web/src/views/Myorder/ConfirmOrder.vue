@@ -47,21 +47,13 @@ const calculateRemainingTime = (createTime) => {
       // 如果时间无效，返回默认的15分钟
       return 15 * 60;
     }
-    
+
     const createTimestamp = createDate.getTime();
     const nowTimestamp = new Date().getTime();
     const totalDuration = 15 * 60 * 1000; // 15分钟
     const elapsedTime = nowTimestamp - createTimestamp;
     const remainingTime = Math.max(0, Math.floor((totalDuration - elapsedTime) / 1000));
-    
-    console.log('计算剩余时间:', {
-      createTime,
-      createTimestamp,
-      nowTimestamp,
-      elapsedTime,
-      remainingTime
-    });
-    
+
     return remainingTime;
   } catch (error) {
     console.error('计算剩余时间出错:', error);
@@ -104,14 +96,18 @@ async function createOrder() {
       }
     )
     console.log('创建订单响应:', res)
+      alert(res.data.data)
+      const response = await axios.get(
+        `http://localhost:8080/myorder/${userId}/latest`
+      )
+    if (response.data.code === 200) {
 
-    if (res.data.code === 200) {
-        const data = res.data.data
+        const data = response.data
         order.orderId = data.orderId
         order.orderNumber = data.orderNumber
         order.finalPrice = data.finalPrice
         order.orderStatus = data.orderStatus
-        
+
         // 安全地设置订单创建时间
         try {
           // 检查后端返回的时间格式
@@ -128,7 +124,7 @@ async function createOrder() {
           console.error('时间格式处理错误:', timeError);
           order.orderCreateTime = new Date().toISOString(); // 出错时使用当前时间
         }
-        
+
         console.log('✅ 创建订单成功:', order)
 
         // 保存订单信息到localStorage
@@ -142,7 +138,7 @@ async function createOrder() {
 
         // 计算剩余支付时间
         countdown.value = calculateRemainingTime(order.orderCreateTime)
-        
+
         // 为新创建的订单，不应该立即判断超时，直接开启倒计时
         console.log('新订单初始倒计时:', countdown.value)
         startCountdown()
@@ -180,7 +176,7 @@ function startCountdown() {
     // 每次都重新计算剩余时间，确保准确性
     if (order.orderCreateTime) {
       countdown.value = calculateRemainingTime(order.orderCreateTime)
-      
+
       if (countdown.value <= 0) {
         clearInterval(timer)
         isExpired.value = true
@@ -198,7 +194,7 @@ function formatTime(sec) {
       console.error('无效的秒数:', sec);
       return '15:00'; // 返回默认值
     }
-    
+
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
@@ -255,11 +251,11 @@ async function validateOrder(orderNumber) {
 onMounted(async () => {
   // 首先检查localStorage中是否有未完成的订单
   const storedOrder = getOrderFromStorage()
-  
+
   if (storedOrder && storedOrder.orderCreateTime && storedOrder.orderNumber) {
     // 计算剩余支付时间
     countdown.value = calculateRemainingTime(storedOrder.orderCreateTime)
-    
+
     // 检查是否已过期或订单是否有效
     if (countdown.value <= 0 || !(await validateOrder(storedOrder.orderNumber))) {
       // 订单已过期或无效，清除存储的订单信息
@@ -271,13 +267,13 @@ onMounted(async () => {
     } else {
       // 恢复有效订单信息
       Object.assign(order, storedOrder)
-      
+
       // 获取购物车内容用于展示
       const cartRes = await axios.get(`http://localhost:8080/cart`, {
         headers: { Authorization: token },
       })
       cartItems.value = cartRes.data || []
-      
+
       // 启动倒计时
       startCountdown()
     }

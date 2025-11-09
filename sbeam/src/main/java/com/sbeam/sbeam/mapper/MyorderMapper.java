@@ -23,4 +23,5 @@ public interface MyorderMapper extends BaseMapper<Myorder> {
     public int insertOrderHistory(List<Myorder> orders);
     //删除原表中已迁移的订单
     public int deleteOlders(List<Integer> orderIds);
+    public Myorder findLatestByuserId(Integer userId);
 }

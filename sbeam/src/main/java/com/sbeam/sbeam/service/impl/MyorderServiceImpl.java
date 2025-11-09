@@ -10,6 +10,7 @@ import com.sbeam.sbeam.entity.Sales;
 import com.sbeam.sbeam.entity.VO.OrderGameVO;
 import com.sbeam.sbeam.mapper.*;
 import com.sbeam.sbeam.service.IMyorderService;
+import com.sbeam.sbeam.service.MqSender;
 import com.sbeam.sbeam.util.RedisLuaExecutor;
 import com.sbeam.sbeam.util.Result;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -45,6 +46,8 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
     private RabbitTemplate rabbitTemplate;
     @Autowired
     private RedisLuaExecutor redisLuaExecutor;
+    @Autowired
+    private MqSender mqSender;
     @Override
     public List<OrderGameVO> getOrdersByUserId(Integer userId) {
         // 创建查询条件
@@ -164,85 +167,17 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
         //2.扣减库存(Lua原子)
         for(Cart cart:cartList){
             String stockKey = "game:stock:" + cart.getGameId();
-            
-            // 检查Redis中是否存在库存键，如果不存在则从数据库查询并设置
-            String stockValue = redisTemplate.opsForValue().get(stockKey);
-            if (stockValue == null) {
-                // 从数据库查询库存
-                Game game = gameMapper.selectById(cart.getGameId());
-                if (game != null && game.getRemainStock() != null) {
-                    // 设置到Redis中
-                    redisTemplate.opsForValue().set(stockKey, game.getRemainStock().toString());
-                    System.out.println("✅ 从数据库获取并设置Redis库存: " + stockKey + " = " + game.getRemainStock());
-                } else {
-                    System.out.println("❌ 游戏不存在或库存信息无效: gameId = " + cart.getGameId());
-                    return Result.getFail("游戏信息异常");
-                }
-            }
-            
             // 扣减库存
             Long res = redisLuaExecutor.execute("script\\decr_stock.lua", Long.class, stockKey, 1);
             if(res == null || res <= 0){
-                if(res == null || res == -1) {
-                    // key不存在，但理论上我们上面已经检查并设置了，这里作为双重保险
-                    return Result.getFail("游戏【" + cart.getGameId() + "】库存信息未初始化");
-                }
+                //redis扣减失败 ->秒杀失败
                 return Result.getFail("游戏【" + cart.getGameId() + "】库存不足");
             }
         }
-        // 核心：用 Optional 把 null 转为 BigDecimal.ZERO（0值，不影响累加结果）
-        BigDecimal originalPrice = cartList.stream()
-                .map(cart -> Optional.ofNullable(cart.getGamePrice()).orElse(BigDecimal.ZERO))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-
-        // 创建订单
-        Myorder myorder = new Myorder();
-        myorder.setUserId(userId);
-        //myorder.setCartId();
-        myorder.setOrderNumber("ORDER" + UUID.randomUUID().toString());
-        myorder.setOriginalPrice(originalPrice);// 计算原价
-        myorder.setFinalPrice(compute_finalPrice(cartList)); // 最终支付价格
-        myorder.setOrderDate(LocalDateTime.now());
-        myorder.setOrderStatus("unpaid");// 初始订单状态为未支付
-        myorder.setVersion(1);
-        myorder.setStatus(0);
-        myorder.setCreatedAt(LocalDateTime.now());
-
-        //保存订单
-        myorderMapper.insert(myorder);
-        System.out.println("生成我的订单号为:"+myorder.getOrderId());
-        //创建订单详情
-        List<OrderDetails> orderDetailsList = new ArrayList<>();
-        for(Cart cart : cartList){
-            OrderDetails orderDetails = new OrderDetails();
-            orderDetails.setOrderId(myorder.getOrderId());
-            orderDetails.setUserId(userId);
-            orderDetails.setGameId(cart.getGameId());
-            orderDetails.setDiscountId(cart.getSalesId());
-            orderDetails.setStatus(0);
-            orderDetails.setVersion(1);
-            orderDetails.setCreatedAt(LocalDateTime.now());
-            //保存订单详情
-            int rows = orderDetailsMapper.insert(orderDetails);
-            boolean add = orderDetailsList.add(orderDetails);
-            if(rows>0 && add)
-                System.out.println("Order保存添加订单详情成功!!!!");
-            else {
-                System.out.println("Order保存订单失败....");
-                return Result.saveFail(myorder);
-            }
-        }
-            for(Cart cart:cartList){
-                cart.setStatus(1);
-                cartMapper.updateById(cart);
-            }
-            //发送延迟消息到RabbitMQ进行超时取消
-            sendOrderTimeoutMessage(myorder.getOrderId());
-            System.out.println("订单创建成功,订单号:"+myorder.getOrderNumber());
-
-        return Result.saveSuccess(myorder);
-
+            //redis扣减成功 ->秒杀成功
+        //发送MQ下单事件,异步处理Mysql写入
+        mqSender.sendOrderEvent(userId,cartList);
+        return Result.saveSuccess("秒杀成功,正在生成订单");
     }
 
     @Override
@@ -282,6 +217,11 @@ public class MyorderServiceImpl extends ServiceImpl<MyorderMapper, Myorder> impl
 
         //可以添加其他业务处理,如库存扣减,绑定激活码,发放激活码
         return Result.updateSuccess(myorder);
+    }
+    //获得最新的一条订单
+    @Override
+    public Myorder getLasterOrder(Integer userId) {
+        return myorderMapper.findLatestByuserId(userId);
     }
 
     //处理订单超时取消

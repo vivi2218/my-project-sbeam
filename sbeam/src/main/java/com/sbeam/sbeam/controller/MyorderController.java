@@ -6,6 +6,7 @@ import com.sbeam.sbeam.interceptor.AutoIdempotent;
 import com.sbeam.sbeam.service.IMyorderService;
 import com.sbeam.sbeam.util.JWTUtils;
 import com.sbeam.sbeam.util.Result;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -110,6 +111,13 @@ public class MyorderController {
     @GetMapping("/{orderId}")
     public Myorder getOrderById(@PathVariable Integer orderId) {
         return myorderService.getById(orderId);
+    }
+    /**
+     * 根据userId获得最新的一条订单信息
+     */
+    @GetMapping("/{userId}/latest")
+    public Myorder getLatestOrderByUserId(@PathVariable Integer userId){
+        return myorderService.getLasterOrder(userId);
     }
 
     /**

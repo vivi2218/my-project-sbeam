@@ -28,12 +28,12 @@ const removeItem = async (cartId) => {
   if (!confirm('确定要删除这个商品吗？')) {
     return
   }
-  
+
   try {
     const res = await axios.delete(`http://localhost:8080/cart/${cartId}`, {
       headers: { Authorization: token },
     })
-    
+
     if (res.data) {
       // 删除成功，更新本地购物车列表
       cartItems.value = cartItems.value.filter((item) => item.cartId !== cartId)

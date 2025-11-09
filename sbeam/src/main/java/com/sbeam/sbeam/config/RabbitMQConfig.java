@@ -33,7 +33,6 @@ public class RabbitMQConfig {
     public Binding bindingDelayedQueue() {
         return BindingBuilder.bind(newDelayQueue()).to(newDelayExchange()).with("key3").noargs();
     }
-
     // 创建一个取消超时检测
     // @Bean
     // public DirectExchange orderCancelExchange() {
@@ -137,4 +136,19 @@ public class RabbitMQConfig {
     public Binding likeBand(){
         return BindingBuilder.bind(likeQueue()).to(likeExchange()).with("like.key");
     }
+
+    //创建订单交换机
+    @Bean
+    public DirectExchange orderExchange(){
+        return new DirectExchange("orderExc",true,false);
+    }
+    @Bean
+    public Queue orderQueue(){
+        return new Queue("order_queue",true);
+    }
+    @Bean
+    public Binding orderBinding(){
+        return BindingBuilder.bind(orderQueue()).to(orderExchange()).with("order.key");
+    }
+
 }

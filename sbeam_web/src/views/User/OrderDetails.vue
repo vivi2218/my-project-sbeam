@@ -25,10 +25,10 @@
         </div>
       </div>
 
-      <!-- CDKey信息 -->
-      <div v-if="order && order.orderStatus === 'paid'" class="cdkey-section">
-        <h3>游戏激活码 (CDKey)</h3>
-        <div v-if="cdkeys.length > 0" class="cdkey-list">
+      <!-- 商品信息展示 - 所有状态都显示 -->
+      <div v-if="order" class="cdkey-section">
+        <h3>订单商品信息</h3>
+        <div  v-if="cdkeys.length>0" class="cdkey-list">
           <div v-for="(cdkey, index) in cdkeys" :key="index" class="cdkey-card">
             <div class="game-info">
               <div class="game-image-container">
@@ -43,20 +43,31 @@
               <h4>{{ cdkey.gameName }}</h4>
               <p>创建时间：{{ cdkey.createTime }}</p>
             </div>
+
+            <!-- CDKey显示逻辑 -->
             <div class="cdkey-value">
-              <code>{{ cdkey.cdkey }}</code>
-              <button class="copy-btn" @click="copyToClipboard(cdkey.cdkey)">复制</button>
+              <!-- 已支付状态显示CDKey -->
+              <template v-if="order.orderStatus === 'paid'">
+                <code>{{ cdkey.cdkey }}</code>
+                <button class="copy-btn" @click="copyToClipboard(cdkey.cdkey)">复制</button>
+              </template>
+
+              <!-- 未支付状态显示提示文字 -->
+              <template v-else-if="order.orderStatus === 'unpaid'">
+                <span class="unpaid-message">请完成支付后查看游戏激活码</span>
+              </template>
+
+              <!-- 已取消状态不显示任何内容 -->
             </div>
           </div>
         </div>
         <div v-else class="no-cdkey">
-          暂无CDKey信息，请稍后再试。
+          暂无商品信息，请稍后再试。
         </div>
       </div>
 
-      <!-- 未支付的订单提示 -->
-      <div v-if="order && order.orderStatus !== 'paid'" class="payment-required">
-        <p>请完成支付后查看游戏激活码</p>
+      <!-- 未支付的订单提示按钮 -->
+      <div v-if="order && order.orderStatus === 'unpaid'" class="payment-required">
         <button class="pay-now-btn" @click="payOrder(order)">立即支付</button>
       </div>
 
@@ -90,10 +101,8 @@ const getOrderDetails = async () => {
       })
       order.value = orderRes.data
 
-    // 如果订单已支付，获取CDKey
-    if (order.value && order.value.orderStatus === 'paid') {
-      await getOrderCdkeys()
-    }
+    // 无论订单状态如何，都获取商品信息
+    await getOrderCdkeys()
   } catch (error) {
     console.error('获取订单详情失败:', error)
   } finally {
@@ -347,6 +356,12 @@ onMounted(() => {
   background-color: #2a2a2a;
   border-radius: 8px;
   margin-top: 2rem;
+}
+
+.unpaid-message {
+  font-style: italic;
+  color: #ffc107;
+  font-size: 1rem;
 }
 
 .pay-now-btn {
