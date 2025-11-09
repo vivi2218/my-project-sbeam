@@ -4,10 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="基本完成">
+    <list default="true" id="0e68e3ad-e0c4-4a37-a663-be7b6ce23cc0" name="Changes" comment="111">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sbeam-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sbeam-0.0.1-SNAPSHOT.jar.original" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/25.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/26.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/27.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/28.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/29.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/30.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/31.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/33.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/34.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/35.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/36.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/37.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/38.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sbeam_web/public/gameimg/39.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762253007881</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="111">
+      <option name="closed" value="true" />
+      <created>1762695609935</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1762695609935</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -279,6 +306,7 @@
     <MESSAGE value="剩余我的订单vue,支付成功后取消超时监听" />
     <MESSAGE value="增加庫存表" />
     <MESSAGE value="只是延迟队列消费者 消息确认" />
-    <option name="LAST_COMMIT_MESSAGE" value="只是延迟队列消费者 消息确认" />
+    <MESSAGE value="111" />
+    <option name="LAST_COMMIT_MESSAGE" value="111" />
   </component>
 </project>
