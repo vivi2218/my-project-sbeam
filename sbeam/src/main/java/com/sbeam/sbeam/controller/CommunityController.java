@@ -2,13 +2,12 @@ package com.sbeam.sbeam.controller;
 
 import java.util.List;
 
+import com.sbeam.sbeam.entity.*;
+import com.sbeam.sbeam.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sbeam.sbeam.entity.Comment;
-import com.sbeam.sbeam.entity.Community;
-import com.sbeam.sbeam.entity.Game;
 import com.sbeam.sbeam.service.ICommunityService;
 import com.sbeam.sbeam.service.IGameService;
 
@@ -35,6 +34,8 @@ public class CommunityController {
     private ICommunityService communityService;
     @Autowired
     private IGameService gameService;
+    @Autowired
+    private PostRepository postRepository;
 
     @GetMapping("id/{id}")
     public Community getCommunityById(@PathVariable Integer id) {
@@ -82,4 +83,12 @@ public class CommunityController {
         return communityService.getCommunitiesByUserId(userId);
     }
 
+    /**
+     * 根据社区名称查询帖子（MongoDB版本）
+     */
+    @GetMapping("/getbycname")
+    public List<MogoPost> getAllPostByCName(@RequestParam String communityName) {
+        // 调用Repository的方法（Spring Data自动实现查询）
+        return postRepository.findByCommunityName(communityName);
+    }
 }

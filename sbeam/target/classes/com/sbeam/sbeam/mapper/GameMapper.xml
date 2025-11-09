@@ -15,4 +15,24 @@
         WHERE game_id = #{gameId}
     </update>
 
+    <select id="listAllGamesWithTag" resultType="com.sbeam.sbeam.entity.VO.GameVO">
+        SELECT
+            -- game表所有字段（按实际表结构补充）
+            g.game_id AS gameId,
+            g.game_name AS gameName,
+            g.game_original_price AS gameOriginalPrice,
+            g.release_date AS releaseDate,
+            g.main_image_url AS mainImageUrl,
+            g.version AS version,
+            g.created_at AS createdAt,
+            g.updated_at AS updatedAt,
+            g.remain_stock AS remainStock,
+            g.total_stock AS totalStock,
+            g.status AS status,
+            -- 关联game_profile表的标签字段
+            gp.game_tag_name AS gameTagName
+        FROM game g
+                 -- 左连接game_profile，确保game表数据都能返回
+                 LEFT JOIN game_profile gp ON g.game_id = gp.game_id
+    </select>
 </mapper>

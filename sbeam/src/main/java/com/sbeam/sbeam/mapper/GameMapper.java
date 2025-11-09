@@ -3,8 +3,11 @@ package com.sbeam.sbeam.mapper;
 import com.sbeam.sbeam.entity.Game;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import com.sbeam.sbeam.entity.VO.GameVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,4 +30,6 @@ public interface GameMapper extends BaseMapper<Game> {
     int decreaseStock(@Param("gameId") Integer gameId, @Param("count") Integer count);
 
     void incrementCdkeyStock(Integer gameId);
+
+    List<GameVO> listAllGamesWithTag();
 }

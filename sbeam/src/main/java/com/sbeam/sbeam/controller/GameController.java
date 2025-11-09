@@ -3,6 +3,7 @@ package com.sbeam.sbeam.controller;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import com.sbeam.sbeam.entity.Game;
 import com.sbeam.sbeam.entity.VO.GameDetailVO;
+import com.sbeam.sbeam.entity.VO.GameVO;
 import com.sbeam.sbeam.mapper.GameMapper;
 import com.sbeam.sbeam.service.FlaskService;
 import com.sbeam.sbeam.service.IGameService;
@@ -70,7 +71,12 @@ public class GameController {
     }
 
 
-
+    @GetMapping("/games")
+    public Map<String, Object> getAllGamesByTages() {
+        // 必须调用联表查询的方法，而非 gameService.list()
+        List<GameVO> games = gameService.listAllGamesWithTag();
+        return Map.of("code", 200, "msg", "获取成功", "data", games);
+    }
 
 
 

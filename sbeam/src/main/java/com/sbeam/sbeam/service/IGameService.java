@@ -3,6 +3,7 @@ package com.sbeam.sbeam.service;
 import com.sbeam.sbeam.entity.Game;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sbeam.sbeam.entity.VO.GameDetailVO;
+import com.sbeam.sbeam.entity.VO.GameVO;
 
 import java.util.List;
 
@@ -27,5 +28,6 @@ public interface IGameService extends IService<Game> {
     public void syncAllGamesToEs();
 
     public void incrementCdkeyStock(Integer gameId);
+    public List<GameVO> listAllGamesWithTag();
 
 }

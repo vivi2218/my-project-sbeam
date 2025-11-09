@@ -7,4 +7,10 @@
     </select>
 
 
+    <select id="selectByCommunityName" resultType="com.sbeam.sbeam.entity.Community">
+        SELECT id, community_name AS communityName
+        FROM t_community  -- 假设社区表名为 t_community
+        WHERE community_name = #{communityName}
+    </select>
+
 </mapper>

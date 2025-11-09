@@ -18,4 +18,8 @@ public interface PostRepository extends MongoRepository<MogoPost, String> {
 
     List<MogoPost> findByUserId(String userId);
 
+
+
+
+
 }

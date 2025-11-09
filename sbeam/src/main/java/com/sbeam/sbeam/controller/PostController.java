@@ -31,29 +31,35 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @RestController
 
-@RequestMapping({"/post", ""})
+@RequestMapping({"/post"})
 @CrossOrigin
 public class PostController {
-    // @Autowired
-    // private IPostService postService;
+     @Autowired
+     private IPostService postService;
 
-    // //测试用
-    // // @Autowired
-    // // private PostRepository postRepository;
+     //测试用
+      @Autowired
+      private PostRepository postRepository;
 
 
-    // @GetMapping("/id")
-    // public MogoPost getPostById(@RequestParam String id) {
-    //     return postService.getById(id);
-    // }
-    // @GetMapping
-    // public List<MogoPost> getAllPosts() {
-    //     return postService.getAllPosts();
-    // }
-    // @PostMapping
-    // public boolean createPost(@RequestBody MogoPost entity) {
-    //     System.out.println("Received Post: " + entity);
-    //     return postService.save(entity);
-    // }
+     @GetMapping("/id")
+     public MogoPost getPostById(@RequestParam String id) {
+         return postService.getById(id);
+     }
+     @GetMapping
+     public List<MogoPost> getAllPosts() {
+         return postService.getAllPosts();
+     }
+     @PostMapping
+     public boolean createPost(@RequestBody MogoPost entity) {
+         System.out.println("Received Post: " + entity);
+         return postService.save(entity);
+     }
+
+    @GetMapping("/getbycname")
+    public List<MogoPost> getPostsByCommunityName(@RequestParam String communityName) {
+        // 调用 Repository 方法查询，直接返回 MongoDB 中的帖子列表
+        return postRepository.findByCommunityName(communityName);
+    }
 
 }

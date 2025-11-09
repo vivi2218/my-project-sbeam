@@ -51,6 +51,7 @@ public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements IG
     private UserFollowMapper userFollowMapper;
 
 
+
     @Autowired
     private ElasticsearchClient esClient;
 
@@ -259,5 +260,12 @@ public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements IG
     @Override
     public void incrementCdkeyStock(Integer gameId) {
         gameMapper.incrementCdkeyStock(gameId);
+    }
+
+    @Override
+    public List<GameVO> listAllGamesWithTag() {
+        List<GameVO> result = gameMapper.listAllGamesWithTag();
+
+        return result;
     }
 }
