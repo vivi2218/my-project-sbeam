@@ -57,7 +57,7 @@
 
           <div class="order-body">
             <!-- 暂无游戏封面数据，可后期关联订单详情 -->
-            <img class="game-cover" src="/gameimg/6.jpg" alt="Game Cover" />
+            <img class="game-cover" :src="`/gameimg/${order.gameId}.jpg`" alt="Game Cover" />
             <div class="game-info">
               <h3 class="game-title">{{ order.gameName || '游戏名称' }}等游戏</h3>
               <p class="game-price">订单金额：￥{{ order.finalPrice }}</p>
@@ -107,6 +107,7 @@ const getOrders = async () => {
     const res = await axios.get(url, {
       headers: { Authorization: token || '' },
     })
+    console.log('获取订单数据:', res)
     if (Array.isArray(res.data)) {
       orders.value = res.data
     } else {
@@ -287,8 +288,16 @@ body {
   display: flex;
   align-items: center;
   flex: 1;
+  gap: 0.8rem; /* 图片和文字之间增加间距，更美观 */
 }
 
+.game-cover {
+  /* 核心等比缩放样式 */
+  width: 80px; /* 固定宽度，高度自动等比 */
+  height: auto; /* 保持宽高比 */
+  object-fit: cover; /* 图片裁剪填充，避免拉伸 */
+  border-radius: 4px; /* 可选：添加轻微圆角，更精致 */
+}
 
 
 .game-info {

@@ -158,6 +158,7 @@ async function createOrder() {
 
         // 为新创建的订单，不应该立即判断超时，直接开启倒计时
         console.log('新订单初始倒计时:', countdown.value)
+        isExpired.value = false; // 强制重置超时状态，确保按钮即时显示“去支付”
         startCountdown()
     } else if (res.data.code === 201) {
       // 201 表示库存不足等业务逻辑错误
