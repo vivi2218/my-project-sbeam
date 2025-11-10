@@ -110,7 +110,7 @@ onMounted(async () => {
 
 // 处理图片加载失败
 const onImageError = (e) => {
-  e.target.src = '/gameimg/default.jpg'
+  e.target.src = '/gameimg/kemomimi.jpg'
 }
 
 // 搜索 + 分类 + 排序逻辑

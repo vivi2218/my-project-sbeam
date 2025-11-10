@@ -43,7 +43,7 @@
           :src="`/gameimg/${gameDetail.gameId}.jpg`"
           alt="游戏封面"
           class="main-cover"
-          @error="(e) => (e.target.src = '/gameimg/default.jpg')"
+          @error="(e) => (e.target.src = '/gameimg/kemomimi.jpg')"
         />
 
         <!-- 缩略图预览 -->
@@ -301,24 +301,31 @@ async function addToCart() {
     const gamePrice = gameDetail.value.gameOriginalPrice
 
     const token = localStorage.getItem('sbeam_token')
+    console.log('Token:', token ? '存在' : '不存在')
+    console.log('Game ID:', gameId)
+    console.log('Game Price:', gamePrice)
+
     if (!token) {
       alert('请先登录后再操作')
       return
     }
 
     const res = await axios.post('http://localhost:8080/cart/add', null, {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
       params: { gameId, gamePrice },
     })
 
+    console.log('Response:', res.data)
     if (res.data.code === 200) {
       isAddedToCart.value = true
       alert('已成功加入购物车！')
     } else {
+      console.log('Error message:', res.data.msg)
       alert(res.data.msg || '加入购物车失败，请稍后重试')
     }
   } catch (err) {
-    console.error(err)
+    console.error('Request failed:', err)
+    console.error('Error details:', err.response ? err.response.data : 'No response')
     alert('加入购物车失败，请稍后重试')
   }
 }
@@ -339,7 +346,7 @@ async function toggleFollow() {
       `http://localhost:8080/game/${gameDetail.value.userFollowed ? 'unfollow' : 'follow'}`,
       null,
       {
-        headers: { Authorization: token },
+        headers: { Authorization: `Bearer ${token}` },
         params: { gameId },
       },
     )

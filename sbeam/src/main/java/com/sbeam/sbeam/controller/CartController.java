@@ -58,23 +58,34 @@ public class CartController {
             @RequestParam int gameId,
             @RequestParam BigDecimal gamePrice) {
 
+        System.out.println("CartController.addGameToCart called");
+        System.out.println("Token: " + (token != null ? token.substring(0, Math.min(10, token.length())) + "..." : "null"));
+        System.out.println("Game ID: " + gameId);
+        System.out.println("Game Price: " + gamePrice);
+
         if (token == null || token.isEmpty()) {
+            System.out.println("Error: Token is null or empty");
             return Result.getFail("未登录或 token 缺失");
         }
 
         Long userId;
         try {
             userId = jwtUtils.getUserId(token);
+            System.out.println("Extracted user ID: " + userId);
+            // 检查userId是否为null，避免空指针异常
+            if (userId == null) {
+                System.out.println("Error: userId is null");
+                return Result.getFail("登录已过期，请重新登录");
+            }
         } catch (Exception e) {
+            System.out.println("Exception when extracting userId: " + e.getMessage());
+            e.printStackTrace();
             return Result.getFail("登录已过期，请重新登录");
         }
 
-        if (userId == null) {
-            return Result.getFail("登录已过期，请重新登录");
-        }
-
-
-        return cartService.addGameToCart(userId.intValue(), gameId, gamePrice);
+        Result result = cartService.addGameToCart(userId.intValue(), gameId, gamePrice);
+        System.out.println("Service result: code=" + result.getCode() + ", message=" + result.getMessage());
+        return result;
     }
 
     /**

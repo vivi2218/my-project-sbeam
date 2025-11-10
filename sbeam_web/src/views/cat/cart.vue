@@ -12,7 +12,7 @@ const token = localStorage.getItem('sbeam_token')
 
 onMounted(async () => {
   const res = await axios.get('http://localhost:8080/cart', {
-    headers: { Authorization: token }, // 后端用 token 获取 userId
+    headers: { Authorization: `Bearer ${token}` }, // 后端用 token 获取 userId
   })
   cartItems.value = res.data
 })
@@ -31,7 +31,7 @@ const removeItem = async (cartId) => {
 
   try {
     const res = await axios.delete(`http://localhost:8080/cart/${cartId}`, {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     })
 
     if (res.data) {
